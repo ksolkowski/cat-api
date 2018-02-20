@@ -11,13 +11,11 @@ class CatApi < Roda
     end
 
     r.on "cats" do
-      r.post do
-        page = (0..2010).to_a.sample
-        html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
-        img = html.css("img.hatena-fotolife").to_a.sample.attributes["src"].value
+      page = (0..2010).to_a.sample
+      html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
+      img = html.css("img.hatena-fotolife").to_a.sample.attributes["src"].value
 
-        img
-      end
+      img
     end
   end
 end
