@@ -5,6 +5,7 @@ GEM
     mini_portile2 (2.3.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    puma (3.11.2)
     rack (2.0.4)
     roda (2.1.0)
       rack
@@ -16,6 +17,7 @@ PLATFORMS
 DEPENDENCIES
   erubis (~> 2.7.0)
   nokogiri
+  puma
   roda (~> 2.1.0)
   tilt (~> 2.0.1)
 
