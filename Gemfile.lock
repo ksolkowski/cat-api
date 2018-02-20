@@ -1,0 +1,29 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    easy_translate (0.5.1)
+      thread
+      thread_safe
+    erubis (2.7.0)
+    mini_portile2 (2.3.0)
+    nokogiri (1.8.2)
+      mini_portile2 (~> 2.3.0)
+    rack (2.0.4)
+    roda (2.1.0)
+      rack
+    thread (0.2.2)
+    thread_safe (0.3.6)
+    tilt (2.0.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  easy_translate
+  erubis (~> 2.7.0)
+  nokogiri
+  roda (~> 2.1.0)
+  tilt (~> 2.0.1)
+
+BUNDLED WITH
+   1.15.2
