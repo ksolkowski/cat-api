@@ -9,5 +9,4 @@ gem "erubis", "~> 2.7.0"
 gem 'nokogiri'
 # gem 'easy_translate'
 
-
 ruby "2.3.1"
