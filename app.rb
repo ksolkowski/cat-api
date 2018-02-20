@@ -2,7 +2,6 @@
 require "roda"
 require 'open-uri'
 require 'nokogiri'
-require 'easy_translate'
 
 class CatApi < Roda
   route do |r|
@@ -17,7 +16,7 @@ class CatApi < Roda
         html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
         img = html.css("img.hatena-fotolife").to_a.sample.attributes["src"].value
 
-        "<img src=\"#{img}\"></img>"
+        img
       end
     end
   end
