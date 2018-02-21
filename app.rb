@@ -53,6 +53,7 @@ class CatApi < Roda
     end
 
     r.on "cats" do
+      puts r.params["command"]
       response['Content-Type'] = 'application/json'
       if NO_CAT_LIST.include?(r.params["user_name"])
         {
