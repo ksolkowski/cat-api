@@ -54,7 +54,7 @@ class CatApi < Roda
 
       {
         "text": image
-      }
+      }.to_json
     end
 
     r.on "clear_cats" do
