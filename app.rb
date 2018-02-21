@@ -60,7 +60,7 @@ class CatApi < Roda
           {
               "fallback": "Cats",
               "color": "#36a64f",
-              "title": "Slack API Documentation",
+              "title": "Check out this cat",
               "title_link": "Cats",
               "fields": [],
               "image_url": image,
