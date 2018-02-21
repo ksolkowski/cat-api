@@ -14,6 +14,8 @@ class CatApi < Roda
   EXPIRE_KEY = "cats:expire:"
   STORE_KEY  = "cats:urls:"
 
+  plugin :json
+
   def fetch_or_download_cat_urls
     if cat_urls = $redis.get(STORE_KEY) # cats exist
       clear_cat_urls if urls_expired?
@@ -52,6 +54,7 @@ class CatApi < Roda
     r.on "cats" do
       image = fetch_or_download_cat_urls
 
+      response['Content-Type'] = 'application/json'
       {
         "text": image
       }.to_json
