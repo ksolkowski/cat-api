@@ -56,6 +56,7 @@ class CatApi < Roda
 
       response['Content-Type'] = 'application/json'
       {
+        "response_type": "in_channel",
         "attachments": [
           {
               "fallback": "Cats",
