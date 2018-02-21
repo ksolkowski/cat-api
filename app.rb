@@ -61,11 +61,12 @@ class CatApi < Roda
         }
       else
         image = fetch_or_download_cat_urls
+        clear_cached_cats if r.params["text"] != "clear"
         {
           "response_type": "in_channel",
           "attachments": [
             {
-                "fallback": "Cats",
+                "fallback": "<3 Cats <3",
                 "color": "#36a64f",
                 "title": "Check out this cat",
                 "title_link": "Cats",
