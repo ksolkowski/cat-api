@@ -56,7 +56,18 @@ class CatApi < Roda
 
       response['Content-Type'] = 'application/json'
       {
-        "text": image
+        "attachments": [
+          {
+              "fallback": "Cats",
+              "color": "#36a64f",
+              "title": "Slack API Documentation",
+              "title_link": "Cats",
+              "fields": [],
+              "image_url": image,
+              "thumb_url": image,
+              "ts": Time.now.to_i
+          }
+        ]
       }.to_json
     end
 
