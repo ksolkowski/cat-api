@@ -53,9 +53,8 @@ class CatApi < Roda
     end
 
     r.on "cats" do
-      puts r.params
       response['Content-Type'] = 'application/json'
-      if NO_CAT_LIST.include?(r.params["user_name"])
+      if NO_CAT_LIST.include?(r.params["user_name"]) and r.params["text"] != "cats are great"
         {
           "response_type": "in_channel",
           "text": "Come back when you have a cat"
