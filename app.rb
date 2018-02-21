@@ -7,7 +7,6 @@ require "redis"
 require "json"
 
 uri = URI.parse(ENV["REDIS_URL"]||"redis://localhost:6379")
-puts "uri.host: #{ENV["REDIS_URL"]}"
 $redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 
 class CatApi < Roda
