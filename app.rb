@@ -52,6 +52,7 @@ class CatApi < Roda
     end
 
     r.on "cats" do
+      puts r.inspect
       image = fetch_or_download_cat_urls
 
       response['Content-Type'] = 'application/json'
