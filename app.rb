@@ -53,7 +53,7 @@ class CatApi < Roda
 
     r.on "cats" do
       puts r.params
-      if r.params[:user_name] == "kevin"
+      if r.params["user_name"] == "kevin"
         "HI"
       else
         image = fetch_or_download_cat_urls
