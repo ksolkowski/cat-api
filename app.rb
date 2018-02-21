@@ -13,6 +13,7 @@ class CatApi < Roda
   EXPIRES_IN = ((60 * 5) * 100) # 5 min in ms
   EXPIRE_KEY = "cats:expire:"
   STORE_KEY  = "cats:urls:"
+  NO_CAT_LIST = ['austinkahly']
 
   plugin :json
 
@@ -52,13 +53,14 @@ class CatApi < Roda
     end
 
     r.on "cats" do
-      puts r.params
-      if r.params["user_name"] == "kevin"
-        "HI"
+      response['Content-Type'] = 'application/json'
+      if NO_CAT_LIST.include?(r.params["user_name"])
+        {
+          "response_type": "in_channel",
+          "text": "Come back when you have a cat"
+        }
       else
         image = fetch_or_download_cat_urls
-
-        response['Content-Type'] = 'application/json'
         {
           "response_type": "in_channel",
           "attachments": [
