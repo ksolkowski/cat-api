@@ -13,7 +13,7 @@ class CatApi < Roda
   EXPIRES_IN = ((60 * 5) * 100) # 5 min in ms
   EXPIRE_KEY = "cats:expire:"
   STORE_KEY  = "cats:urls:"
-  NO_CAT_LIST = ['austinkahly']
+  NO_CAT_LIST = ['austinkahly', 'kevin']
 
   plugin :json
 
