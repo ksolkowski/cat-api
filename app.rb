@@ -50,7 +50,11 @@ class CatApi < Roda
     end
 
     r.on "cats" do
-      fetch_or_download_cat_urls
+      image = fetch_or_download_cat_urls
+
+      {
+        "text": image
+      }
     end
 
     r.on "clear_cats" do
