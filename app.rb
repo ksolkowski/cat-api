@@ -7,6 +7,7 @@ require "redis"
 require "json"
 
 uri = URI.parse(ENV["REDIS_URL"]||"redis://localhost:6379")
+puts "uri.host: #{ENV["REDIS_URL"]}"
 $redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 
 class CatApi < Roda
@@ -30,13 +31,10 @@ class CatApi < Roda
   def urls_expired?
     cats_set = $redis.get EXPIRE_KEY
     return false if cats_set.nil?
-    puts "expired?: #{cats_set.to_i < Time.now.to_i}"
     cats_set.to_i < Time.now.to_i
   end
 
   def store_cat_urls(urls)
-    puts "storing urls: #{urls}"
-    puts "setting expires to #{(Time.now.to_i + EXPIRES_IN)}"
     $redis.set STORE_KEY, urls.to_json
     $redis.set EXPIRE_KEY, (Time.now.to_i + EXPIRES_IN)
   end
