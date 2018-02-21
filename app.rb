@@ -53,24 +53,28 @@ class CatApi < Roda
 
     r.on "cats" do
       puts r.params
-      image = fetch_or_download_cat_urls
+      if r.params[:user_name] == "kevin"
+        "HI"
+      else
+        image = fetch_or_download_cat_urls
 
-      response['Content-Type'] = 'application/json'
-      {
-        "response_type": "in_channel",
-        "attachments": [
-          {
-              "fallback": "Cats",
-              "color": "#36a64f",
-              "title": "Check out this cat",
-              "title_link": "Cats",
-              "fields": [],
-              "image_url": image,
-              "thumb_url": image,
-              "ts": Time.now.to_i
-          }
-        ]
-      }.to_json
+        response['Content-Type'] = 'application/json'
+        {
+          "response_type": "in_channel",
+          "attachments": [
+            {
+                "fallback": "Cats",
+                "color": "#36a64f",
+                "title": "Check out this cat",
+                "title_link": "Cats",
+                "fields": [],
+                "image_url": image,
+                "thumb_url": image,
+                "ts": Time.now.to_i
+            }
+          ]
+        }.to_json
+      end
     end
 
     r.on "clear_cats" do
