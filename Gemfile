@@ -11,4 +11,6 @@ gem 'nokogiri'
 
 gem 'puma'
 
+gem 'redis'
+
 ruby "2.3.1"
