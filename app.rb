@@ -53,30 +53,34 @@ class CatApi < Roda
     end
 
     r.on "cats" do
-      response['Content-Type'] = 'application/json'
-      if NO_CAT_LIST.include?(r.params["user_name"]) and r.params["text"] != "cats are great"
-        {
-          "response_type": "in_channel",
-          "text": "Come back when you have a cat"
-        }
+      if r.is_get?
+        "<img src=\"#{fetch_or_download_cat_urls}\"></img>"
       else
-        image = fetch_or_download_cat_urls
-        clear_cached_cats if r.params["text"] != "clear"
-        {
-          "response_type": "in_channel",
-          "attachments": [
-            {
-                "fallback": "<3 Cats <3",
-                "color": "#36a64f",
-                "title": "Check out this cat",
-                "title_link": "Cats",
-                "fields": [],
-                "image_url": image,
-                "thumb_url": image,
-                "ts": Time.now.to_i
-            }
-          ]
-        }.to_json
+        response['Content-Type'] = 'application/json'
+        if NO_CAT_LIST.include?(r.params["user_name"]) and r.params["text"] != "cats are great"
+          {
+            "response_type": "in_channel",
+            "text": "Come back when you have a cat"
+          }
+        else
+          image = fetch_or_download_cat_urls
+          clear_cached_cats if r.params["text"] != "clear"
+          {
+            "response_type": "in_channel",
+            "attachments": [
+              {
+                  "fallback": "<3 Cats <3",
+                  "color": "#36a64f",
+                  "title": "Check out this cat",
+                  "title_link": "Cats",
+                  "fields": [],
+                  "image_url": image,
+                  "thumb_url": image,
+                  "ts": Time.now.to_i
+              }
+            ]
+          }.to_json
+        end
       end
     end
 
