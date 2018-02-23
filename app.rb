@@ -46,6 +46,64 @@ class CatApi < Roda
     $redis.del EXPIRE_KEY
   end
 
+  # some helper functions for images
+  def url_to_filename(url)
+    # pop off the tail png
+    clean_url = url.gsub(".png", "")
+    clean_url = clean_url.gsub(".jpg", "")
+    clean_url.gsub!(/[^0-9A-Za-z\-]/, '_')
+
+    # store these in the tmp folder!
+    # always png!
+    Rails.root.join('tmp', "#{clean_url}.png")
+  end
+
+  def open_or_save_image(url)
+    path = url_to_filename(url)
+    if image_saved_on_file?(path) #and !@single # single ones don't care about
+      @open_images[path]
+    else
+      @downloaded_images_count ||= 0
+      @downloaded_images_count += 1
+      save_to_tempfile(url, path)
+    end
+    path
+  end
+
+  def image_saved_on_file?(path)
+    path = Rails.root.join('tmp', path)
+    @open_images ||= {}
+    @open_images[path] = path if File.exists?(path) # add it to the open images hash
+    File.size?(path)
+  end
+
+  def save_to_tempfile(url, path)
+    @open_images ||= {}
+    @open_images[path] = path
+    if !File.size?(path)
+      File.open(path, 'wb+') do |file|
+        file.binmode
+
+        retries = 0
+        begin
+          downloaded_file = open(url).read
+          file.write downloaded_file
+        rescue => e
+          if retries < 5
+            retries += 1
+            Rails.logger.info "retrying to download #{url} with #{e.message} failed #{retries} times so far"
+            retry
+          else
+            raise
+          end
+        end
+      end
+      path
+    else
+      path
+    end
+  end
+
   route do |r|
 
     r.root do
