@@ -19,7 +19,7 @@ class CatApi < Roda
 
   def fetch_or_download_cat_urls
     if cat_urls = $redis.get(STORE_KEY) # cats exist
-      clear_cat_urls if urls_expired?
+      clear_cached_cats if urls_expired?
       JSON.parse(cat_urls).sample
     else
       page = (0..2010).to_a.sample
