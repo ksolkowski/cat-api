@@ -16,12 +16,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  erubis (~> 2.7.0)
+  erubis
   nokogiri
   puma
   redis
-  roda (~> 2.1.0)
-  tilt (~> 2.0.1)
+  roda
+  tilt
 
 RUBY VERSION
    ruby 2.3.1p112
