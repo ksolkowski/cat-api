@@ -19,10 +19,7 @@ task :pre_fetch_cats do
   puts "old_cat_urls: #{old_cat_urls}"
   # clear out old images
   puts "removing #{old_cat_urls.count} old cat images"
-  old_cat_urls.each do |url|
-    key = url_to_redis_key(url)
-    $redis.del(key)
-  end
+
   new_cat_urls = []
   random_pages.each do |page|
     html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
@@ -31,19 +28,24 @@ task :pre_fetch_cats do
     puts "storing: #{cat_urls.count} urls from page: #{page}"
     new_cat_urls << cat_urls
 
+    puts "used_memory: #{$redis.info["used_memory"]} human: #{$redis.info["used_memory_human"]}"
+
     cat_urls.each do |url|
+      break if $redis.info["used_memory"].to_i > 25000000
       save_image_to_redis(url)
+
+      # remove an old image
+      unless old_cat_urls.empty?
+        old_url = old_cat_urls.pop
+        $redis.del url_to_redis_key(old_url)
+      end
     end
+
+    break if $redis.info["used_memory"].to_i > 25000000
     sleep(30)
-    used_memory = $redis.info["used_memory"]
-    puts "memory usage: #{used_memory}"
-    break if used_memory.to_i > 28000000
+    puts "memory usage: #{$redis.info["used_memory_human"]}"
   end
 
   puts "storing #{new_cat_urls} new cat image urls"
   store_cat_urls(new_cat_urls.flatten)
-
-
-
-
 end
