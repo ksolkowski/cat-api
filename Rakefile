@@ -17,6 +17,12 @@ task :pre_fetch_cats do
     old_cat_urls = JSON.parse(old_cat_urls)
   end
   puts "old_cat_urls: #{old_cat_urls}"
+  # clear out old images
+  puts "removing #{old_cat_urls.count} old cat images"
+  old_cat_urls.each do |url|
+    key = url_to_redis_key(url)
+    $redis.del(key)
+  end
   new_cat_urls = []
   random_pages.each do |page|
     html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
@@ -37,12 +43,7 @@ task :pre_fetch_cats do
   puts "storing #{new_cat_urls} new cat image urls"
   store_cat_urls(new_cat_urls.flatten)
 
-  # clear out old images
-  puts "removing #{old_cat_urls.count} old cat images"
-  old_cat_urls.each do |url|
-    key = url_to_redis_key(url)
-    $redis.del(key)
-  end
+
 
 
 end
