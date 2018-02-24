@@ -32,9 +32,7 @@ class CatApi < Roda
       store_cat_urls(cat_urls)
       url = cat_urls.sample
     end
-
-    #url = "https://cdn-ak.f.st-hatena.com/images/fotolife/f/fubirai/20080521/20080521234056.jpg"
-
+    
     decoded_image, path = save_image_to_redis(url)
   end
 
