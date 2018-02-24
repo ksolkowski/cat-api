@@ -16,8 +16,6 @@ class CatApi < Roda
   STORE_KEY  = "cats:urls:"
   STORED_IMAGE_KEY = "cats:images:"
   NO_CAT_LIST = ['austinkahly', 'murph', 'nichelle']
-  path = File.expand_path '../', __FILE__
-  PATH = path
 
   plugin :json
 
@@ -32,7 +30,7 @@ class CatApi < Roda
       store_cat_urls(cat_urls)
       url = cat_urls.sample
     end
-    
+
     decoded_image, path = save_image_to_redis(url)
   end
 
