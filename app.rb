@@ -83,8 +83,7 @@ class CatApi < Roda
 
       if already_saved?(key)
         fetch_and_decode(key)
-      else # idk pick some random cat
-        random_key = fetch_all_stored_images.sample
+      elsif random_key = fetch_all_stored_images.sample # idk pick some random cat
         fetch_and_decode(random_key)
       end
 
