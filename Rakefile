@@ -30,6 +30,7 @@ task :pre_fetch_cats do
     end
     sleep(30)
     used_memory = $redis.info['used_memory_human']
+    puts "memory usage: #{used_memory}"
     break if used_memory.include?("M") and used_memory.split("M").first.to_f > 28.0
   end
 
