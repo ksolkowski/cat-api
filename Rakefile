@@ -7,24 +7,38 @@ require "./app"
 task :pre_fetch_cats do
   include CatRoamer
 
-  last_stored_page = $redis.get('cats:last_stored_page')&.to_i || 0
-  puts "last_stored_page: #{last_stored_page}"
-  next_pages = [(last_stored_page+5), 2010].min
+  random_pages = (0..2010).to_a.sample(5)
+  puts "fetching and storing cats from #{random_pages}"
+  old_cat_urls = $redis.get(STORE_KEY)
 
-  puts "fetching and storing cats from #{last_stored_page} to #{next_pages}"
-  (last_stored_page..next_pages).to_a.each do |page|
+  if old_cat_urls.nil?
+    old_cat_urls = []
+  else
+    old_cat_urls = JSON.parse(old_cat_urls)
+  end
+  puts "old_cat_urls: #{old_cat_urls}"
+  new_cat_urls = []
+  random_pages.each do |page|
     html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
     cat_urls = html.css("img.hatena-fotolife").to_a.map{|child| child.attributes["src"].value }
 
     puts "storing: #{cat_urls.count} urls from page: #{page}"
-    store_cat_urls(cat_urls)
+    new_cat_urls << cat_urls
 
     cat_urls.each do |url|
       save_image_to_redis(url)
     end
-
-    $redis.set('cats:last_stored_page', page)
     sleep(30)
+  end
+
+  puts "storing #{new_cat_urls} new cat image urls"
+  store_cat_urls(new_cat_urls.flatten)
+
+  # clear out old images
+  puts "removing #{old_cat_urls.count} old cat images"
+  old_cat_urls.each do |url|
+    key = url_to_redis_key(url)
+    $redis.del(key)
   end
 
 

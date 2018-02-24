@@ -11,7 +11,6 @@ ENV["SITE_URL"] ||= "localhost:3000"
 
 class CatApi < Roda
   include CatRoamer
-
   NO_CAT_LIST = ['austinkahly', 'murph', 'nichelle']
 
   plugin :json
@@ -65,8 +64,8 @@ class CatApi < Roda
     end
 
     r.on "clear_cats" do
-      clear_cached_cats
-      "cleared"
+      count = clear_cached_cats
+      "cleared #{count} images"
     end
 
 

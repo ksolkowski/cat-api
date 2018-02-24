@@ -2,7 +2,7 @@ require 'base64'
 require 'open-uri'
 require 'nokogiri'
 module CatRoamer
-  EXPIRES_IN = (60 * 5) # 5 min in ms
+  EXPIRES_IN = (60 * 10) # 10 min
   EXPIRE_KEY = "cats:expire:"
   STORE_KEY  = "cats:urls:"
   STORED_IMAGE_KEY = "cats:images:"
@@ -36,6 +36,13 @@ module CatRoamer
   def clear_cached_cats
     $redis.del STORE_KEY
     $redis.del EXPIRE_KEY
+    stored_images = $redis.keys(STORED_IMAGE_KEY + "*")
+
+    stored_images.each do |key|
+      $redis.del key
+    end
+
+    stored_images.count
   end
 
   def url_to_redis_key(url)
