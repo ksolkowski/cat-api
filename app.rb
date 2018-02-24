@@ -1,10 +1,8 @@
 # ./app.rb
 require "roda"
-require 'open-uri'
-require 'nokogiri'
 require 'redis'
 require 'json'
-require 'base64'
+
 require_relative "./cat_roamer"
 
 uri = URI.parse(ENV["REDIS_URL"]||"redis://localhost:6379")

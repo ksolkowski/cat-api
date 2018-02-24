@@ -1,5 +1,8 @@
+require 'base64'
+require 'open-uri'
+require 'nokogiri'
 module CatRoamer
-  EXPIRES_IN = ((60 * 5) * 100) # 5 min in ms
+  EXPIRES_IN = (60 * 5) # 5 min in ms
   EXPIRE_KEY = "cats:expire:"
   STORE_KEY  = "cats:urls:"
   STORED_IMAGE_KEY = "cats:images:"
@@ -14,11 +17,7 @@ module CatRoamer
       cat_urls = html.css("img.hatena-fotolife").to_a.map{|child| child.attributes["src"].value }
       store_cat_urls(cat_urls)
       url = cat_urls.sample
-
-      Digest::SHA1.hexdigest("some string")
     end
-
-    url = "https://cdn-ak.f.st-hatena.com/images/fotolife/f/fubirai/20180221/20180221223706.jpg"
 
     decoded_image, path = save_image_to_redis(url)
   end
