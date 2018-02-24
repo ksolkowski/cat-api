@@ -1,6 +1,6 @@
 require "./app"
 
-task :cats do
+task :pre_fetch_cats do
   include CatRoamer
 
   last_stored_page = $redis.get('cats:last_stored_page')&.to_i || 0
