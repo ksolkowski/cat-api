@@ -18,8 +18,8 @@ class CatApi < Roda
   route do |r|
 
     r.root do
-      used_memory = $redis.info['used_memory_human']
-      "hello: #{used_memory}"
+
+      "hello"
     end
 
     r.on "cats.jpg" do
