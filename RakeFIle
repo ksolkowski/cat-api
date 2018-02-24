@@ -26,4 +26,5 @@ task :pre_fetch_cats do
     $redis.set('cats:last_stored_page', page)
     sleep(30)
   end
+
 end
