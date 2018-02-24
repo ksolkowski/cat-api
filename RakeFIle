@@ -1,0 +1,3 @@
+task :cats do
+  puts "OK"
+end
