@@ -3,7 +3,6 @@
 source "https://rubygems.org"
 
 gem "roda"
-gem 'roda-bin'
 gem "tilt"
 gem "erubis"
 
