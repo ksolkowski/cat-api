@@ -38,9 +38,7 @@ module CatRoamer
     $redis.del EXPIRE_KEY
   end
 
-  # some helper functions for images
   def url_to_redis_key(url)
-    # pop off the tail png
     key = Digest::SHA1.hexdigest(url)
     STORED_IMAGE_KEY + key
   end
