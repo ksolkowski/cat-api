@@ -6,6 +6,7 @@ module CatRoamer
   EXPIRE_KEY = "cats:expire:"
   STORE_KEY  = "cats:urls:"
   STORED_IMAGE_KEY = "cats:images:"
+  VIEWED_CAT_KEY = "cats:views:"
 
   def fetch_or_download_cat_urls
     if cat_urls = $redis.get(STORE_KEY) # cats exist
@@ -22,6 +23,11 @@ module CatRoamer
     decoded_image, path = save_image_to_redis(url)
   end
 
+  def get_cat_stats
+    @expires = $redis.get EXPIRE_KEY
+    @images_saved = fetch_all_stored_images.count
+  end
+
   def urls_expired?
     cats_expires = $redis.get EXPIRE_KEY
     return false if cats_expires.nil?
@@ -33,10 +39,14 @@ module CatRoamer
     $redis.set EXPIRE_KEY, (Time.now.to_i + EXPIRES_IN)
   end
 
+  def fetch_all_stored_images
+    $redis.keys(STORED_IMAGE_KEY + "*")
+  end
+
   def clear_cached_cats
     $redis.del STORE_KEY
     $redis.del EXPIRE_KEY
-    stored_images = $redis.keys(STORED_IMAGE_KEY + "*")
+    stored_images = fetch_all_stored_images
 
     stored_images.each do |key|
       $redis.del key
@@ -66,6 +76,7 @@ module CatRoamer
 
   def fetch_and_decode(key)
     raw_img = fetch_saved_image(key)
+    increment_image_view(key)
     decode_image(raw_img)
   end
 
@@ -79,6 +90,15 @@ module CatRoamer
 
   def cleaned_path_to_key(cleaned)
     STORED_IMAGE_KEY + cleaned
+  end
+
+  def get_view_count(key)
+    $redis.get(VIEWED_CAT_KEY + key).to_i
+  end
+
+  def increment_image_view(key)
+    views = get_view_count(key)
+    $redis.set((VIEWED_CAT_KEY + key), (views+1))
   end
 
   def save_image_to_redis(url)

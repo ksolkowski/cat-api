@@ -21,6 +21,12 @@ class CatApi < Roda
       "hello"
     end
 
+    r.on "stats" do
+      get_cat_stats
+      @expires = Time.at(@expires.to_i) if @expires
+      "Images expire #{@expires}, #{@images_saved} images in redis"
+    end
+
     r.on "cats.jpg" do
       response['Content-Type'] = "image/jpeg"
       decoded_image, fake_path = fetch_or_download_cat_urls
@@ -77,7 +83,7 @@ class CatApi < Roda
       if already_saved?(key)
         fetch_and_decode(key)
       else # idk pick some random cat
-        random_key = $redis.keys(STORED_IMAGE_KEY + "*").sample
+        random_key = fetch_all_stored_images.sample
         fetch_and_decode(random_key)
       end
 
