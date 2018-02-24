@@ -10,6 +10,7 @@ gem 'nokogiri'
 # gem 'easy_translate'
 
 gem 'puma'
+gem "rake"
 
 gem 'redis'
 

@@ -1,3 +1,7 @@
+require "rake"
+require "rake/clean"
+require "rdoc/task"
+
 require "./app"
 
 task :pre_fetch_cats do

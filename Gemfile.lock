@@ -7,6 +7,7 @@ GEM
       mini_portile2 (~> 2.3.0)
     puma (3.11.2)
     rack (2.0.4)
+    rake (11.2.2)
     redis (3.3.0)
     roda (2.1.0)
       rack
@@ -19,6 +20,7 @@ DEPENDENCIES
   erubis
   nokogiri
   puma
+  rake
   redis
   roda
   tilt
