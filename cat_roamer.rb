@@ -2,7 +2,7 @@ require 'base64'
 require 'open-uri'
 require 'nokogiri'
 module CatRoamer
-  EXPIRES_IN = (60 * 10) # 10 min
+  EXPIRES_IN = (60 * 11) # 11 min
   EXPIRE_KEY = "cats:expire:"
   STORE_KEY  = "cats:urls:"
   STORED_IMAGE_KEY = "cats:images:"
