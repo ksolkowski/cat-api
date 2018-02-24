@@ -29,6 +29,8 @@ task :pre_fetch_cats do
       save_image_to_redis(url)
     end
     sleep(30)
+    used_memory = $redis.info['used_memory_human']
+    break if used_memory.include?("M") and used_memory.split("M").first.to_f > 28.0
   end
 
   puts "storing #{new_cat_urls} new cat image urls"
