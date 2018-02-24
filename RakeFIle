@@ -27,4 +27,5 @@ task :pre_fetch_cats do
     sleep(30)
   end
 
+
 end
