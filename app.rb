@@ -102,9 +102,15 @@ class CatApi < Roda
       "hello"
     end
 
+    r.on "cats.jpg" do
+      response['Content-Type'] = "image/jpeg"
+      decoded_image, fake_path = fetch_or_download_cat_urls
+      decoded_image
+    end
+
     r.on "cats" do
       if r.is_get?
-        response['Content-Type'] = "text/plain"
+        response['Content-Type'] = "image/jpeg"
         decoded_image, fake_path = fetch_or_download_cat_urls
         decoded_image
       else
