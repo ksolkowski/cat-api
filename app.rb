@@ -75,7 +75,6 @@ class CatApi < Roda
       "cleared #{count} images"
     end
 
-
     r.get do
       cleaned = request.remaining_path[1..-1].gsub(".jpg", "")
       key = cleaned_path_to_key(cleaned)

@@ -48,6 +48,10 @@ module CatRoamer
     $redis.del EXPIRE_KEY
     stored_images = fetch_all_stored_images
 
+    $redis.keys(VIEWED_CAT_KEY + "*").each do |key|
+      $redis.del key
+    end
+
     stored_images.each do |key|
       $redis.del key
     end
