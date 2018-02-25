@@ -2,6 +2,7 @@
 require "roda"
 require 'redis'
 require 'json'
+require 'open-uri'
 
 require_relative "./cat_roamer"
 
@@ -24,7 +25,7 @@ class CatApi < Roda
 
     r.on "stats" do
       get_cat_stats
-      "#{@images_saved} images in redis"
+      "#{@images_saved} images in redis. #{@urls_saved} urls in redis. #{@views}"
     end
 
     r.on "cats.jpg" do
@@ -41,6 +42,7 @@ class CatApi < Roda
       else
         response['Content-Type'] = 'application/json'
         if NO_CAT_LIST.include?(r.params["user_name"]) and r.params["text"] != "cats are great"
+          # mj cat http://nbacatwatch.com/wp-content/uploads/2017/10/f98a5f820283e9fada580d5f6d2f3e81.jpg
           {
             response_type: "in_channel",
             text: "Come back when you have a cat"
@@ -48,7 +50,7 @@ class CatApi < Roda
         else
           decoded_image, fake_path = fetch_or_download_cat_urls
 
-          real_url = File.join ENV["SITE_URL"], fake_path
+          real_url = File.join ENV["SITE_URL"], 'images', fake_path
           clear_cached_cats if r.params["text"] == "clear"
           {
             response_type: "in_channel",
@@ -74,13 +76,16 @@ class CatApi < Roda
       "cleared #{count} images"
     end
 
-    r.get do
-      cleaned = request.remaining_path[1..-1].gsub(".jpg", "")
-      key = cleaned_path_to_key(cleaned)
+    r.on "images" do
+      cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
-      if already_saved?(key)
-        fetch_and_decode(key)
-      elsif random_key = fetch_all_stored_images.sample # idk pick some random cat
+      fetch_and_decode(cleaned_key) if already_saved?(cleaned_key)
+    end
+
+    # idk just give a random image
+    r.get do
+      if random_key = fetch_all_stored_images.sample # idk pick some random cat
+        response['Content-Type'] = "image/jpeg"
         fetch_and_decode(random_key)
       end
 

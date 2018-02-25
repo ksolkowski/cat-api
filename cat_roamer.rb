@@ -2,96 +2,87 @@ require 'base64'
 require 'open-uri'
 require 'nokogiri'
 module CatRoamer
-  STORE_KEY        = "cats:urls:"
-  STORED_IMAGE_KEY = "cats:images:"
-  VIEWED_CAT_KEY   = "cats:views:"
+  URL_KEY          = "cats:urls"    # redis list of urls
+  STORED_IMAGE_KEY = "cats:images"  # redis hash {sha8_key => stored_image}
+  VIEWED_CAT_KEY   = "cats:views"   # redis hash {sha8_key => view_count}
 
   def fetch_or_download_cat_urls
-    if cat_urls = $redis.get(STORE_KEY) # cats exist
-      url = JSON.parse(cat_urls).sample
-    else
+    url = $redis.srandmember(URL_KEY) # cats exist
+
+    if url.nil?
       page = (0..2010).to_a.sample
       html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
       cat_urls = html.css("img.hatena-fotolife").to_a.map{|child| child.attributes["src"].value }
-      store_cat_urls(cat_urls)
       url = cat_urls.sample
     end
 
-    decoded_image, path = save_image_to_redis(url)
+    save_or_fetch_image_in_redis(url)
   end
 
   def get_cat_stats
     @images_saved = fetch_all_stored_images.count
+    @urls_saved = $redis.smembers(URL_KEY).count
+    @views = fetch_all_views
+  end
+
+  def fetch_all_views
+    $redis.hgetall VIEWED_CAT_KEY
+  end
+
+  def increment_view_count(base_key)
+    $redis.hincrby VIEWED_CAT_KEY, base_key, 1
   end
 
   def store_cat_urls(urls)
-    $redis.set STORE_KEY, urls.to_json
+    $redis.sadd URL_KEY, urls
   end
 
   def store_cat_url(url)
-    urls = $redis.get STORE_KEY
-    if urls
-      urls = JSON.parse(urls)
-    else
-      urls = []
-    end
-    urls.push url if !urls.include?(url)
-    $redis.set STORE_KEY, urls.to_json
+    $redis.sadd URL_KEY, url
   end
 
   def remove_cat_url(url)
-    urls = $redis.get STORE_KEY
-    if urls
-      urls = JSON.parse(urls)
-    else
-      urls = []
-    end
-    urls.reject!{|x| x == url }
-    $redis.set STORE_KEY, urls.to_json
+    $redis.srem URL_KEY, url
+  end
+
+  def remove_url_and_image(url)
+    remove_cat_url(url)
+    key = base_redis_key(url)
+    $redis.hdel STORED_IMAGE_KEY, key
+    $redis.hdel VIEWED_CAT_KEY, key
   end
 
   def fetch_all_stored_images
-    $redis.keys(STORED_IMAGE_KEY + "*")
+    $redis.hkeys(STORED_IMAGE_KEY)
   end
 
   def clear_cached_cats
-    $redis.del STORE_KEY
-    stored_images = fetch_all_stored_images
+    $redis.del URL_KEY
+    count = $redis.hkeys(STORED_IMAGE_KEY).count
+    $redis.del STORED_IMAGE_KEY
+    $redis.del VIEWED_CAT_KEY
 
-    $redis.keys(VIEWED_CAT_KEY + "*").each do |key|
-      $redis.del key
-    end
-
-    stored_images.each do |key|
-      $redis.del key
-    end
-
-    stored_images.count
-  end
-
-  def url_to_redis_key(url)
-    key = Digest::SHA1.hexdigest(url)
-    STORED_IMAGE_KEY + key
+    count
   end
 
   def already_saved?(key)
-    $redis.exists(key)
+    $redis.hexists(STORED_IMAGE_KEY, key)
   end
 
   def fetch_saved_image(key)
-    $redis.get(key)
+    increment_view_count(key)
+    $redis.hget(STORED_IMAGE_KEY, key)
   end
 
   def save_image(url, key)
     raw_img = Base64.encode64(open(url).read)
     store_cat_url(url)
-    $redis.set key, raw_img
+    $redis.hset STORED_IMAGE_KEY, key, raw_img
     raw_img
   end
 
   def fetch_and_decode(key)
     raw_img = fetch_saved_image(key)
-    #increment_image_view(key)
     decode_image(raw_img)
   end
 
@@ -99,33 +90,31 @@ module CatRoamer
     Base64.decode64 raw_img
   end
 
-  def key_to_url(key)
-    key.gsub(STORED_IMAGE_KEY, '') + ".jpg"
+  def key_to_path(key)
+    key + ".jpg"
   end
 
-  def cleaned_path_to_key(cleaned)
-    STORED_IMAGE_KEY + cleaned
-  end
-
-  def get_view_count(key)
-    $redis.get(VIEWED_CAT_KEY + key).to_i
-  end
-
-  def increment_image_view(key)
-    views = get_view_count(key)
-    $redis.set((VIEWED_CAT_KEY + key), (views+1))
-  end
-
-  def save_image_to_redis(url)
-    key = url_to_redis_key(url)
+  def save_or_fetch_image_in_redis(url)
+    key = base_redis_key(url)
 
     if already_saved?(key)
       raw_img = fetch_saved_image(key)
     else # store it in redis
+      store_cat_url(url)
       raw_img = save_image(url, key)
     end
 
-    [decode_image(raw_img), key_to_url(key)]
+    [decode_image(raw_img), key_to_path(key)]
+  end
+
+  private
+
+  def base_redis_key(url)
+    Digest::SHA1.hexdigest(url)
+  end
+
+  def base_key(key)
+    key.split(":").last
   end
 
 end
