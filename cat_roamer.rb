@@ -2,11 +2,9 @@ require 'base64'
 require 'open-uri'
 require 'nokogiri'
 module CatRoamer
-  EXPIRES_IN = (60 * 11) # 11 min
-  EXPIRE_KEY = "cats:expire:"
-  STORE_KEY  = "cats:urls:"
+  STORE_KEY        = "cats:urls:"
   STORED_IMAGE_KEY = "cats:images:"
-  VIEWED_CAT_KEY = "cats:views:"
+  VIEWED_CAT_KEY   = "cats:views:"
 
   def fetch_or_download_cat_urls
     if cat_urls = $redis.get(STORE_KEY) # cats exist
@@ -23,19 +21,33 @@ module CatRoamer
   end
 
   def get_cat_stats
-    @expires = $redis.get EXPIRE_KEY
     @images_saved = fetch_all_stored_images.count
-  end
-
-  def urls_expired?
-    cats_expires = $redis.get EXPIRE_KEY
-    return false if cats_expires.nil?
-    cats_expires.to_i < Time.now.to_i
   end
 
   def store_cat_urls(urls)
     $redis.set STORE_KEY, urls.to_json
-    $redis.set EXPIRE_KEY, (Time.now.to_i + EXPIRES_IN)
+  end
+
+  def store_cat_url(url)
+    urls = $redis.get STORE_KEY
+    if urls
+      urls = JSON.parse(urls)
+    else
+      urls = []
+    end
+    urls.push url if !urls.include?(url)
+    $redis.set STORE_KEY, urls.to_json
+  end
+
+  def remove_cat_url(url)
+    urls = $redis.get STORE_KEY
+    if urls
+      urls = JSON.parse(urls)
+    else
+      urls = []
+    end
+    urls.reject!{|x| x == url }
+    $redis.set STORE_KEY, urls.to_json
   end
 
   def fetch_all_stored_images
@@ -44,7 +56,6 @@ module CatRoamer
 
   def clear_cached_cats
     $redis.del STORE_KEY
-    $redis.del EXPIRE_KEY
     stored_images = fetch_all_stored_images
 
     $redis.keys(VIEWED_CAT_KEY + "*").each do |key|
@@ -72,14 +83,15 @@ module CatRoamer
   end
 
   def save_image(url, key)
-    raw_img = Base64.encode64 open(url).read
+    raw_img = Base64.encode64(open(url).read)
+    store_cat_url(url)
     $redis.set key, raw_img
     raw_img
   end
 
   def fetch_and_decode(key)
     raw_img = fetch_saved_image(key)
-    increment_image_view(key)
+    #increment_image_view(key)
     decode_image(raw_img)
   end
 

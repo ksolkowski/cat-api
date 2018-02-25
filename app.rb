@@ -8,6 +8,7 @@ require_relative "./cat_roamer"
 uri = URI.parse(ENV["REDIS_URL"]||"redis://localhost:6379")
 $redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 ENV["SITE_URL"] ||= "localhost:3000"
+ENV["RACK_ENV"] ||= "development"
 
 class CatApi < Roda
   include CatRoamer
@@ -18,14 +19,12 @@ class CatApi < Roda
   route do |r|
 
     r.root do
-
       "hello"
     end
 
     r.on "stats" do
       get_cat_stats
-      @expires = Time.at(@expires.to_i) if @expires
-      "Images expire #{@expires}, #{@images_saved} images in redis"
+      "#{@images_saved} images in redis"
     end
 
     r.on "cats.jpg" do
@@ -50,7 +49,7 @@ class CatApi < Roda
           decoded_image, fake_path = fetch_or_download_cat_urls
 
           real_url = File.join ENV["SITE_URL"], fake_path
-          clear_cached_cats if r.params["text"] != "clear"
+          clear_cached_cats if r.params["text"] == "clear"
           {
             response_type: "in_channel",
             attachments: [
@@ -79,7 +78,6 @@ class CatApi < Roda
       cleaned = request.remaining_path[1..-1].gsub(".jpg", "")
       key = cleaned_path_to_key(cleaned)
       response['Content-Type'] = "image/jpeg"
-
       if already_saved?(key)
         fetch_and_decode(key)
       elsif random_key = fetch_all_stored_images.sample # idk pick some random cat
