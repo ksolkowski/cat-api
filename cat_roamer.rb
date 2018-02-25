@@ -70,7 +70,6 @@ module CatRoamer
   end
 
   def fetch_saved_image(key)
-    increment_view_count(key)
     $redis.hget(STORED_IMAGE_KEY, key)
   end
 

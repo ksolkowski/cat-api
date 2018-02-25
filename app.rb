@@ -79,13 +79,17 @@ class CatApi < Roda
     r.on "images" do
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
-      fetch_and_decode(cleaned_key) if already_saved?(cleaned_key)
+      if already_saved?(cleaned_key)
+        increment_view_count(cleaned_key)
+        fetch_and_decode(cleaned_key)
+      end
     end
 
     # idk just give a random image
     r.get do
       if random_key = fetch_all_stored_images.sample # idk pick some random cat
         response['Content-Type'] = "image/jpeg"
+        increment_view_count(random_key)
         fetch_and_decode(random_key)
       end
 
