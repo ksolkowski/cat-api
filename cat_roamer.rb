@@ -92,7 +92,7 @@ module CatRoamer
 
   def save_image_in_redis(url)
     key = base_redis_key(url)
-    store_cat_url(url)
+    save_image(url, key)
   end
 
   def save_or_fetch_image_in_redis(url)
@@ -101,7 +101,6 @@ module CatRoamer
     if already_saved?(key)
       raw_img = fetch_saved_image(key)
     else # store it in redis
-      store_cat_url(url)
       raw_img = save_image(url, key)
     end
 
