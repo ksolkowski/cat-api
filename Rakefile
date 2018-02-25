@@ -31,16 +31,16 @@ task :pre_fetch_cats do
     puts "used_memory: #{$redis.info["used_memory"]} human: #{$redis.info["used_memory_human"]}"
 
     cat_urls.each do |url|
-      break if $redis.info["used_memory"].to_i > 25000000 and ENV["RACK_ENV"] != "development"
-      save_image_to_redis(url)
-      store_cat_url(url)
-
       # remove an old image
       unless old_cat_urls.empty?
         old_url = old_cat_urls.pop
         $redis.del url_to_redis_key(old_url)
         remove_cat_url(url)
       end
+
+      break if $redis.info["used_memory"].to_i > 25000000 and ENV["RACK_ENV"] != "development"
+      save_image_to_redis(url)
+      store_cat_url(url)
     end
 
     break if $redis.info["used_memory"].to_i > 25000000 and ENV["RACK_ENV"] != "development"
