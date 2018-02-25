@@ -19,9 +19,11 @@ task :pre_fetch_cats do
     puts "grabbing: #{cat_urls.count} urls from page: #{page}"
     sleep(1)
     cat_urls
+  end.flatten.reject do |url|
+    old_cat_urls.include?(url) # don't want the same url mann
   end
 
-  new_cat_urls = all_cat_urls.flatten.sample(50)
+  new_cat_urls = all_cat_urls.sample(50)
 
   puts "storing #{new_cat_urls} to cache"
 
