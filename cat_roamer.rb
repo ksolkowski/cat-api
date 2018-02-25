@@ -86,12 +86,13 @@ module CatRoamer
     decode_image(raw_img)
   end
 
-  def decode_image(raw_img)
-    Base64.decode64 raw_img
-  end
-
   def key_to_path(key)
     key + ".jpg"
+  end
+
+  def save_image_in_redis(url)
+    key = base_redis_key(url)
+    store_cat_url(url)
   end
 
   def save_or_fetch_image_in_redis(url)
@@ -111,6 +112,10 @@ module CatRoamer
 
   def base_redis_key(url)
     Digest::SHA1.hexdigest(url)
+  end
+
+  def decode_image(raw_img)
+    Base64.decode64 raw_img
   end
 
   def base_key(key)

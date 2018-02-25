@@ -35,7 +35,7 @@ task :pre_fetch_cats do
     end
 
     break if $redis.info["used_memory"].to_i > 25000000 and ENV["RACK_ENV"] != "development"
-    save_or_fetch_image_in_redis(url)
+    save_image_in_redis(url)
     sleep(1)
   end
 
