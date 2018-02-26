@@ -51,7 +51,6 @@ class CatApi < Roda
           decoded_image, fake_path = fetch_or_download_cat_urls
 
           real_url = File.join ENV["SITE_URL"], 'images', fake_path
-          clear_cached_cats if r.params["text"] == "clear"
           {
             response_type: "in_channel",
             attachments: [
@@ -62,7 +61,6 @@ class CatApi < Roda
                 title_link: "Cats",
                 fields: [],
                 image_url: real_url,
-                thumb_url: real_url,
                 ts: Time.now.to_i
               }
             ]
@@ -80,7 +78,6 @@ class CatApi < Roda
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
       if already_saved?(cleaned_key)
-        increment_view_count(cleaned_key)
         fetch_and_decode(cleaned_key)
       end
     end
