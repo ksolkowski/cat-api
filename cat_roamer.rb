@@ -103,6 +103,8 @@ module CatRoamer
       raw_img = save_image(url, key)
     end
 
+    increment_view_count(key)
+
     [decode_image(raw_img), key_to_path(key)]
   end
 
