@@ -28,7 +28,7 @@ task :pre_fetch_cats do
   puts "storing #{new_cat_urls} to cache"
 
   new_cat_urls.each_with_index do |url, i|
-    puts "#{i}/#{new_cat_urls.count}"
+    puts "#{i}/#{new_cat_urls.count} memory: #{$redis.info["used_memory_human"]}"
 
     # remove an old image
     unless old_cat_urls.empty?
