@@ -51,7 +51,7 @@ class CatApi < Roda
           decoded_image, fake_path = fetch_or_download_cat_urls
 
           real_url = File.join ENV["SITE_URL"], 'images', fake_path
-          {
+          message = {
             response_type: "in_channel",
             attachments: [
               {
@@ -64,7 +64,30 @@ class CatApi < Roda
                 ts: Time.now.to_i
               }
             ]
-          }.to_json
+          }
+
+          if r.params["text"] == "buttons"
+            test = {
+              fallback: "Book your flights at https://flights.example.com/book/r123456",
+              actions: [
+                {
+                  type: "button",
+                  text: "Book flights",
+                  url: "https://flights.example.com/book/r123456",
+                  style: "primary"
+                },
+                {
+                  type: "button",
+                  text: "Cancel travel request",
+                  url: "https://requests.example.com/cancel/r123456",
+                  style: "danger"
+                }
+              ]
+            }
+            message[:attachments].push test
+          end
+
+          message.to_json
         end
       end
     end
