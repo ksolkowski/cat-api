@@ -162,6 +162,8 @@ class CatApi < Roda
       response['Content-Type'] = "image/jpeg"
       if already_saved?(cleaned_key)
         fetch_and_decode(cleaned_key)
+      elsif random_key = fetch_all_stored_images.sample # idk pick some random cat
+        fetch_and_decode(random_key)
       end
     end
 
