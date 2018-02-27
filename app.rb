@@ -69,7 +69,7 @@ class CatApi < Roda
     # }
     r.post "action" do
       puts r.params.inspect
-      payload = r.params
+      payload = r.params["payload"]
       original_message = payload["original_message"]
       button = payload['actions'].first
       original_message[:attachments].find{|x| x[callback_id] == payload["callback_id"] }["text"] = "WPW"
