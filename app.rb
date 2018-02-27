@@ -68,8 +68,8 @@ class CatApi < Roda
     #   "trigger_id"=>"322102643078.4920557571.0c5718dab274953c5044f88938378511"
     # }
     r.post "action" do
-      puts r.params.inspect
       payload = JSON.parse(r.params["payload"])
+      puts payload
       original_message = payload["original_message"]
       button = payload['actions'].first
       original_message[:attachments].find{|x| x[callback_id] == payload["callback_id"] }["text"] = "WPW"
