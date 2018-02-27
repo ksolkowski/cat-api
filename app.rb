@@ -72,7 +72,8 @@ class CatApi < Roda
 
           if r.params["text"] == "buttons"
             test = {
-              fallback: "Book your flights at https://flights.example.com/book/r123456",
+              fallback: "These cats are so cute.",
+              callback_id: fake_path,
               actions: [
                 {
                   name: "recommend",
