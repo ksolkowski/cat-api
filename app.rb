@@ -74,6 +74,15 @@ class CatApi < Roda
       action_button = payload['actions'].first
       original_attachment = original_message['attachments'].find{|x| x["callback_id"] == payload["callback_id"] }
       if btn = original_attachment["actions"].find{|x| x['value'] == action_button["value"] }
+        original_text = btn["text"]
+        regex = /\((\d+)\)/
+        if !(original_text =~ regex).nil?
+          vote_count = original_text.scan(regex).flatten.first.to_i
+          vote_count += 1
+          original_text.gsub!(regex, "(#{vote_count})")
+        else
+          original_text = "#{original_text} (1)"
+        end
         btn["text"] = "aples"
       end
 
@@ -120,17 +129,17 @@ class CatApi < Roda
               callback_id: fake_path,
               actions: [
                 {
-                  name: "recommend",
-                  text: "Recommend",
+                  name: "aww",
+                  text: "Aww",
                   type: "button",
-                  value: "recommend",
+                  value: "aww",
                   style: "primary"
                 },
                 {
-                  name: "no",
-                  text: "No",
+                  name: "dawww",
+                  text: "Dawww",
                   type: "button",
-                  value: "bad",
+                  value: "dawww",
                   style: "danger"
                 }
               ]
