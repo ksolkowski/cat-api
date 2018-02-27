@@ -34,6 +34,10 @@ class CatApi < Roda
       decoded_image
     end
 
+    r.post "action" do
+      puts r.params.inspect
+    end
+
     r.on "cats" do
       if r.is_get?
         response['Content-Type'] = "image/jpeg"
