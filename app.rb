@@ -82,7 +82,7 @@ class CatApi < Roda
         else
           original_text = "#{original_text} (1)"
         end
-        btn["text"] = "aples"
+        btn["text"] = original_text
       end
 
 
