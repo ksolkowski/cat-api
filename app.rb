@@ -71,15 +71,17 @@ class CatApi < Roda
               fallback: "Book your flights at https://flights.example.com/book/r123456",
               actions: [
                 {
+                  name: "recommend",
+                  text: "Recommend",
                   type: "button",
-                  text: "Book flights",
-                  url: "https://flights.example.com/book/r123456",
+                  value: "recommend",
                   style: "primary"
                 },
                 {
+                  name: "no",
+                  text: "No",
                   type: "button",
-                  text: "Cancel travel request",
-                  url: "https://requests.example.com/cancel/r123456",
+                  value: "bad",
                   style: "danger"
                 }
               ]
