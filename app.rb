@@ -74,7 +74,7 @@ class CatApi < Roda
       action_button = payload['actions'].first
       original_attachment = original_message['attachments'].find{|x| x["callback_id"] == payload["callback_id"] }
       if btn = original_attachment["actions"].find{|x| x['value'] == action_button["value"] }
-        btn.text = "aples"
+        btn["text"] = "aples"
       end
 
 
