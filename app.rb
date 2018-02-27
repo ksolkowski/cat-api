@@ -34,8 +34,47 @@ class CatApi < Roda
       decoded_image
     end
 
+    # response
+    # {
+    #   "type"=>"interactive_message",
+    #   "actions"=>[{"name"=>"recommend", "type"=>"button", "value"=>"recommend"}],
+    #   "callback_id"=>"fc019dbcdca7bbba4439c990d0127e708254743d.jpg",
+    #   "team"=>{"id"=>"T04T2GDGT", "domain"=>"wantable"}, "channel"=>{"id"=>"D2J26NNQG", "name"=>"directmessage"},
+    #   "user"=>{"id"=>"U050XHZV9", "name"=>"kevin"},
+    #   "action_ts"=>"1519690770.689609",
+    #   "message_ts"=>"1519690768.000289",
+    #   "attachment_id"=>"2",
+    #   "token"=>"0f1X03bDgYgeWqGyqOZ3p6k6",
+    #   "is_app_unfurl"=>false,
+    #   "original_message"=>{
+    #     "text"=>"", "bot_id"=>"B9C6LMCEN",
+    #     "attachments"=>[
+    #       {
+    #         "fallback"=>"&lt;3 Cats &lt;3", "image_url"=>"https://cat--api.herokuapp.com/images/fc019dbcdca7bbba4439c990d0127e708254743d.jpg",
+    #         "image_width"=>533, "image_height"=>800, "image_bytes"=>80580, "title"=>"Check out this cat", "id"=>1, "ts"=>1519690768, "color"=>"36a64f"
+    #       },
+    #       {
+    #         "callback_id"=>"fc019dbcdca7bbba4439c990d0127e708254743d.jpg", "fallback"=>"These cats are so cute.",
+    #         "id"=>2,
+    #         "actions"=>[
+    #           {"id"=>"1", "name"=>"recommend", "text"=>"Recommend", "type"=>"button", "value"=>"recommend", "style"=>"primary"},
+    #           {"id"=>"2", "name"=>"no", "text"=>"No", "type"=>"button", "value"=>"bad", "style"=>"danger"}
+    #         ]
+    #       }
+    #     ],
+    #     "type"=>"message", "subtype"=>"bot_message", "ts"=>"1519690768.000289"
+    #   },
+    #   "response_url"=>"https://hooks.slack.com/actions/T04T2GDGT/322306029399/HcNjaRaw6yIwS6xmUSlm6XqL",
+    #   "trigger_id"=>"322102643078.4920557571.0c5718dab274953c5044f88938378511"
+    # }
     r.post "action" do
       puts r.params.inspect
+
+      {
+        "response_type": "ephemeral",
+        "replace_original": false,
+        "text": "Sorry, that didn't work. Please try again."
+      }
     end
 
     r.on "cats" do
