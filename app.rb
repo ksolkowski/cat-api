@@ -69,12 +69,12 @@ class CatApi < Roda
     # }
     r.post "action" do
       puts r.params.inspect
+      payload = r.params
+      original_message = payload["original_message"]
+      button = payload['actions'].first
+      original_message[:attachments].find{|x| x[callback_id] == payload["callback_id"] }["text"] = "WPW"
 
-      {
-        "response_type": "ephemeral",
-        "replace_original": false,
-        "text": "Sorry, that didn't work. Please try again."
-      }
+      original_message
     end
 
     r.on "cats" do
