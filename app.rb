@@ -69,7 +69,6 @@ class CatApi < Roda
     # }
     r.post "action" do
       payload = JSON.parse(r.params["payload"])
-      puts payload
       original_message = payload["original_message"]
       action_button = payload['actions'].first
       original_attachment = original_message['attachments'].find{|x| x["callback_id"] == payload["callback_id"] }
