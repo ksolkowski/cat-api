@@ -72,7 +72,7 @@ class CatApi < Roda
       puts payload
       original_message = payload["original_message"]
       button = payload['actions'].first
-      original_message['attachments'].find{|x| x[callback_id] == payload["callback_id"] }["text"] = "WPW"
+      original_message['attachments'].find{|x| x["callback_id"] == payload["callback_id"] }["text"] = "WPW"
 
       original_message
     end
