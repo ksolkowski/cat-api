@@ -117,6 +117,7 @@ class CatApi < Roda
                 title_link: "Cats",
                 fields: [],
                 image_url: real_url,
+                thumb_url: real_url,
                 ts: Time.now.to_i
               }
             ]
