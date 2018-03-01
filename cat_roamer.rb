@@ -5,6 +5,9 @@ module CatRoamer
   URL_KEY          = "cats:urls"    # redis list of urls
   STORED_IMAGE_KEY = "cats:images"  # redis hash {sha8_key => stored_image}
   VIEWED_CAT_KEY   = "cats:views"   # redis hash {sha8_key => view_count}
+  VOTING_CAT_KEY   = "cats:voting"
+  AWW   = "aww"
+  DAWWW = "dawww"
 
   def fetch_or_download_cat_urls
     url = $redis.srandmember(URL_KEY) # cats exist
@@ -54,28 +57,39 @@ module CatRoamer
     # }
   def modify_original_message(payload)
     original_message = payload["original_message"]
-    action_button = payload['actions'].first
+    action_button = payload['actions'].first # what button was pressed
     original_attachment = original_message['attachments'].find{|x| x["callback_id"] == payload["callback_id"] }
     if btn = original_attachment["actions"].find{|x| x['value'] == action_button["value"] }
+      user = payload["user"]
       original_text = btn["text"]
-      regex = /\((\d+)\)/
-      if !(original_text =~ regex).nil?
-        vote_count = original_text.scan(regex).flatten.first.to_i
-        vote_count += 1
-        original_text.gsub!(regex, "(#{vote_count})")
-      else
-        original_text = "#{original_text} (1)"
-      end
-      btn["text"] = original_text
+
+      votes = store_or_remove_user_vote(x["callback_id"], user, btn["value"])
+      base_text = btn["value"] == AWW ? AWW : DAWWW
+
+      text = "#{base_text} (#{votes})"
+
+      btn["text"] = text
     end
 
     original_message["replace_original"] = true
     original_message
   end
 
+  def store_or_remove_user_vote(key, user, vote_value)
+    user_id = user["id"]
+    set_key = "#{VOTING_CAT_KEY}:#{key}:#{vote_value}"
+    if $redis.sismember(set_key, user_id)
+      $redis.srem(set_key, user_id)
+    else # they already voted on an image remove them
+      $redis.sadd(set_key, user_id)
+    end
+
+    $redis.scard(set_key) # return the count
+  end
+
   def get_cat_stats
     @images_saved = fetch_all_stored_images.count
-    @urls_saved = $redis.smembers(URL_KEY).count
+    @urls_saved = $redis.scard(URL_KEY)
     @views = fetch_all_views
   end
 
@@ -104,6 +118,7 @@ module CatRoamer
     key = base_redis_key(url)
     $redis.hdel STORED_IMAGE_KEY, key
     $redis.hdel VIEWED_CAT_KEY, key
+
   end
 
   def fetch_all_stored_images
@@ -157,9 +172,11 @@ module CatRoamer
       raw_img = save_image(url, key)
     end
 
-    increment_view_count(key)
-
     [decode_image(raw_img), key_to_path(key)]
+  end
+
+  def clean_key(key)
+    key.gsub(".jpg", "")
   end
 
   private

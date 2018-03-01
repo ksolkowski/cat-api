@@ -36,7 +36,7 @@ class CatApi < Roda
 
     r.post "action" do
       payload = JSON.parse(r.params["payload"])
-
+      puts payload.inspect
       message = modify_original_message(payload)
       message
     end
@@ -77,20 +77,20 @@ class CatApi < Roda
           if r.params["text"] == "buttons"
             test = {
               fallback: "These cats are so cute.",
-              callback_id: fake_path,
+              callback_id: clean_key(fake_path),
               actions: [
                 {
                   name: "aww",
-                  text: "Aww",
+                  text: AWW,
                   type: "button",
-                  value: "aww",
+                  value: AWW,
                   style: "primary"
                 },
                 {
                   name: "dawww",
-                  text: "Dawww",
+                  text: DAWWW,
                   type: "button",
-                  value: "dawww",
+                  value: DAWWW,
                   style: "danger"
                 }
               ]
@@ -122,7 +122,6 @@ class CatApi < Roda
     r.get do
       if random_key = fetch_all_stored_images.sample # idk pick some random cat
         response['Content-Type'] = "image/jpeg"
-        increment_view_count(random_key)
         fetch_and_decode(random_key)
       end
 
