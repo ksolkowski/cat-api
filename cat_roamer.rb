@@ -61,7 +61,7 @@ module CatRoamer
     action_button = payload['actions'].first # what button was pressed
     original_attachment = original_message['attachments'].find{|x| x["callback_id"] == callback_id }
     user = payload["user"]
-    actions = original_attachment["actions"].sort_by{|btn| btn["value"] == action_button["value"] }.map do |btn|
+    original_attachment["actions"].sort_by{|btn| btn["value"] == action_button["value"] }.each do |btn|
       vote_key = btn["value"] == AWW ? AWW : DAWWW
 
       if btn["value"] == action_button["value"] # this is the action
@@ -77,7 +77,7 @@ module CatRoamer
       btn
     end
 
-    original_attachment["actions"] = actions
+    #original_attachment["actions"] = actions
 
     original_message["replace_original"] = true
     original_message
