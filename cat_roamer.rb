@@ -80,26 +80,21 @@ module CatRoamer
   end
 
   def vote_count(callback_id, vote_key)
-    puts "count: callback_id:#{callback_id}, vote_key:#{vote_key}"
     set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{callback_id}"
     $redis.scard(set_key) # return the count
   end
 
   def store_or_remove_user_vote(callback_id, user, vote_key)
-    puts "key: #{callback_id}, user: #{user}, vote_key: #{vote_key}"
     user_id = user["id"]
     set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{callback_id}"
     other_key = "#{VOTING_CAT_KEY}:#{(vote_key == AWW ? DAWWW : AWW)}:#{callback_id}"
     # if they are a member of other key remove the vote and add a vote
     if $redis.sismember(other_key, user_id)
-      puts "is other member"
       $redis.srem(other_key, user_id)
       $redis.sadd(set_key, user_id)
     elsif $redis.sismember(set_key, user_id) # remove vote
-      puts "is member removing vote"
       $redis.srem(set_key, user_id)
     else
-      puts "adding vote"
       $redis.sadd(set_key, user_id)
     end
   end
@@ -135,7 +130,8 @@ module CatRoamer
     key = base_redis_key(url)
     $redis.hdel STORED_IMAGE_KEY, key
     $redis.hdel VIEWED_CAT_KEY, key
-
+    $redis.del("#{VOTING_CAT_KEY}:#{AWW}:#{key}")
+    $redis.del("#{VOTING_CAT_KEY}:#{DAWWW}:#{key}")
   end
 
   def fetch_all_stored_images
@@ -147,6 +143,9 @@ module CatRoamer
     count = $redis.hkeys(STORED_IMAGE_KEY).count
     $redis.del STORED_IMAGE_KEY
     $redis.del VIEWED_CAT_KEY
+    $redis.keys("#{VOTING_CAT_KEY}:*").each do |vote_key|
+      $redis.del vote_key
+    end
 
     count
   end
