@@ -64,12 +64,13 @@ module CatRoamer
     if original_attachment["actions"].each do |btn|
       vote_value = btn["value"] == AWW ? AWW : DAWWW
       if btn["value"] == action_button["value"] # this is the action
-        votes = store_or_remove_user_vote(callback_id, user, vote_value)
-      else
-        votes = vote_count(callback_id, vote_value)
+        store_or_remove_user_vote(callback_id, user, vote_value)
       end
 
-      btn["text"] = "#{button_value} (#{votes})"
+
+      votes = vote_count(callback_id, vote_value)
+
+      btn["text"] = "#{vote_value} (#{votes})"
     end
 
     end
