@@ -77,7 +77,7 @@ class CatApi < Roda
             ]
           }
 
-          if r.params["text"] == "buttons"
+          if r.params["text"] == "voting"
             test = {
               fallback: "These cats are so cute.",
               callback_id: clean_key(fake_path),
