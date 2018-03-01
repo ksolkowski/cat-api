@@ -44,8 +44,8 @@ class CatApi < Roda
       if payload["callback_id"] and already_saved?(payload["callback_id"].gsub(".jpg", ""))
         message = modify_original_message(payload)
         message
-      else
-        payload
+      # else
+      #   payload.to_json
       end
     end
 
