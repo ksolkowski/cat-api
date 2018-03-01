@@ -67,12 +67,9 @@ module CatRoamer
         store_or_remove_user_vote(callback_id, user, vote_value)
       end
 
-
       votes = vote_count(callback_id, vote_value)
 
       btn["text"] = "#{vote_value} (#{votes})"
-    end
-
     end
 
     original_message["replace_original"] = true
