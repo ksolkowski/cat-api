@@ -92,17 +92,16 @@ module CatRoamer
     user_id = user["id"]
     set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{vote_key}"
     other_key = "#{VOTING_CAT_KEY}:#{(vote_key == AWW ? DAWWW : AWW)}:#{key}"
-    # if they haven't voted on anything
-    if $redis.sismember(set_key, user_id) or $redis.sismember(other_key, user_id)
-      if $redis.sismember(other_key, user_id) # switch votes
-        $redis.srem(other_key, user_id)
-        $redis.sadd(set_key, user_id)
-      elsif $redis.sismember(set_key, user_id)
-        $redis.srem(set_key, user_id)
-      else
-        $redis.sadd(set_key, user_id)
-      end
-    else # not a member of either normal vote
+    # if they are a member of other key remove the vote and add a vote
+    if $redis.sismember(other_key, user_id)
+      puts "is other member"
+      $redis.srem(other_key, user_id)
+      $redis.sadd(set_key, user_id)
+    elsif $redis.sismember(set_key, user_id) # remove vote
+      puts "is member removing vote"
+      $redis.srem(set_key, user_id)
+    else
+      puts "adding vote"
       $redis.sadd(set_key, user_id)
     end
   end
