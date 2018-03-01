@@ -40,8 +40,13 @@ class CatApi < Roda
 
     r.post "action" do
       payload = JSON.parse(r.params["payload"])
-      message = modify_original_message(payload)
-      message
+
+      if payload["callback_id"] and already_saved?(payload["callback_id"].gsub(".jpg", ""))
+        message = modify_original_message(payload)
+        message
+      else
+        payload
+      end
     end
 
     r.on "cats" do

@@ -109,10 +109,6 @@ module CatRoamer
     $redis.hgetall VIEWED_CAT_KEY
   end
 
-  def increment_view_count(base_key)
-    $redis.hincrby VIEWED_CAT_KEY, base_key, 1
-  end
-
   def store_cat_urls(urls)
     $redis.sadd URL_KEY, urls
   end
