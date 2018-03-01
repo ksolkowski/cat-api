@@ -40,7 +40,6 @@ class CatApi < Roda
 
     r.post "action" do
       payload = JSON.parse(r.params["payload"])
-      puts payload.inspect
       message = modify_original_message(payload)
       message
     end
