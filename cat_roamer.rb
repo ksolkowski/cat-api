@@ -83,8 +83,9 @@ module CatRoamer
     original_message
   end
 
-  def vote_count(key, vote_key)
-    set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{key}"
+  def vote_count(callback_id, vote_key)
+    puts "count: callback_id:#{callback_id}, vote_key:#{vote_key}"
+    set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{callback_id}"
     $redis.scard(set_key) # return the count
   end
 
