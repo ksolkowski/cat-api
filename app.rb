@@ -49,7 +49,7 @@ class CatApi < Roda
           response_type: "ephemeral",
           replace_original: false,
           text: "Voting has closed."
-        }.to_json
+        }
       end
     end
 
