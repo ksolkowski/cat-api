@@ -84,7 +84,7 @@ module CatRoamer
   def store_or_remove_user_vote(key, user, vote_key)
     user_id = user["id"]
     set_key = "#{VOTING_CAT_KEY}:#{key}:#{vote_key}"
-    other_key = "#{VOTING_CAT_KEY}:#{(vote_key == AWW ? DAWWW : AWW)}:#{vote_value}"
+    other_key = "#{VOTING_CAT_KEY}:#{(vote_key == AWW ? DAWWW : AWW)}:#{vote_key}"
     # if they haven't voted on anything
     if ($redis.sismember(set_key, user_id) or $redis.sismember(other_key, user_id))
       if $redis.sismember(other_key, user_id) # switch votes
