@@ -62,40 +62,42 @@ module CatRoamer
     original_attachment = original_message['attachments'].find{|x| x["callback_id"] == callback_id }
     user = payload["user"]
     original_attachment["actions"].each do |btn|
-      vote_value = btn["value"] == AWW ? AWW : DAWWW
+      vote_key = btn["value"] == AWW ? AWW : DAWWW
       if btn["value"] == action_button["value"] # this is the action
-        store_or_remove_user_vote(callback_id, user, vote_value)
+        store_or_remove_user_vote(callback_id, user, vote_key)
       end
 
-      votes = vote_count(callback_id, vote_value)
+      votes = vote_count(callback_id, vote_key)
 
-      btn["text"] = "#{vote_value} (#{votes})"
+      btn["text"] = "#{vote_key} (#{votes})"
     end
 
     original_message["replace_original"] = true
     original_message
   end
 
-  def vote_count(key, vote_value)
-    set_key = "#{VOTING_CAT_KEY}:#{key}:#{vote_value}"
+  def vote_count(key, vote_key)
+    set_key = "#{VOTING_CAT_KEY}:#{key}:#{vote_key}"
     $redis.scard(set_key) # return the count
   end
 
-  def store_or_remove_user_vote(key, user, vote_value)
+  def store_or_remove_user_vote(key, user, vote_key)
     user_id = user["id"]
-    set_key = "#{VOTING_CAT_KEY}:#{key}:#{vote_value}"
-    other_key = "#{VOTING_CAT_KEY}:#{(vote_value == AWW ? DAWWW : AWW)}:#{vote_value}"
+    set_key = "#{VOTING_CAT_KEY}:#{key}:#{vote_key}"
+    other_key = "#{VOTING_CAT_KEY}:#{(vote_key == AWW ? DAWWW : AWW)}:#{vote_value}"
     # if they haven't voted on anything
-    if !($redis.sismember(set_key, user_id) or $redis.sismember(other_key, user_id))
-      $redis.sadd(set_key, user_id)
-    elsif $redis.sismember(set_key, user_id)
-      $redis.srem(set_key, user_id)
-    elsif $redis.sismember(other_key, user_id) # voted for the other thing
-      $redis.srem(other_key, user_id)
+    if ($redis.sismember(set_key, user_id) or $redis.sismember(other_key, user_id))
+      if $redis.sismember(other_key, user_id) # switch votes
+        $redis.srem(other_key, user_id)
+        $redis.sadd(set_key, user_id)
+      elsif $redis.sismember(set_key, user_id)
+        $redis.srem(set_key, user_id)
+      else
+        $redis.sadd(set_key, user_id)
+      end
+    else # not a member of either normal vote
       $redis.sadd(set_key, user_id)
     end
-
-    $redis.scard(set_key) # return the count
   end
 
   def get_cat_stats
