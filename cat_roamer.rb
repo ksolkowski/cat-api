@@ -61,16 +61,23 @@ module CatRoamer
     action_button = payload['actions'].first # what button was pressed
     original_attachment = original_message['attachments'].find{|x| x["callback_id"] == callback_id }
     user = payload["user"]
-    original_attachment["actions"].each do |btn|
+    actions = original_attachment["actions"].map do |btn|
       vote_key = btn["value"] == AWW ? AWW : DAWWW
+
       if btn["value"] == action_button["value"] # this is the action
         store_or_remove_user_vote(callback_id, user, vote_key)
       end
 
       votes = vote_count(callback_id, vote_key)
 
+      puts "#{vote_key}: #{votes}"
+
       btn["text"] = "#{vote_key} (#{votes})"
+
+      btn
     end
+
+    original_attachment["actions"] = actions
 
     original_message["replace_original"] = true
     original_message
