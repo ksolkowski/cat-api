@@ -84,7 +84,7 @@ module CatRoamer
   end
 
   def vote_count(key, vote_key)
-    set_key = "#{VOTING_CAT_KEY}:#{key}:#{vote_key}"
+    set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{key}"
     $redis.scard(set_key) # return the count
   end
 
