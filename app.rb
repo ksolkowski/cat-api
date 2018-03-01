@@ -44,8 +44,12 @@ class CatApi < Roda
       if payload["callback_id"] and already_saved?(payload["callback_id"].gsub(".jpg", ""))
         message = modify_original_message(payload)
         message
-      # else
-      #   payload.to_json
+      else
+        {
+          response_type: "ephemeral",
+          replace_original: false,
+          text: "Voting has closed."
+        }.to_json
       end
     end
 
