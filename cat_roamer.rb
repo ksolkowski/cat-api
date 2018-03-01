@@ -86,11 +86,11 @@ module CatRoamer
     set_key = "#{VOTING_CAT_KEY}:#{key}:#{vote_value}"
     other_key = "#{VOTING_CAT_KEY}:#{(vote_value == AWW ? DAWWW : AWW)}:#{vote_value}"
     # if they haven't voted on anything
-    if !($redis.sismember(set_key, user_id) and $redis.sismember(other_key, user_id))
+    if !($redis.sismember(set_key, user_id) or $redis.sismember(other_key, user_id))
       $redis.sadd(set_key, user_id)
     elsif $redis.sismember(set_key, user_id)
       $redis.srem(set_key, user_id)
-    elsif $redis.sismember(other_key, user_id)
+    elsif $redis.sismember(other_key, user_id) # voted for the other thing
       $redis.srem(other_key, user_id)
       $redis.sadd(set_key, user_id)
     end
