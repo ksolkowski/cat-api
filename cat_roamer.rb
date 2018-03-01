@@ -88,10 +88,11 @@ module CatRoamer
     $redis.scard(set_key) # return the count
   end
 
-  def store_or_remove_user_vote(key, user, vote_key)
+  def store_or_remove_user_vote(callback_id, user, vote_key)
+    puts "key: #{callback_id}, user: #{user}, vote_key: #{vote_key}"
     user_id = user["id"]
-    set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{vote_key}"
-    other_key = "#{VOTING_CAT_KEY}:#{(vote_key == AWW ? DAWWW : AWW)}:#{key}"
+    set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{callback_id}"
+    other_key = "#{VOTING_CAT_KEY}:#{(vote_key == AWW ? DAWWW : AWW)}:#{callback_id}"
     # if they are a member of other key remove the vote and add a vote
     if $redis.sismember(other_key, user_id)
       puts "is other member"
