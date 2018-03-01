@@ -57,13 +57,14 @@ module CatRoamer
     # }
   def modify_original_message(payload)
     original_message = payload["original_message"]
+    callback_id = payload["callback_id"]
     action_button = payload['actions'].first # what button was pressed
-    original_attachment = original_message['attachments'].find{|x| x["callback_id"] == payload["callback_id"] }
+    original_attachment = original_message['attachments'].find{|x| x["callback_id"] == callback_id }
     if btn = original_attachment["actions"].find{|x| x['value'] == action_button["value"] }
       user = payload["user"]
       original_text = btn["text"]
 
-      votes = store_or_remove_user_vote(x["callback_id"], user, btn["value"])
+      votes = store_or_remove_user_vote(callback_id, user, btn["value"])
       base_text = btn["value"] == AWW ? AWW : DAWWW
 
       text = "#{base_text} (#{votes})"

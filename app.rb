@@ -19,6 +19,10 @@ class CatApi < Roda
 
   route do |r|
 
+    def fake_response
+      {"type"=>"interactive_message", "actions"=>[{"name"=>"aww", "type"=>"button", "value"=>"aww"}], "callback_id"=>"2ab45e8a0ff5d61a4ec257152b409b56e86ab005", "team"=>{"id"=>"T04T2GDGT", "domain"=>"wantable"}, "channel"=>{"id"=>"D2J26NNQG", "name"=>"directmessage"}, "user"=>{"id"=>"U050XHZV9", "name"=>"kevin"}, "action_ts"=>"1519872407.263251", "message_ts"=>"1519872405.000222", "attachment_id"=>"2", "token"=>"0f1X03bDgYgeWqGyqOZ3p6k6", "is_app_unfurl"=>false, "original_message"=>{"text"=>"", "bot_id"=>"B9C6LMCEN", "attachments"=>[{"fallback"=>"&lt;3 Cats &lt;3", "image_url"=>"https://cat--api.herokuapp.com/images/2ab45e8a0ff5d61a4ec257152b409b56e86ab005.jpg", "image_width"=>800, "image_height"=>533, "image_bytes"=>60383, "title"=>"Check out this cat", "id"=>1, "ts"=>1519872405, "color"=>"36a64f"}, {"callback_id"=>"2ab45e8a0ff5d61a4ec257152b409b56e86ab005", "fallback"=>"These cats are so cute.", "id"=>2, "actions"=>[{"id"=>"1", "name"=>"aww", "text"=>"aww", "type"=>"button", "value"=>"aww", "style"=>"primary"}, {"id"=>"2", "name"=>"dawww", "text"=>"dawww", "type"=>"button", "value"=>"dawww", "style"=>"danger"}]}], "type"=>"message", "subtype"=>"bot_message", "ts"=>"1519872405.000222"}, "response_url"=>"https://hooks.slack.com/actions/T04T2GDGT/322702357538/KDBIACHJwYaj6e5pWPPileAb", "trigger_id"=>"322822631461.4920557571.1c0fb85b51b7bf002fcc428571bd8820"}
+    end
+
     r.root do
       "hello"
     end
