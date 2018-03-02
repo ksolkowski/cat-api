@@ -68,7 +68,6 @@ class CatApi < Roda
           }
         else
           decoded_image, fake_path = fetch_or_download_cat_urls
-
           real_url = File.join ENV["SITE_URL"], 'images', fake_path
           message = {
             response_type: "in_channel",
@@ -86,29 +85,27 @@ class CatApi < Roda
             ]
           }
 
-          if r.params["text"] == "voting"
-            test = {
-              fallback: "These cats are so cute.",
-              callback_id: clean_key(fake_path),
-              actions: [
-                {
-                  name: "aww",
-                  text: AWW,
-                  type: "button",
-                  value: AWW,
-                  style: "primary"
-                },
-                {
-                  name: "dawww",
-                  text: DAWWW,
-                  type: "button",
-                  value: DAWWW,
-                  style: "danger"
-                }
-              ]
-            }
-            message[:attachments].push test
-          end
+          buttons = {
+            fallback: "These cats are so cute.",
+            callback_id: clean_key(fake_path),
+            actions: [
+              {
+                name: "aww",
+                text: AWW,
+                type: "button",
+                value: AWW,
+                style: "primary"
+              },
+              {
+                name: "dawww",
+                text: DAWWW,
+                type: "button",
+                value: DAWWW,
+                style: "danger"
+              }
+            ]
+          }
+          message[:attachments].push buttons
 
           message.to_json
         end
