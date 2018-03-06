@@ -7,6 +7,11 @@ Dir[File.dirname(__FILE__) + "/tasks/*.rb"].sort.each do |path|
   require path
 end
 
+desc 'Open an irb session preloaded with this library'
+task :console do
+  sh 'irb -I lib -r ./app.rb'
+end
+
 desc "create a migration file"
 file :create_migration do
   ARGV.each { |a| task a.to_sym do ; end }

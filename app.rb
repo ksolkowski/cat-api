@@ -40,20 +40,18 @@ class CatApi < Roda
     end
 
     r.on "stats" do
-      get_cat_stats
-      "#{@images_saved} images in redis. #{@urls_saved} urls in redis. #{@views}"
+      "#{Image.count} images in database."
     end
 
     r.on "cats.jpg" do
       response['Content-Type'] = "image/jpeg"
-      decoded_image, fake_path = fetch_or_download_cat_urls
-      decoded_image
+      fetch_random_cat.decoded_image
     end
 
     r.post "action" do
       payload = JSON.parse(r.params["payload"])
 
-      if payload["callback_id"] and already_saved?(payload["callback_id"].gsub(".jpg", ""))
+      if payload["callback_id"] and !Image.find_by_hashed_key(payload["callback_id"]).nil?
         message = modify_original_message(payload)
         message
       else
@@ -66,8 +64,9 @@ class CatApi < Roda
     end
 
     r.on "from_saved_image" do
-      image = Image.all.sample
       response['Content-Type'] = "image/jpeg"
+
+      image = fetch_random_cat
       if image
         image.decoded_image
       else
@@ -78,38 +77,19 @@ class CatApi < Roda
     r.on "cats" do
       if r.is_get?
         response['Content-Type'] = "image/jpeg"
-        decoded_image, fake_path = fetch_or_download_cat_urls
-        decoded_image
+
+        fetch_random_cat.decoded_image
       else
         response['Content-Type'] = 'application/json'
         if NO_CAT_LIST.include?(r.params["user_name"]) and r.params["text"] != "cats are great"
-          # mj cat http://nbacatwatch.com/wp-content/uploads/2017/10/f98a5f820283e9fada580d5f6d2f3e81.jpg
-          {
-            response_type: "in_channel",
-            text: "Come back when you have a cat"
-          }
+          image = Image.find_by_hashed_key(Image::MJ_HASHED_KEY)
+          title = "Come back when you have a cat"
         else
-          decoded_image, fake_path = fetch_or_download_cat_urls
-          real_url = File.join ENV["SITE_URL"], 'images', fake_path
-          message = {
-            response_type: "in_channel",
-            attachments: [
-              {
-                fallback: "<3 Cats <3",
-                color: "#36a64f",
-                title: "Check out this cat",
-                title_link: "Cats",
-                fields: [],
-                image_url: real_url,
-                thumb_url: real_url,
-                ts: Time.now.to_i
-              }
-            ]
-          }
-
+          image = fetch_random_cat
+          title = "Check out this cat"
           buttons = {
             fallback: "These cats are so cute.",
-            callback_id: clean_key(fake_path),
+            callback_id: image.hashed_key,
             actions: [
               {
                 name: "aww",
@@ -127,35 +107,45 @@ class CatApi < Roda
               }
             ]
           }
-          message[:attachments].push buttons
-
-          message.to_json
         end
-      end
-    end
+        message = {
+          response_type: "in_channel",
+          attachments: [
+            {
+              fallback: "<3 Cats <3",
+              color: "#36a64f",
+              title: title,
+              title_link: "Cats",
+              fields: [],
+              image_url: image.url,
+              thumb_url: image.url,
+              ts: Time.now.to_i
+            }
+          ]
+        }
 
-    r.on "clear_cats" do
-      count = clear_cached_cats
-      "cleared #{count} images"
+        message[:attachments].push(buttons) unless buttons.nil?
+
+        message.to_json
+      end
     end
 
     r.on "images" do
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
-      if already_saved?(cleaned_key)
-        fetch_and_decode(cleaned_key)
-      elsif random_key = fetch_all_stored_images.sample # idk pick some random cat
-        fetch_and_decode(random_key)
+
+      if image = Image.find_by_hashed_key(cleaned_key)
+        image.decoded_image
+      elsif random_cat = fetch_random_cat
+        random_cat.decoded_image
       end
     end
 
     # idk just give a random image
     r.get do
-      if random_key = fetch_all_stored_images.sample # idk pick some random cat
-        response['Content-Type'] = "image/jpeg"
-        fetch_and_decode(random_key)
+      if random_cat = fetch_random_cat
+        random_cat.decoded_image
       end
-
     end
 
   end
