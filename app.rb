@@ -63,17 +63,6 @@ class CatApi < Roda
       end
     end
 
-    r.on "from_saved_image" do
-      response['Content-Type'] = "image/jpeg"
-
-      image = fetch_random_cat
-      if image
-        image.decoded_image
-      else
-        "no image"
-      end
-    end
-
     r.on "cats" do
       if r.is_get?
         response['Content-Type'] = "image/jpeg"
@@ -144,6 +133,7 @@ class CatApi < Roda
     # idk just give a random image
     r.get do
       if random_cat = fetch_random_cat
+        response['Content-Type'] = "image/jpeg"
         random_cat.decoded_image
       end
     end
