@@ -5,7 +5,7 @@ namespace :cat_api do
   desc "fetches and saves cats into redis"
   task fetch_cat: :app do
     include CatRoamer
-    random_pages = [290]#(0..2010).to_a.sample(1) # just pick a number
+    random_pages = (0..2010).to_a.sample(10) # just pick a number
     puts "fetching and storing cats from #{random_pages}"
 
     all_cat_urls = random_pages.map do |page|
