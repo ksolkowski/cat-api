@@ -1,50 +1,41 @@
-require "rake"
-require "rake/clean"
-require "rdoc/task"
 
-require "./app"
+task :app do
+  require "./app"
+end
 
-task :pre_fetch_cats do
-  include CatRoamer
+Dir[File.dirname(__FILE__) + "/tasks/*.rb"].sort.each do |path|
+  require path
+end
 
-  old_cat_urls = $redis.smembers(URL_KEY)
+desc 'Open an irb session preloaded with this library'
+task :console do
+  sh 'irb -I lib -r ./app.rb'
+end
 
-  puts "old_cat_urls: #{old_cat_urls}"
-  random_pages = (0..2010).to_a.sample(10) # just pick a number
-  puts "fetching and storing cats from #{random_pages}"
+desc "create a migration file"
+file :create_migration do
+  ARGV.each { |a| task a.to_sym do ; end }
+  filename = ARGV[1]
+  raise "need filename" if filename.nil? or filename.empty?
+  other_migrations =  Dir[File.dirname(__FILE__) + "/db/migrate/*.rb"]
 
-  all_cat_urls = random_pages.map do |page|
-    html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
-    cat_urls = html.css("img.hatena-fotolife").to_a.map{|child| child.attributes["src"].value }
-    puts "grabbing: #{cat_urls.count} urls from page: #{page}"
-    sleep(1)
-    cat_urls
-  end.flatten.reject do |url|
-    old_cat_urls.include?(url) # don't want the same url mann
+  if other_migrations.empty?
+    migration_stamp = "000"
+  else
+    migration_stamp = other_migrations.map do |path|
+      path.split("/").last.split(".rb").first.split(/[^\d{3}]/).first
+    end.max_by{|x| x.to_f }
   end
 
-  new_cat_urls = all_cat_urls.sample(60)
+  next_migration = "%03d" % (migration_stamp.to_f + 1)
+  cleaned_file_name = "#{next_migration}_#{filename.gsub(" ", "_").gsub("-", "_").downcase}.rb"
 
-  puts "storing #{new_cat_urls} to cache"
-
-  new_cat_urls.each_with_index do |url, i|
-    puts "#{i}/#{new_cat_urls.count} memory: #{$redis.info["used_memory_human"]}"
-
-    # remove an old image
-    unless old_cat_urls.empty?
-      old_url = old_cat_urls.pop
-      remove_url_and_image(old_url)
-    end
-
-    break if $redis.info["used_memory"].to_i > 25000000 and ENV["RACK_ENV"] != "development"
-    save_image_in_redis(url)
-    sleep(1)
-  end
-
-  # make sure all the old ones are gone
-  while !old_cat_urls.empty? do
-    old_url = old_cat_urls.pop
-    remove_url_and_image(old_url)
+  migration_path = File.join(File.dirname(__FILE__), "/db/migrate/")
+  file_path = migration_path + cleaned_file_name
+  touch file_path # to create the file technically shouldn't touch an existing one
+  File.open(file_path, 'wb+') do |file|
+    file.binmode
+    file.write "Sequel.migration do\r\n\s\schange do\r\n\s\s\s\s### Add Migration\r\n\s\send\r\nend"
   end
 
 end

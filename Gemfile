@@ -7,12 +7,15 @@ gem "roda-bin"
 gem "tilt"
 gem "erubis"
 
-gem 'nokogiri'
+gem "nokogiri"
 # gem 'easy_translate'
 
-gem 'puma'
+gem "sequel"
+gem "pg"
+
+gem "puma"
 gem "rake"
 
-gem 'redis'
+gem "redis"
 
 ruby "2.3.1"
