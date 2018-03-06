@@ -2,7 +2,6 @@ require 'base64'
 require 'open-uri'
 require 'nokogiri'
 module CatRoamer
-  URL_KEY          = "cats:urls"    # redis list of urls
   STORED_HASH_KEY  = "cats:images"  # redis set [encoded_keys]
   VOTING_CAT_KEY   = "cats:voting"  #
   AWW   = "aww"
