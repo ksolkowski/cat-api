@@ -27,7 +27,7 @@ namespace :cat_api do
       html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
       cat_urls = html.css("img.hatena-fotolife").to_a.map{|child| child.attributes["src"].value }
       puts "grabbing: #{cat_urls.count} urls from page: #{page}"
-      sleep(1)
+      sleep(10)
       cat_urls
     end.flatten.reject do |url|
       old_cat_urls.include?(url) # don't want the same url mann
