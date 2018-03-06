@@ -10,7 +10,7 @@ module CatRoamer
   def fetch_random_cat
     hashed_key = $redis.srandmember(STORED_HASH_KEY)
     if hashed_key
-      Image.where(hashed_key: hashed_key).first
+      Image.find_by_hashed_key(cleaned_key)
     else
       Image.all.sample
     end

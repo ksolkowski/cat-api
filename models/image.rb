@@ -21,7 +21,7 @@ class Image < Sequel::Model
     urls.map do |url|
       image = Image.new(original_url: url)
       image.save
-
+      sleep 5
       image
     end
   end
