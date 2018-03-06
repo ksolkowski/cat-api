@@ -21,7 +21,7 @@ uri = URI.parse(ENV["REDIS_URL"]||"redis://localhost:6379")
 $redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 
 require_relative "./cat_roamer"
-#require_relative './models/image.rb'
+require_relative './models/image.rb'
 
 class CatApi < Roda
   include CatRoamer
