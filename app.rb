@@ -3,13 +3,25 @@ require "roda"
 require 'redis'
 require 'json'
 require 'open-uri'
+require "sequel"
 
-require_relative "./cat_roamer"
+ENV["SITE_URL"] ||= "localhost:3000"
+ENV["RACK_ENV"] ||= "development"
+
+if ENV['RACK_ENV'] == 'production'
+  DB = Sequel.connect(ENV['DATABASE_URL'])
+else
+  user = 'root'
+  password = 'pass'
+  database = 'cat--api'
+  DB = Sequel.connect(adapter: "postgres", database: database, host: "127.0.0.1", user: user, password: password)
+end
 
 uri = URI.parse(ENV["REDIS_URL"]||"redis://localhost:6379")
 $redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-ENV["SITE_URL"] ||= "localhost:3000"
-ENV["RACK_ENV"] ||= "development"
+
+require_relative "./cat_roamer"
+require_relative './models/image.rb'
 
 class CatApi < Roda
   include CatRoamer
@@ -51,6 +63,12 @@ class CatApi < Roda
           text: "Voting has closed."
         }
       end
+    end
+
+    r.on "from_saved_image" do
+      image = Image.all.sample
+      response['Content-Type'] = "image/jpeg"
+      image.decoded_image
     end
 
     r.on "cats" do
