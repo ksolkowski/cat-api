@@ -68,7 +68,11 @@ class CatApi < Roda
     r.on "from_saved_image" do
       image = Image.all.sample
       response['Content-Type'] = "image/jpeg"
-      image.decoded_image
+      if image
+        image.decoded_image
+      else
+        "no image"
+      end
     end
 
     r.on "cats" do
