@@ -14,6 +14,10 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     mini_portile2 (2.3.0)
+    newrelic-roda (1.0.0.pre1)
+      newrelic_rpm
+      roda
+    newrelic_rpm (4.8.0.341)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     pg (1.0.0)
@@ -47,6 +51,7 @@ PLATFORMS
 
 DEPENDENCIES
   erubis
+  newrelic-roda
   nokogiri
   pg
   puma

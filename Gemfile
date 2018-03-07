@@ -18,4 +18,6 @@ gem "rake"
 
 gem "redis"
 
+gem "newrelic-roda"
+
 ruby "2.3.1"
