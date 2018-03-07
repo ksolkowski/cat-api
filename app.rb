@@ -1,9 +1,10 @@
 # ./app.rb
 require "roda"
-require 'redis'
-require 'json'
-require 'open-uri'
+require "redis"
+require "json"
+require "open-uri"
 require "sequel"
+require "newrelic_rpm"
 
 ENV["SITE_URL"] ||= "localhost:3000"
 ENV["RACK_ENV"] ||= "development"
