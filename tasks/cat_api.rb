@@ -46,7 +46,6 @@ namespace :cat_api do
     images = Image.save_and_store_urls(all_cat_urls)
 
     # clear existing cat keys
-
-    clear_and_store_cat_keys(images.map(&:hashed_key))
+    clear_and_store_cat_keys
   end
 end

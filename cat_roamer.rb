@@ -93,11 +93,14 @@ module CatRoamer
     end
   end
 
-  def clear_and_store_cat_keys(keys)
+  def clear_and_store_cat_keys
     Image.where(hashed_key: $redis.smembers(STORED_HASH_KEY)).each do |image|
       $redis.del("#{VOTING_CAT_KEY}:#{AWW}:#{image.hashed_key}")
       $redis.del("#{VOTING_CAT_KEY}:#{DAWWW}:#{image.hashed_key}")
     end
+
+    keys = Image.random(100).map(:hashed_key)
+
     $redis.del STORED_HASH_KEY
     $redis.sadd STORED_HASH_KEY, keys
   end
