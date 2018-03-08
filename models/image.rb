@@ -31,7 +31,9 @@ class Image < Sequel::Model
     if image.nil?
       size_diff = 25
       while image.nil?
-        image = Image.where{abs(height - width) < size_diff}.exclude(hashed_key: MJ_HASHED_KEY).order(Sequel.lit('RANDOM()')).limit(1).first
+        image = Image.exclude(hashed_key: MJ_HASHED_KEY).
+                where{abs(height - width) <= size_diff or abs(width - height) < size_diff}.
+                order(Sequel.lit('RANDOM()')).limit(1).first
         size_diff += 25
       end
     end
