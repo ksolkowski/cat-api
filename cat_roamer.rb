@@ -7,12 +7,12 @@ module CatRoamer
   AWW   = "aww"
   DAWWW = "dawww"
 
-  def fetch_random_cat
+  def fetch_random_cat(true_random=false)
     hashed_key = $redis.srandmember(STORED_HASH_KEY)
-    if hashed_key
+    if hashed_key and !true_random
       Image.find_by_hashed_key(hashed_key)
     else
-      Image.all.sample
+      Image.random
     end
   end
 

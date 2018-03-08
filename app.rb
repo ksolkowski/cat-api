@@ -5,14 +5,15 @@ require "json"
 require "open-uri"
 require "sequel"
 require "newrelic_rpm"
+require "image_size"
 
 ENV["SITE_URL"] ||= "localhost:3000"
 ENV["RACK_ENV"] ||= "development"
 
-if ENV['RACK_ENV'] == 'production'
-  DB = Sequel.connect(ENV['DATABASE_URL'])
+if ENV['RACK_ENV'] == "production"
+  DB = Sequel.connect(ENV["DATABASE_URL"])
 else
-  user = 'root'
+  user     = 'root'
   password = 'pass'
   database = 'cat--api'
   DB = Sequel.connect(adapter: "postgres", database: database, host: "127.0.0.1", user: user, password: password)
@@ -32,10 +33,6 @@ class CatApi < Roda
 
   route do |r|
 
-    def fake_response
-      {"type"=>"interactive_message", "actions"=>[{"name"=>"aww", "type"=>"button", "value"=>"aww"}], "callback_id"=>"2ab45e8a0ff5d61a4ec257152b409b56e86ab005", "team"=>{"id"=>"T04T2GDGT", "domain"=>"wantable"}, "channel"=>{"id"=>"D2J26NNQG", "name"=>"directmessage"}, "user"=>{"id"=>"U050XHZV9", "name"=>"kevin"}, "action_ts"=>"1519872407.263251", "message_ts"=>"1519872405.000222", "attachment_id"=>"2", "token"=>"0f1X03bDgYgeWqGyqOZ3p6k6", "is_app_unfurl"=>false, "original_message"=>{"text"=>"", "bot_id"=>"B9C6LMCEN", "attachments"=>[{"fallback"=>"&lt;3 Cats &lt;3", "image_url"=>"https://cat--api.herokuapp.com/images/2ab45e8a0ff5d61a4ec257152b409b56e86ab005.jpg", "image_width"=>800, "image_height"=>533, "image_bytes"=>60383, "title"=>"Check out this cat", "id"=>1, "ts"=>1519872405, "color"=>"36a64f"}, {"callback_id"=>"2ab45e8a0ff5d61a4ec257152b409b56e86ab005", "fallback"=>"These cats are so cute.", "id"=>2, "actions"=>[{"id"=>"1", "name"=>"aww", "text"=>"aww", "type"=>"button", "value"=>"aww", "style"=>"primary"}, {"id"=>"2", "name"=>"dawww", "text"=>"dawww", "type"=>"button", "value"=>"dawww", "style"=>"danger"}]}], "type"=>"message", "subtype"=>"bot_message", "ts"=>"1519872405.000222"}, "response_url"=>"https://hooks.slack.com/actions/T04T2GDGT/322702357538/KDBIACHJwYaj6e5pWPPileAb", "trigger_id"=>"322822631461.4920557571.1c0fb85b51b7bf002fcc428571bd8820"}
-    end
-
     r.root do
       "hello"
     end
@@ -46,7 +43,7 @@ class CatApi < Roda
 
     r.on "cats.jpg" do
       response['Content-Type'] = "image/jpeg"
-      fetch_random_cat.decoded_image
+      fetch_random_cat(true).decoded_image
     end
 
     r.post "action" do
@@ -120,20 +117,25 @@ class CatApi < Roda
       end
     end
 
+    r.on "square" do
+      response['Content-Type'] = "image/jpeg"
+      Image.random_square_image&.decoded_image
+    end
+
     r.on "images" do
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
 
       if image = Image.find_by_hashed_key(cleaned_key)
         image.decoded_image
-      elsif random_cat = fetch_random_cat
+      elsif random_cat = fetch_random_cat(true)
         random_cat.decoded_image
       end
     end
 
     # idk just give a random image
     r.get do
-      if random_cat = fetch_random_cat
+      if random_cat = fetch_random_cat(true)
         response['Content-Type'] = "image/jpeg"
         random_cat.decoded_image
       end

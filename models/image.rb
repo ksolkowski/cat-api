@@ -3,8 +3,12 @@ class Image < Sequel::Model
   plugin :validation_helpers
 
   def before_create
+    data = open(self.original_url)
+
     self.hashed_key = Digest::SHA1.hexdigest(self.original_url)
-    self.encoded_image = Base64.encode64(open(self.original_url).read)
+    self.width  = sizes.width
+    self.height = sizes.height
+    self.encoded_image = Base64.encode64(data.read)
     super
   end
 
@@ -15,6 +19,24 @@ class Image < Sequel::Model
 
   def self.find_by_hashed_key(hashed_key)
     Image.where(hashed_key: hashed_key).first
+  end
+
+  def self.random
+    Image.exclude(hashed_key: MJ_HASHED_KEY).order(Sequel.lit('RANDOM()')).limit(1).first
+  end
+
+  def self.random_square_image
+    image = Image.where{height == width}.exclude(hashed_key: MJ_HASHED_KEY).order(Sequel.lit('RANDOM()')).limit(1).first
+    # welp no perfect squares
+    if image.nil?
+      size_diff = 25
+      while image.nil?
+        image = Image.where{abs(height - width) < size_diff}.exclude(hashed_key: MJ_HASHED_KEY).order(Sequel.lit('RANDOM()')).limit(1).first
+        size_diff += 25
+      end
+    end
+
+    image
   end
 
   def self.save_and_store_urls(urls)
@@ -32,6 +54,10 @@ class Image < Sequel::Model
 
   def url
     File.join ENV["SITE_URL"], 'images', hashed_key
+  end
+
+  def sizes
+    @sizes ||= ImageSize.new(decoded_image)
   end
 
 end

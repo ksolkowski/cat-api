@@ -11,6 +11,15 @@ namespace :cat_api do
     end
   end
 
+  desc "sets width and height of saved images"
+  task set_sizes: :app do
+    Image.where(height: nil, width: nil).each do |image|
+      image.height = image.sizes.height
+      image.width = image.sizes.width
+      image.save
+    end
+  end
+
   task save_mj_cat: :app do
     url = "http://nbacatwatch.com/wp-content/uploads/2017/10/f98a5f820283e9fada580d5f6d2f3e81.jpg"
     Image.new(original_url: url).save
