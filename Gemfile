@@ -18,8 +18,6 @@ gem "rake"
 
 gem "redis"
 
-gem "newrelic-roda"
-
 gem "image_size"
 
 ruby "2.3.1"
