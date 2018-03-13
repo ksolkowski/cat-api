@@ -29,22 +29,6 @@ class Image < Sequel::Model
     end
   end
 
-  def self.random_square_image
-    image = Image.where{Sequel.lit('images.height = images.width')}.exclude(hashed_key: MJ_HASHED_KEY).order(Sequel.lit('RANDOM()')).limit(1).first
-    # welp no perfect squares
-    if image.nil?
-      size_diff = 25
-      while image.nil?
-        image = Image.exclude(hashed_key: MJ_HASHED_KEY).
-                where{Sequel.lit('abs(images.height - images.width) <= ?', size_diff)}.
-                order(Sequel.lit('RANDOM()')).limit(1).first
-        size_diff += 25
-      end
-    end
-
-    image
-  end
-
   def self.save_and_store_urls(urls)
     urls.map do |url|
       image = Image.new(original_url: url)
