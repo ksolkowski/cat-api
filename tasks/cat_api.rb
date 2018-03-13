@@ -20,6 +20,11 @@ namespace :cat_api do
     end
   end
 
+  desc "cycles the available cat images"
+  task save_mj_cat: :app do
+    clear_and_store_cat_keys
+  end
+
   task save_mj_cat: :app do
     url = "http://nbacatwatch.com/wp-content/uploads/2017/10/f98a5f820283e9fada580d5f6d2f3e81.jpg"
     Image.new(original_url: url).save
@@ -44,8 +49,5 @@ namespace :cat_api do
     # remove dups
     all_cat_urls = (all_cat_urls - Image.where(original_url: all_cat_urls).select_map(:original_url))
     images = Image.save_and_store_urls(all_cat_urls)
-
-    # clear existing cat keys
-    clear_and_store_cat_keys
   end
 end
