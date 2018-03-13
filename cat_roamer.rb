@@ -53,10 +53,13 @@ module CatRoamer
     # }
   def modify_original_message(payload)
     original_message = payload["original_message"]
-    callback_id = payload["callback_id"]
-    action_button = payload['actions'].first # what button was pressed
-    original_attachment = original_message['attachments'].find{|x| x["callback_id"] == callback_id }
-    user = payload["user"]
+    callback_id      = payload["callback_id"]
+    action_button    = payload['actions'].first # what button was pressed
+    attachment_id    = payload["attachment_id"].to_s
+    user             = payload["user"]
+
+    original_attachment = original_message['attachments'].find{|x| x["id"].to_s == attachment_id }
+
     original_attachment["actions"].sort_by{|btn| btn["value"] == action_button["value"] ? 0 : 1 }.each do |btn|
       vote_key = btn["value"] == AWW ? AWW : DAWWW
       store_or_remove_user_vote(callback_id, user, vote_key) if btn["value"] == action_button["value"] # this is the action
@@ -76,13 +79,12 @@ module CatRoamer
   end
 
   def vote_count(callback_id, vote_key)
-    set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{callback_id}"
-    $redis.scard(set_key) # return the count
+    $redis.scard("#{VOTING_CAT_KEY}:#{vote_key}:#{callback_id}") # return the count
   end
 
   def store_or_remove_user_vote(callback_id, user, vote_key)
-    user_id = user["id"]
-    set_key = "#{VOTING_CAT_KEY}:#{vote_key}:#{callback_id}"
+    user_id   = user["id"]
+    set_key   = "#{VOTING_CAT_KEY}:#{vote_key}:#{callback_id}"
     other_key = "#{VOTING_CAT_KEY}:#{(vote_key == AWW ? DAWWW : AWW)}:#{callback_id}"
     # if they are a member of other key remove the vote and add a vote
     if $redis.sismember(other_key, user_id)

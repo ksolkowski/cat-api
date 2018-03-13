@@ -20,20 +20,12 @@ class Image < Sequel::Model
     Image.where(hashed_key: hashed_key).first
   end
 
-  def self.random(limit=1, base=Image)
-    images = base.exclude(hashed_key: MJ_HASHED_KEY).order(Sequel.lit('RANDOM()')).limit(limit)
-    if limit == 1
-      images.first
-    else
-      images
-    end
-  end
 
-  def self.save_and_store_urls(urls)
+  def self.save_and_store_urls(urls, nap_length=5)
     urls.map do |url|
       image = Image.new(original_url: url)
       image.save
-      sleep 5
+      sleep nap_length
       image
     end
   end
