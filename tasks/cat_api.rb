@@ -1,8 +1,8 @@
 require "rake"
 require "rake/clean"
 require "rdoc/task"
-namespace :cat_api do
 
+namespace :cat_api do
   desc "clears all cat redis values"
   task clear_redis: :app do
      $redis.keys("cats:*").each do |key|
@@ -20,6 +20,12 @@ namespace :cat_api do
     end
   end
 
+  desc "cycles the available cat images"
+  task cycle_cat_images: :app do
+    include CatRoamer
+    clear_and_store_cat_keys
+  end
+
   task save_mj_cat: :app do
     url = "http://nbacatwatch.com/wp-content/uploads/2017/10/f98a5f820283e9fada580d5f6d2f3e81.jpg"
     Image.new(original_url: url).save
@@ -27,8 +33,6 @@ namespace :cat_api do
 
   desc "fetches and saves cats into the database and sets their hashed_keys in redis"
   task save_and_set_cats: :app do
-    include CatRoamer
-    old_cat_urls = $redis.smembers STORED_HASH_KEY
     random_pages = (0..2010).to_a.sample(5) # just pick a number
     puts "fetching and storing cats from #{random_pages}"
 
@@ -38,15 +42,9 @@ namespace :cat_api do
       puts "grabbing: #{cat_urls.count} urls from page: #{page}"
       sleep(10)
       cat_urls
-    end.flatten.reject do |url|
-      old_cat_urls.include?(url) # don't want the same url mann
-    end
+    end.flatten
     # remove dups
     all_cat_urls = (all_cat_urls - Image.where(original_url: all_cat_urls).select_map(:original_url))
-    images = Image.save_and_store_urls(all_cat_urls)
-
-    # clear existing cat keys
-
-    clear_and_store_cat_keys(images.map(&:hashed_key))
+    Image.save_and_store_urls(all_cat_urls)
   end
 end

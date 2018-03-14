@@ -6,7 +6,7 @@ require "open-uri"
 require "sequel"
 require "image_size"
 
-ENV["SITE_URL"] ||= "localhost:3000"
+ENV["SITE_URL"] ||= "https://catapi.localtunnel.me"
 ENV["RACK_ENV"] ||= "development"
 
 if ENV['RACK_ENV'] == "production"
@@ -37,18 +37,18 @@ class CatApi < Roda
     end
 
     r.on "stats" do
-      "#{Image.count} images in database."
+      "#{Image.count} images in database. #{$redis.scard(STORED_HASH_KEY)} images in cache"
     end
 
     r.on "cats.jpg" do
       response['Content-Type'] = "image/jpeg"
-      fetch_random_cat(true).decoded_image
+      fetch_random_cat.decoded_image
     end
 
     r.post "action" do
       payload = JSON.parse(r.params["payload"])
 
-      if payload["callback_id"] and !Image.find_by_hashed_key(payload["callback_id"]).nil?
+      if payload["callback_id"] and is_member?(payload["callback_id"])
         message = modify_original_message(payload)
         message
       else
@@ -116,25 +116,20 @@ class CatApi < Roda
       end
     end
 
-    r.on "square" do
-      response['Content-Type'] = "image/jpeg"
-      Image.random_square_image&.decoded_image
-    end
-
     r.on "images" do
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
 
       if image = Image.find_by_hashed_key(cleaned_key)
         image.decoded_image
-      elsif random_cat = fetch_random_cat(true)
+      elsif random_cat = fetch_random_cat
         random_cat.decoded_image
       end
     end
 
     # idk just give a random image
     r.get do
-      if random_cat = fetch_random_cat(true)
+      if random_cat = fetch_random_cat
         response['Content-Type'] = "image/jpeg"
         random_cat.decoded_image
       end
