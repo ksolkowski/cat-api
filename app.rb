@@ -37,7 +37,7 @@ class CatApi < Roda
     end
 
     r.on "all_cats" do
-      Image.where(width > height).random(100).to_a.group_by{|image| [image.width, image.height] }.map do |size, images|
+      Image.random(100).where{width > height}.to_a.group_by{|image| [image.width, image.height] }.map do |size, images|
         width, height = size.map{|x| (x / 4) }
         images.map{|image| "<img src=\"data:image/jpg;base64,#{image.encoded_image}\" width=\"#{width}\" height=\"#{height}\" ></img>" }.join("")
       end.join("<br>")
