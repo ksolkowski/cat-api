@@ -36,6 +36,12 @@ class CatApi < Roda
       "hello"
     end
 
+    r.on "all_cats" do
+      Image.random(100).to_a.group_by{|image| [image.width, image.height] }.values.map do |images|
+        images.map{|image| "<img src=\"#{image.url}\"></img>" }.join("")
+      end.join("<br>")
+    end
+
     r.on "stats" do
       "#{Image.count} images in database. #{$redis.scard(STORED_HASH_KEY)} images in cache"
     end
