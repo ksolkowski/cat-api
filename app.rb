@@ -79,7 +79,7 @@ class CatApi < Roda
       else
         response['Content-Type'] = 'application/json'
         text = r.params["text"]
-        if text == "all"
+        if text == "lots"
           size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 5 }.sample
 
           images = Image.random(5).where{width =~ size.width}.where{height =~ size.height}.all
