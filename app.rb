@@ -155,7 +155,6 @@ class CatApi < Roda
     end
 
     r.on "images" do
-      puts "request.remaining_path[1..-1]: #{request.remaining_path[1..-1]}"
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
       if cleaned_key.start_with?(COMBINED)
