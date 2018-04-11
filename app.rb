@@ -38,14 +38,12 @@ class CatApi < Roda
     end
 
     r.on "all_cats" do
-      size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
-
-      images = Image.random(20).where{width =~ size.width}.where{height =~ size.height}.all
-
-      width  = (size.width / 4)
-      height = (size.height / 4)
-      images.map{|image| "<img src=\"data:image/jpg;base64,#{image.encoded_image}\" width=\"#{width}\" height=\"#{height}\"></img>" }.
-      each_slice(5).to_a.map{|x| x.join("") }.join("<br>")
+      response['Content-Type'] = "image/jpeg"
+      cat_count = request.remaining_path[1..-1]
+      cat_count = cat_count.to_i if cat_count.is_a?(String)
+      cat_count += 1 if cat_count.odd?
+      combination = combine_some_cats(cat_count)
+      combination[:blob] # responds with the created image blob
     end
 
     r.on "stats" do
