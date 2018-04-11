@@ -5,6 +5,7 @@ require "json"
 require "open-uri"
 require "sequel"
 require "image_size"
+require "mini_magick"
 
 ENV["SITE_URL"] ||= "https://catapi.localtunnel.me"
 ENV["RACK_ENV"] ||= "development"
@@ -71,6 +72,32 @@ class CatApi < Roda
       end
     end
 
+    r.on "combine" do
+      response['Content-Type'] = "image/jpeg"
+
+      size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 6 }.sample
+      images = Image.random(6).where{width =~ size.width}.where{height =~ size.height}.all
+      filename = "tmp/#{images.map(&:id).join("_")}.jpg"
+      begin
+        image = MiniMagick::Image.open(filename)
+      rescue => e
+        # image doesn't exist already
+        MiniMagick::Tool::Montage.new do |montage|
+          images.each do |image|
+            montage << MiniMagick::Image.read(image.decoded_image).path
+          end
+          montage.geometry "+0+0"
+          montage << filename
+        end
+
+        image = MiniMagick::Image.open(filename)
+      end
+
+      blob = image.to_blob
+      image.destroy! # kill that tempfile
+      blob
+    end
+
     r.on "cats" do
       if r.is_get?
         response['Content-Type'] = "image/jpeg"
@@ -79,7 +106,7 @@ class CatApi < Roda
       else
         response['Content-Type'] = 'application/json'
         text = r.params["text"]
-        if text == "lots"
+        if text == "lots" # maybe do https://stackoverflow.com/questions/30751175/how-to-combine-images-in-ruby
           size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 5 }.sample
 
           images = Image.random(5).where{width =~ size.width}.where{height =~ size.height}.all
@@ -102,7 +129,6 @@ class CatApi < Roda
           if NO_CAT_LIST.include?(r.params["user_name"]) and text != "cats are great"
             image = Image.find_by_hashed_key(Image::MJ_HASHED_KEY)
             title = "Come back when you have a cat"
-
           else
             image = fetch_random_cat
             title = "Check out this cat"

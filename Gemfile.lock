@@ -14,6 +14,7 @@ GEM
       celluloid (~> 0.16.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    mini_magick (4.8.0)
     mini_portile2 (2.3.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
@@ -49,6 +50,7 @@ PLATFORMS
 DEPENDENCIES
   erubis
   image_size
+  mini_magick
   nokogiri
   pg
   puma
