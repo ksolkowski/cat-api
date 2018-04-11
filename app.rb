@@ -38,7 +38,7 @@ class CatApi < Roda
     end
 
     r.on "all_cats" do
-      size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 50 }.sample
+      size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
 
       images = Image.random(20).where{width =~ size.width}.where{height =~ size.height}.all
 

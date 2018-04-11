@@ -21,7 +21,7 @@ module CatRoamer
 
   # responds with a raw blob
   def combine_some_cats
-    size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 6 }.sample
+    size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
     images = Image.random(6).where{width =~ size.width}.where{height =~ size.height}.all
     joined_ids = images.map(&:id).join("_")
     url = File.join ENV["SITE_URL"], 'images', COMBINED + joined_ids
