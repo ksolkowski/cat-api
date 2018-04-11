@@ -22,8 +22,15 @@ end
 uri = URI.parse(ENV["REDIS_URL"]||"redis://localhost:6379")
 $redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 
-require_relative "./cat_roamer"
-require_relative './models/image.rb'
+Dir[File.dirname(__FILE__) + "/lib/*.rb"].sort.each do |path|
+  file = path.split("/lib/").last
+  require_relative "./lib/#{file}"
+end
+
+Dir[File.dirname(__FILE__) + "/models/*.rb"].sort.each do |path|
+  file = path.split("/models/").last
+  require_relative "./models/#{file}"
+end
 
 class CatApi < Roda
   include CatRoamer
