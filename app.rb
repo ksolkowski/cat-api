@@ -74,115 +74,98 @@ class CatApi < Roda
 
     r.on "combine" do
       response['Content-Type'] = "image/jpeg"
-
-      size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 6 }.sample
-      images = Image.random(6).where{width =~ size.width}.where{height =~ size.height}.all
-      filename = "tmp/#{images.map(&:id).join("_")}.jpg"
-      begin
-        image = MiniMagick::Image.open(filename)
-      rescue => e
-        # image doesn't exist already
-        MiniMagick::Tool::Montage.new do |montage|
-          images.each do |image|
-            montage << MiniMagick::Image.read(image.decoded_image).path
-          end
-          montage.geometry "+0+0"
-          montage << filename
-        end
-
-        image = MiniMagick::Image.open(filename)
-      end
-
-      blob = image.to_blob
-      image.destroy! # kill that tempfile
-      blob
+      combination = combine_some_cats
+      combination[:blob] # responds with the created image blob
     end
 
-    r.on "cats" do
-      if r.is_get?
-        response['Content-Type'] = "image/jpeg"
+    r.get "cats" do
+      response['Content-Type'] = "image/jpeg"
 
-        fetch_random_cat.decoded_image
-      else
-        response['Content-Type'] = 'application/json'
-        text = r.params["text"]
-        if text == "lots" and !NO_CAT_LIST.include?(r.params["user_name"])
+      fetch_random_cat.decoded_image
+    end
 
-          image = Image.random(1)
-          ts = Time.now.to_i
-          message = {
-            response_type: "in_channel",
-            attachments: [
-              {
-                fallback: "<3 Cats <3",
-                color: "#36a64f",
-                title_link: "Cats",
-                fields: [],
-                image_url: image.url,
-                thumb_url: image.url,
-                ts: ts
-              }
-            ]
-          }
-        else
-          if NO_CAT_LIST.include?(r.params["user_name"]) and text != "cats are great"
-            image = Image.find_by_hashed_key(Image::MJ_HASHED_KEY)
-            title = "Come back when you have a cat"
-          else
-            image = fetch_random_cat
-            title = "Check out this cat"
-            buttons = {
-              fallback: "These cats are so cute.",
-              callback_id: image.hashed_key,
-              actions: [
-                {
-                  name: "aww",
-                  text: AWW,
-                  type: "button",
-                  value: AWW,
-                  style: "primary"
-                },
-                {
-                  name: "dawww",
-                  text: DAWWW,
-                  type: "button",
-                  value: DAWWW,
-                  style: "danger"
-                }
-              ]
+    r.post "cats" do
+      response['Content-Type'] = 'application/json'
+      text = r.params["text"]
+      if text == "lots"
+        image = combine_some_cats
+        ts = Time.now.to_i
+        message = {
+          response_type: "in_channel",
+          attachments: [
+            {
+              fallback: "<3 Cats <3",
+              color: "#36a64f",
+              title_link: "Cats",
+              fields: [],
+              image_url: image[:url],
+              thumb_url: image[:url],
+              ts: ts
             }
-          end
-          message = {
-            response_type: "in_channel",
-            attachments: [
+          ]
+        }
+      else
+        if NO_CAT_LIST.include?(r.params["user_name"]) and text != "cats are great"
+          image = Image.find_by_hashed_key(Image::MJ_HASHED_KEY)
+          title = "Come back when you have a cat"
+        else
+          image = fetch_random_cat
+          title = "Check out this cat"
+          buttons = {
+            fallback: "These cats are so cute.",
+            callback_id: image.hashed_key,
+            actions: [
               {
-                fallback: "<3 Cats <3",
-                color: "#36a64f",
-                title: title,
-                title_link: "Cats",
-                fields: [],
-                image_url: image.url,
-                thumb_url: image.url,
-                ts: Time.now.to_i
+                name: "aww",
+                text: AWW,
+                type: "button",
+                value: AWW,
+                style: "primary"
+              },
+              {
+                name: "dawww",
+                text: DAWWW,
+                type: "button",
+                value: DAWWW,
+                style: "danger"
               }
             ]
           }
         end
-
-        message[:attachments].push(buttons) unless buttons.nil?
-
-        message.to_json
+        message = {
+          response_type: "in_channel",
+          attachments: [
+            {
+              fallback: "<3 Cats <3",
+              color: "#36a64f",
+              title: title,
+              title_link: "Cats",
+              fields: [],
+              image_url: image.url,
+              thumb_url: image.url,
+              ts: Time.now.to_i
+            }
+          ]
+        }
       end
+
+      message[:attachments].push(buttons) unless buttons.nil?
+
+      message.to_json
     end
 
     r.on "images" do
+      puts "request.remaining_path[1..-1]: #{request.remaining_path[1..-1]}"
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
-
-      if image = Image.find_by_hashed_key(cleaned_key)
-        image.decoded_image
-      elsif random_cat = fetch_random_cat
-        random_cat.decoded_image
+      if cleaned_key.start_with?(COMBINED)
+        open_combined_image(cleaned_key)
+      else
+        if image = Image.find_by_hashed_key(cleaned_key)
+          image.decoded_image
+        elsif random_cat = fetch_random_cat
+          random_cat.decoded_image
+        end
       end
     end
 

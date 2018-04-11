@@ -6,6 +6,7 @@ module CatRoamer
   VOTING_CAT_KEY   = "cats:voting"  #
   AWW   = "aww"
   DAWWW = "dawww"
+  COMBINED = "combined:"
 
   def fetch_random_cat
     hashed_key = $redis.srandmember(STORED_HASH_KEY)
@@ -16,6 +17,58 @@ module CatRoamer
 
   def is_member?(hashed_key)
     $redis.sismember(STORED_HASH_KEY, hashed_key)
+  end
+
+  # responds with a raw blob
+  def combine_some_cats
+    size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 6 }.sample
+    images = Image.random(6).where{width =~ size.width}.where{height =~ size.height}.all
+    joined_ids = images.map(&:id).join("_")
+    url = File.join ENV["SITE_URL"], 'images', COMBINED + joined_ids
+    filename = "tmp/#{joined_ids}.jpg"
+    begin
+      image = MiniMagick::Image.open(filename)
+    rescue => e
+      # image doesn't exist already
+      MiniMagick::Tool::Montage.new do |montage|
+        images.each do |image|
+          montage << MiniMagick::Image.read(image.decoded_image).path
+        end
+        montage.geometry "+0+0"
+        montage << filename
+      end
+
+      image = MiniMagick::Image.open(filename)
+    end
+
+    blob = image.to_blob
+    image.destroy! # kill that tempfile
+    {blob: blob, filename: filename, url: url}
+  end
+
+  def open_combined_image(cleaned_key)
+    cleaned_key.gsub!(COMBINED, "")
+    ids = cleaned_key.split("_")
+    # if the image doesn't exist in tempfile try and build it from the ids
+    begin
+      image = MiniMagick::Image.open("tmp/#{cleaned_key}.jpg")
+    rescue => e
+      # image doesn't exist already
+      images = Image.where(id: ids).all
+      MiniMagick::Tool::Montage.new do |montage|
+        images.each do |image|
+          montage << MiniMagick::Image.read(image.decoded_image).path
+        end
+        montage.geometry "+0+0"
+        montage << filename
+      end
+
+      image = MiniMagick::Image.open(filename)
+    end
+
+    blob = image.to_blob
+    image.destroy! # kill that tempfile
+    blob#{blob: blob, filename: filename, url: url}
   end
 
   # response
