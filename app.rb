@@ -79,14 +79,13 @@ class CatApi < Roda
       else
         response['Content-Type'] = 'application/json'
         text = r.params["text"]
-        if text == "lots"
-          size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 5 }.sample
+        if text == "lots" and !NO_CAT_LIST.include?(r.params["user_name"])
 
-          images = Image.random(5).where{width =~ size.width}.where{height =~ size.height}.all
+          image = Image.random(1)
           ts = Time.now.to_i
           message = {
             response_type: "in_channel",
-            attachments: images.map{|image|
+            attachments: [
               {
                 fallback: "<3 Cats <3",
                 color: "#36a64f",
@@ -96,7 +95,7 @@ class CatApi < Roda
                 thumb_url: image.url,
                 ts: ts
               }
-            }
+            ]
           }
         else
           if NO_CAT_LIST.include?(r.params["user_name"]) and text != "cats are great"
