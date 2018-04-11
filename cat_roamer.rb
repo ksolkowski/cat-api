@@ -30,15 +30,7 @@ module CatRoamer
       image = MiniMagick::Image.open(filename)
     rescue => e
       # image doesn't exist already
-      MiniMagick::Tool::Montage.new do |montage|
-        images.each do |image|
-          montage << MiniMagick::Image.read(image.decoded_image).path
-        end
-        montage.geometry "+0+0"
-        montage << filename
-      end
-
-      image = MiniMagick::Image.open(filename)
+      image = build_montage(images, filename)
     end
 
     blob = image.to_blob
@@ -49,26 +41,31 @@ module CatRoamer
   def open_combined_image(cleaned_key)
     cleaned_key.gsub!(COMBINED, "")
     ids = cleaned_key.split("_")
+    filename = "tmp/#{cleaned_key}.jpg"
     # if the image doesn't exist in tempfile try and build it from the ids
     begin
-      image = MiniMagick::Image.open("tmp/#{cleaned_key}.jpg")
+      image = MiniMagick::Image.open(filename)
     rescue => e
       # image doesn't exist already
       images = Image.where(id: ids).all
-      MiniMagick::Tool::Montage.new do |montage|
-        images.each do |image|
-          montage << MiniMagick::Image.read(image.decoded_image).path
-        end
-        montage.geometry "+0+0"
-        montage << filename
-      end
-
-      image = MiniMagick::Image.open(filename)
+      image = build_montage(images, filename)
     end
 
     blob = image.to_blob
     image.destroy! # kill that tempfile
-    blob#{blob: blob, filename: filename, url: url}
+    blob
+  end
+
+  def build_montage(images, filename)
+    MiniMagick::Tool::Montage.new do |montage|
+      images.each do |image|
+        montage << MiniMagick::Image.read(image.decoded_image).path
+      end
+      montage.geometry "+0+0"
+      montage << filename
+    end
+
+    MiniMagick::Image.open(filename)
   end
 
   # response
