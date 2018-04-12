@@ -40,7 +40,7 @@ namespace :cat_api do
       html = Nokogiri::HTML(open("http://d.hatena.ne.jp/fubirai/?of=#{page}"))
       cat_urls = html.css("img.hatena-fotolife").to_a.map{|child| child.attributes["src"].value }
       puts "grabbing: #{cat_urls.count} urls from page: #{page}"
-      sleep(10)
+      sleep(5)
       cat_urls
     end.flatten
     # remove dups

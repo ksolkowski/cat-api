@@ -23,8 +23,6 @@ class Image < Sequel::Model
     Image.where(hashed_key: hashed_key).first
   end
 
-
-
   def self.random(limit=1)
     images = Image.exclude(hashed_key: MJ_HASHED_KEY).order(Sequel.lit('RANDOM()')).limit(limit)
     if limit == 1

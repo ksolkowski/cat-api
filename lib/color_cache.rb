@@ -25,7 +25,7 @@ module ColorCache
 
   def store_color_infomation
     image = MiniMagick::Image.read(decoded_image)
-    total_pixels = image.data["pixels"]
+    total_pixels = image.dimensions.inject(:*)
     path = image.path
     output = %x(convert #{path} -colors 8 -format "%c" histogram:info:)
 
@@ -45,11 +45,11 @@ module ColorCache
     image.destroy! # remove tempfile
 
     $redis.pipelined do
-      colors.each do |color_code, percentage|
+      colors.each_with_index do |(color_code, percentage), index|
         $redis.zadd(color_key, percentage, color_code)
       end
       color_code, percent = colors.max_by(&:last)
-      $redis.sadd((HIGHEST_COLOR + color_code), id) if index == 0 # should be highest
+      $redis.sadd((HIGHEST_COLOR + color_code), id)
     end
 
     colors.to_h
