@@ -158,7 +158,7 @@ class CatApi < Roda
     r.on "images" do
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
-      if cleaned_key.include?(COMBINED) and cleaned_key.include?(VERSION)
+      if cleaned_key.start_with?(COMBINED) or (cleaned_key.include?(COMBINED) and cleaned_key.include?(VERSION))
         open_combined_image(cleaned_key)
       else
         if image = Image.find_by_hashed_key(cleaned_key)
