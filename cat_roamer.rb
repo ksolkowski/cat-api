@@ -55,15 +55,20 @@ module CatRoamer
     cleaned_key.gsub!(COMBINED, "")
     puts "cleaned_key: #{cleaned_key}"
     if cleaned_key.include?(VERSION)
+      cleaned_key = cleaned_key.split("#{VERSION}/").last
+      puts "split: #{cleaned_key}"
+      filename = "tmp/#{cleaned_key}.jpg"
       cleaned_key = decode_multiple_url(cleaned_key)
+    else
+      filename = "tmp/#{cleaned_key}.jpg"
     end
 
     puts "after cleaned_key: #{cleaned_key}"
 
     ids = cleaned_key.split("_")
 
-    filename = "tmp/#{cleaned_key}.jpg"
     puts "filename: #{filename}"
+
     # if the image doesn't exist in tempfile try and build it from the ids
     begin
       image = MiniMagick::Image.open(filename)
