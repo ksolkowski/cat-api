@@ -34,7 +34,7 @@ module CatRoamer
     images = Image.random(count).where{width =~ size.width}.where{height =~ size.height}.all
     joined_ids = images.map(&:id).join("_")
     encoded = encode_multiple_url(joined_ids)
-    url = File.join ENV["SITE_URL"], 'images', VERSION, (COMBINED + encoded)
+    url = File.join ENV["SITE_URL"], 'images', VERSION, (COMBINED + encoded + ".jpg")
 
     filename = "tmp/#{encoded}.jpg"
     puts "filename: #{filename}"
@@ -47,7 +47,7 @@ module CatRoamer
 
     blob = image.to_blob
     image.destroy! # kill that tempfile
-    puts "url: #{url}"
+
     {blob: blob, filename: filename, url: url}
   end
 
