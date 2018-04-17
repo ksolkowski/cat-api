@@ -88,7 +88,12 @@ class CatApi < Roda
       response['Content-Type'] = 'application/json'
       text = r.params["text"]
       if text == "lots"
-        image = combine_some_cats
+        if r.params["user_name"] == 'kevin'
+          count = 8
+        else
+          count = 6
+        end
+        image = combine_some_cats(count)
         ts = Time.now.to_i
         message = {
           response_type: "in_channel",
