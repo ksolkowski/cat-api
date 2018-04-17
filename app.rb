@@ -111,6 +111,7 @@ class CatApi < Roda
           title = "Come back when you have a cat"
         else
           image = fetch_random_cat
+
           title = "Check out this cat"
           buttons = {
             fallback: "These cats are so cute.",
