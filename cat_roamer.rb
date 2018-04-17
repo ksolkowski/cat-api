@@ -37,6 +37,7 @@ module CatRoamer
     url = File.join ENV["SITE_URL"], 'images', VERSION, (COMBINED + encoded)
 
     filename = "tmp/#{encoded}.jpg"
+    puts "filename: #{filename}"
     begin
       image = MiniMagick::Image.open(filename)
     rescue => e
@@ -46,18 +47,23 @@ module CatRoamer
 
     blob = image.to_blob
     image.destroy! # kill that tempfile
-
+    puts "url: #{url}"
     {blob: blob, filename: filename, url: url}
   end
 
   def open_combined_image(cleaned_key)
     cleaned_key.gsub!(COMBINED, "")
+    puts "cleaned_key: #{cleaned_key}"
     if cleaned_key.include?(VERSION)
       cleaned_key = decode_multiple_url(cleaned_key)
     end
 
+    puts "after cleaned_key: #{cleaned_key}"
+
     ids = cleaned_key.split("_")
+
     filename = "tmp/#{cleaned_key}.jpg"
+    puts "filename: #{filename}"
     # if the image doesn't exist in tempfile try and build it from the ids
     begin
       image = MiniMagick::Image.open(filename)
