@@ -7,6 +7,7 @@ module CatRoamer
   AWW   = "aww"
   DAWWW = "dawww"
   COMBINED = "combined:"
+  VERSION = "v1"
 
   def fetch_random_cat
     hashed_key = $redis.srandmember(STORED_HASH_KEY)
@@ -19,13 +20,23 @@ module CatRoamer
     $redis.sismember(STORED_HASH_KEY, hashed_key)
   end
 
+  def encode_multiple_url(joined_ids)
+    Base64.encode64(joined_ids)
+  end
+
+  def decode_multiple_url(url)
+    Base64.decode64(url)
+  end
+
   # responds with a raw blob
   def combine_some_cats(count=6)
     size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
     images = Image.random(count).where{width =~ size.width}.where{height =~ size.height}.all
     joined_ids = images.map(&:id).join("_")
-    url = File.join ENV["SITE_URL"], 'images', COMBINED + joined_ids
-    filename = "tmp/#{joined_ids}.jpg"
+    encoded = encode_multiple_url(joined_ids)
+    url = File.join ENV["SITE_URL"], 'images', VERSION, (COMBINED + encoded)
+
+    filename = "tmp/#{encoded}.jpg"
     begin
       image = MiniMagick::Image.open(filename)
     rescue => e
@@ -35,11 +46,16 @@ module CatRoamer
 
     blob = image.to_blob
     image.destroy! # kill that tempfile
+
     {blob: blob, filename: filename, url: url}
   end
 
   def open_combined_image(cleaned_key)
     cleaned_key.gsub!(COMBINED, "")
+    if cleaned_key.include?(VERSION)
+      cleaned_key = decode_multiple_url(cleaned_key)
+    end
+
     ids = cleaned_key.split("_")
     filename = "tmp/#{cleaned_key}.jpg"
     # if the image doesn't exist in tempfile try and build it from the ids
