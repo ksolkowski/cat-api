@@ -30,14 +30,16 @@ module CatRoamer
 
   # responds with a raw blob
   def combine_some_cats(count=6)
+    puts "combine_some_cats"
     size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
     images = Image.random(count).where{width =~ size.width}.where{height =~ size.height}.all
     joined_ids = images.map(&:id).join("_")
-    encoded = encode_multiple_url(joined_ids)
-    url = File.join ENV["SITE_URL"], 'images', VERSION, (COMBINED + encoded + ".jpg")
+    #encoded = encode_multiple_url(joined_ids)
+    url = File.join ENV["SITE_URL"], 'images', VERSION, (COMBINED + joined_ids + ".jpg")
 
-    filename = "tmp/#{encoded}.jpg"
+    filename = "tmp/#{joined_ids}.jpg"
     puts "filename: #{filename}"
+    puts "url: #{url}"
     begin
       image = MiniMagick::Image.open(filename)
     rescue => e
@@ -52,13 +54,14 @@ module CatRoamer
   end
 
   def open_combined_image(cleaned_key)
+    puts "open_combined_image"
     cleaned_key.gsub!(COMBINED, "")
     puts "cleaned_key: #{cleaned_key}"
     if cleaned_key.include?(VERSION)
       cleaned_key = cleaned_key.split("#{VERSION}/").last
       puts "split: #{cleaned_key}"
       filename = "tmp/#{cleaned_key}.jpg"
-      cleaned_key = decode_multiple_url(cleaned_key)
+      #cleaned_key = decode_multiple_url(cleaned_key)
     else
       filename = "tmp/#{cleaned_key}.jpg"
     end
