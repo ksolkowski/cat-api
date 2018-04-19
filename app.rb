@@ -88,7 +88,7 @@ class CatApi < Roda
       response['Content-Type'] = 'application/json'
       text = r.params["text"]
       if text == "lots"
-        count = (r.params["user_name"] == 'kevin' ? 8 : 6)
+        count = (r.params["user_name"] == 'kevin' ? 12 : 8)
         image = combine_some_cats(count)
         ts = Time.now.to_i
         message = {
