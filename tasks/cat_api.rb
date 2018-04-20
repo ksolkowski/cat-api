@@ -65,8 +65,18 @@ namespace :cat_api do
       sleep(10)
       cat_urls
     end.flatten.select{|url| url.include?("https") }
+
+    mapped_urls = all_cat_urls.inject({}){|h,x| h[x]=x.gsub(/(http|https):\/\//, "");h }
     # remove dups
-    all_cat_urls = (all_cat_urls - Image.where(original_url: all_cat_urls).select_map(:original_url))
-    Image.save_and_store_urls(all_cat_urls)
+    already = Image.where(original_url: mapped_urls.values).select_map(:original_url)
+
+    puts "chekcing #{mapped_urls.keys.count} url"
+    mapped_urls.reject! do |k, v|
+      already.include?(v)
+    end
+
+    puts "saving #{mapped_urls.keys.count} new urls"
+
+    Image.save_and_store_urls(mapped_urls.keys)
   end
 end
