@@ -32,9 +32,9 @@ namespace :cat_api do
     map(:url).group_by{|x| x }.reject{|x,y| y.count == 1 }.values
     puts "found #{dups.count} dup cat urls"
     dups.each do |dup_urls|
-      dup_urls.each do |url|
-        next if url.include?("https:")
-        image = Image.where(original_url: url).first
+      url = dup_urls.first
+      Image.where(Sequel.like(:original_url, "%" + url)).each do |image|
+        next if image.original_url.include?("https:")
         image.destroy
       end
     end
