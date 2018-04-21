@@ -1,7 +1,7 @@
 module ColorCache
   include ColorDiff
   COLOR_KEY     = "colors:images:" # used by image instance to store all their colors
-  HIGHEST_COLOR = "colors:images:ids:" # used for storing colors and what images have them {color-code: [image_ids]}
+  HIGHEST_COLOR = "colors:highest:" # used for storing colors and what images have them {color-code: [image_ids]}
 
   def self.included(base)
     base.extend(ClassMethods)
@@ -13,7 +13,12 @@ module ColorCache
     end
 
     def all_color_keys
-      @all_color_keys ||= $redis.keys("colors:images:ids:*").map{|key| key.gsub(Image::HIGHEST_COLOR, "") }
+      @all_color_keys ||= $redis.keys(HIGHEST_COLOR + "*").map{|key| key.gsub(HIGHEST_COLOR, "") }
+    end
+
+    def populate_missing_colors
+      all_image_ids = $redis.keys(COLOR_KEY + "*").map{|key| key.gsub(COLOR_KEY, "") }
+      exclude(id: all_image_ids).each(&:color_info)
     end
 
     def closest_stored_color(color)
@@ -48,8 +53,9 @@ module ColorCache
   # [rows([[color, image_id])]
   def build_composite_image(mapped_pixels)
     mapped_saved_image_paths = []
-    mapped_pixels.each do |row|
+    mapped_pixels.each_with_index do |row, i|
       mapped_saved_image_row = []
+      puts "looking for #{row.count} things...#{i+1}"
       row.each do |(color, row_image_id)|
         image = Image[row_image_id]
         mapped_saved_image_row << image.colorize_image(color)
@@ -58,35 +64,67 @@ module ColorCache
       mapped_saved_image_paths << mapped_saved_image_row
     end
 
-    filename = "tmp/all_combined.jpg"
-    MiniMagick::Tool::Montage.new do |montage|
-      mapped_saved_image_paths.each do |image_path|
-        puts "adding #{image_path}"
-        montage << image_path
+    filenames = []
+    new_image_height = mapped_saved_image_paths.count
+    new_image_width = mapped_saved_image_paths.first.count
+    mapped_saved_image_paths.each_with_index do |row_images, i|
+      filename = "tmp/composite_#{id}_#{i}.jpg"
+      MiniMagick::Tool::Montage.new do |montage|
+
+        row_images.each do |image_path|
+          montage << image_path
+        end
+
+        puts "#{i+1}" if i % 10 == 0
+
+        montage.geometry "+0+0"
+
+        montage.tile "#{row_images.count}x1" # width x height
+
+        montage << filename
       end
 
-      montage.geometry "10x10>+0+0"
+      filenames << filename
+    end
+    puts "combined all them images now making one big one"
 
-      montage << filename
+    MiniMagick::Tool::Montage.new do |montage|
+      filenames.each do |filename|
+        montage << filename
+      end
+
+      montage.geometry "+0+0"
+
+      montage.tile "1x#{filenames.count}" # width x height
+
+      montage << "tmp/end_composite_#{id}.jpg"
     end
 
-    filename
+  end
+
+  def do_all
+    mapped = find_and_map_similar_images
+    puts "built the map"
+    build_composite_image(mapped)
   end
 
   # https://github.com/nazarhussain/camalian
 
   def find_and_map_similar_images
     image = MiniMagick::Image.read(decoded_image)
-    pixels = image.get_pixels
+    shrunk_image = image.combine_options{|x| x.resize "#{width/5}x" }
+    pixels = shrunk_image.get_pixels
+    shrunk_image.destroy!
     mapped_pixels = [] # pixel to image id
-    total = pixels.count
-    puts "looking at #{total} rows"
+    total = pixels.count # IS THE HEIGHT
+    puts "looking at #{total} height and #{pixels.first.count} width"
 
-    pixels.first(1).each_with_index do |row, i|
+    pixels.each_with_index do |row, i|
       i = (i+1)
       mapped_row = []
-      row.first(10).each do |column|
-        color_string = column.join(",")
+      row.each do |column|
+        # color_string = column.join(",")
+        color_string = column.map{|x| x.round(-1) }.join(",") # round to nearest 10
         like_color_id = Image.find_like_color(color_string)
         mapped_row << [color_string, like_color_id]
       end
@@ -96,7 +134,7 @@ module ColorCache
       mapped_pixels << mapped_row
     end
 
-    image.destroy!
+    #image.destroy!
 
     mapped_pixels
   end
@@ -156,17 +194,16 @@ module ColorCache
     size = ""
     filename = "tmp/#{id}_#{fill_color.gsub(",", "_")}_converted.jpg"
      # if the image doesn't exist in tempfile try and build it from the ids
-    begin
-      image = MiniMagick::Image.open(filename)
-      image.destroy! # close the door!
-    rescue => e
+    unless File.exists?(filename)
       # image doesn't exist already
       image = MiniMagick::Image.read(decoded_image)
       content = MiniMagick::Tool::Convert.new do |convert|
         convert << image.path
         convert.fill fill
         convert.colorize "75%"
-        convert.crop "100x100>"
+        convert.resize "50x50^"
+        convert.gravity "center"
+        convert.crop "50x50+0+0"
         convert << filename
       end
     end

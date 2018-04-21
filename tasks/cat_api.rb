@@ -77,6 +77,6 @@ namespace :cat_api do
 
     puts "saving #{mapped_urls.keys.count} new urls"
 
-    Image.save_and_store_urls(mapped_urls.keys)
+    Image.save_and_store_urls(mapped_urls.keys, 1)
   end
 end
