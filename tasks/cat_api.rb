@@ -26,6 +26,28 @@ namespace :cat_api do
     clear_and_store_cat_keys
   end
 
+  desc "cleans dup imagse"
+  task clean_dup_images: :app do
+    dups = DB["select regexp_replace(images.original_url, 'http|https' ,'', 'g') as url from images"].
+    map(:url).group_by{|x| x }.reject{|x,y| y.count == 1 }.values
+    puts "found #{dups.count} dup cat urls"
+    dups.each do |dup_urls|
+      url = dup_urls.first
+      Image.where(Sequel.like(:original_url, "%" + url)).each do |image|
+        next if image.original_url.include?("https:")
+        image.destroy
+      end
+    end
+  end
+
+  task clean_original_urls: :app do
+    Image.where(Sequel.like(:original_url, "http%")).each do |image|
+      new_url = image.original_url.gsub(/(http|https):\/\//, "")
+      image.original_url = new_url
+      image.save(validate: false)
+    end
+  end
+
   task save_mj_cat: :app do
     url = "http://nbacatwatch.com/wp-content/uploads/2017/10/f98a5f820283e9fada580d5f6d2f3e81.jpg"
     Image.new(original_url: url).save
@@ -42,9 +64,19 @@ namespace :cat_api do
       puts "grabbing: #{cat_urls.count} urls from page: #{page}"
       sleep(10)
       cat_urls
-    end.flatten
+    end.flatten.select{|url| url.include?("https") }
+
+    mapped_urls = all_cat_urls.inject({}){|h,x| h[x]=x.gsub(/(http|https):\/\//, "");h }
     # remove dups
-    all_cat_urls = (all_cat_urls - Image.where(original_url: all_cat_urls).select_map(:original_url))
-    Image.save_and_store_urls(all_cat_urls)
+    already = Image.where(original_url: mapped_urls.values).select_map(:original_url)
+
+    puts "chekcing #{mapped_urls.keys.count} url"
+    mapped_urls.reject! do |k, v|
+      already.include?(v)
+    end
+
+    puts "saving #{mapped_urls.keys.count} new urls"
+
+    Image.save_and_store_urls(mapped_urls.keys)
   end
 end

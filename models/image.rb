@@ -4,6 +4,7 @@ class Image < Sequel::Model
 
   def before_create
     data = open(self.original_url)
+    self.original_url = self.original_url.gsub(/(http|https):\/\//, "") # clean the url
     self.encoded_image = Base64.encode64(data.read)
     self.hashed_key    = Digest::SHA1.hexdigest(self.original_url)
     self.width  = sizes.width

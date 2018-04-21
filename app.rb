@@ -5,6 +5,7 @@ require "json"
 require "open-uri"
 require "sequel"
 require "image_size"
+require "mini_magick"
 
 ENV["SITE_URL"] ||= "https://catapi.localtunnel.me"
 ENV["RACK_ENV"] ||= "development"
@@ -36,6 +37,17 @@ class CatApi < Roda
       "hello"
     end
 
+    r.on "all_cats" do
+      size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
+
+      images = Image.random(20).where{width =~ size.width}.where{height =~ size.height}.all
+
+      width  = (size.width / 4)
+      height = (size.height / 4)
+      images.map{|image| "<img src=\"data:image/jpg;base64,#{image.encoded_image}\" width=\"#{width}\" height=\"#{height}\"></img>" }.
+      each_slice(5).to_a.map{|x| x.join("") }.join("<br>")
+    end
+
     r.on "stats" do
       "#{Image.count} images in database. #{$redis.scard(STORED_HASH_KEY)} images in cache"
     end
@@ -60,18 +72,46 @@ class CatApi < Roda
       end
     end
 
-    r.on "cats" do
-      if r.is_get?
-        response['Content-Type'] = "image/jpeg"
+    r.on "combine" do
+      response['Content-Type'] = "image/jpeg"
+      combination = combine_some_cats
+      combination[:blob] # responds with the created image blob
+    end
 
-        fetch_random_cat.decoded_image
+    r.get "cats" do
+      response['Content-Type'] = "image/jpeg"
+
+      fetch_random_cat.decoded_image
+    end
+
+    r.post "cats" do
+      response['Content-Type'] = 'application/json'
+      text = r.params["text"]
+      if text == "lots"
+        count = (r.params["user_name"] == 'kevin' ? 12 : 8)
+        image = combine_some_cats(count)
+        ts = Time.now.to_i
+        message = {
+          response_type: "in_channel",
+          attachments: [
+            {
+              fallback: "<3 Cats <3",
+              color: "#36a64f",
+              title_link: "Cats",
+              fields: [],
+              image_url: image[:url],
+              thumb_url: image[:url],
+              ts: ts
+            }
+          ]
+        }
       else
-        response['Content-Type'] = 'application/json'
-        if NO_CAT_LIST.include?(r.params["user_name"]) and r.params["text"] != "cats are great"
+        if NO_CAT_LIST.include?(r.params["user_name"]) and text != "cats are great"
           image = Image.find_by_hashed_key(Image::MJ_HASHED_KEY)
           title = "Come back when you have a cat"
         else
           image = fetch_random_cat
+
           title = "Check out this cat"
           buttons = {
             fallback: "These cats are so cute.",
@@ -109,21 +149,24 @@ class CatApi < Roda
             }
           ]
         }
-
-        message[:attachments].push(buttons) unless buttons.nil?
-
-        message.to_json
       end
+
+      message[:attachments].push(buttons) unless buttons.nil?
+
+      message.to_json
     end
 
     r.on "images" do
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
-
-      if image = Image.find_by_hashed_key(cleaned_key)
-        image.decoded_image
-      elsif random_cat = fetch_random_cat
-        random_cat.decoded_image
+      if cleaned_key.start_with?(COMBINED) or (cleaned_key.include?(COMBINED) and cleaned_key.include?(VERSION))
+        open_combined_image(cleaned_key)
+      else
+        if image = Image.find_by_hashed_key(cleaned_key)
+          image.decoded_image
+        elsif random_cat = fetch_random_cat
+          random_cat.decoded_image
+        end
       end
     end
 
