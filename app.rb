@@ -93,7 +93,8 @@ class CatApi < Roda
       response['Content-Type'] = 'application/json'
       text = r.params["text"]
       if text == "lots"
-        image = combine_some_cats
+        count = (r.params["user_name"] == 'kevin' ? 12 : 8)
+        image = combine_some_cats(count)
         ts = Time.now.to_i
         message = {
           response_type: "in_channel",
@@ -115,6 +116,7 @@ class CatApi < Roda
           title = "Come back when you have a cat"
         else
           image = fetch_random_cat
+
           title = "Check out this cat"
           buttons = {
             fallback: "These cats are so cute.",
@@ -162,7 +164,7 @@ class CatApi < Roda
     r.on "images" do
       cleaned_key = request.remaining_path[1..-1].gsub(".jpg", "")
       response['Content-Type'] = "image/jpeg"
-      if cleaned_key.start_with?(COMBINED)
+      if cleaned_key.start_with?(COMBINED) or (cleaned_key.include?(COMBINED) and cleaned_key.include?(VERSION))
         open_combined_image(cleaned_key)
       else
         if image = Image.find_by_hashed_key(cleaned_key)
