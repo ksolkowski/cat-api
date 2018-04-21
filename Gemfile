@@ -10,6 +10,7 @@ gem "erubis"
 gem "nokogiri"
 # gem 'easy_translate'
 gem "mini_magick"
+gem "color_diff"
 gem "sequel"
 gem "pg"
 

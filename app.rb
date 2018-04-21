@@ -6,6 +6,7 @@ require "open-uri"
 require "sequel"
 require "image_size"
 require "mini_magick"
+require "color_diff"
 
 ENV["SITE_URL"] ||= "https://catapi.localtunnel.me"
 ENV["RACK_ENV"] ||= "development"
@@ -80,6 +81,13 @@ class CatApi < Roda
     r.on "combine" do
       response['Content-Type'] = "image/jpeg"
       combination = combine_some_cats
+      combination[:blob] # responds with the created image blob
+    end
+
+    r.on "tile" do
+      response['Content-Type'] = "image/jpeg"
+      commands = {tile: '3x3', tint: '90', fill: 'blue'}
+      combination = combine_some_cats(9, commands)
       combination[:blob] # responds with the created image blob
     end
 

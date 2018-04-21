@@ -21,28 +21,28 @@ module CatRoamer
   end
 
   def encode_multiple_url(joined_ids)
-    Base64.encode64(joined_ids)
+    Base64.encode64(joined_ids).gsub("\n", "").gsub("?", "_question_").gsub("=", "_equals_")
   end
 
   def decode_multiple_url(url)
-    Base64.decode64(url)
+    Base64.decode64(url).gsub("_question_", "?").gsub("_equals_", "=")
   end
 
   # responds with a raw blob
-  def combine_some_cats(count=6)
+  def combine_some_cats(count=6, montage_commands={})
     size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
     images = Image.random(count).where{width =~ size.width}.where{height =~ size.height}.all
     joined_ids = images.map(&:id).join("_")
-    #encoded = encode_multiple_url(joined_ids)
-    url = File.join ENV["SITE_URL"], 'images', VERSION, (COMBINED + joined_ids + ".jpg")
+    encoded = encode_multiple_url(joined_ids)
+    url = File.join ENV["SITE_URL"], 'images', VERSION, (COMBINED + encoded + ".jpg")
 
-    filename = "tmp/#{joined_ids}.jpg"
+    filename = "tmp/#{encoded}.jpg"
 
     begin
       image = MiniMagick::Image.open(filename)
     rescue => e
       # image doesn't exist already
-      image = build_montage(images, filename)
+      image = build_montage(images, filename, montage_commands)
     end
 
     blob = image.to_blob
@@ -56,9 +56,9 @@ module CatRoamer
 
     if cleaned_key.include?(VERSION)
       cleaned_key = cleaned_key.split("#{VERSION}/").last
+      filename = "tmp/#{cleaned_key}.jpg"
+      cleaned_key = decode_multiple_url(cleaned_key)
     end
-
-    filename = "tmp/#{cleaned_key}.jpg"
 
     ids = cleaned_key.split("_")
 
@@ -76,12 +76,17 @@ module CatRoamer
     blob
   end
 
-  def build_montage(images, filename)
+  def build_montage(images, filename, montage_commands={})
+    montage_commands[:geometry] ||= "+0+0"
+    puts montage_commands.inspect
     MiniMagick::Tool::Montage.new do |montage|
       images.each do |image|
         montage << MiniMagick::Image.read(image.decoded_image).path
       end
-      montage.geometry "+0+0"
+      montage_commands.each do |command, arg|
+        next unless montage.respond_to?(command)
+        montage.send(command, arg)
+      end
       montage << filename
     end
 

@@ -4,6 +4,7 @@ GEM
     celluloid (0.16.0)
       timers (~> 4.0.0)
     clap (1.0.0)
+    color_diff (0.1)
     daemons (1.2.6)
     erubis (2.7.0)
     eventmachine (1.2.5)
@@ -48,6 +49,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  color_diff
   erubis
   image_size
   mini_magick
