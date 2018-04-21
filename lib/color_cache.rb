@@ -125,9 +125,10 @@ module ColorCache
 
   # https://github.com/nazarhussain/camalian
 
-  def find_and_map_similar_images
+  def find_and_map_similar_images(scale=5)
     image = MiniMagick::Image.read(decoded_image)
-    shrunk_image = image.combine_options{|x| x.resize "#{width/5}x" }
+    shrunk_image = image.combine_options{|x| x.resize "#{width/scale}x" }
+    # image.destroy!
     pixels = shrunk_image.get_pixels
     shrunk_image.destroy!
     mapped_pixels = [] # pixel to image id
@@ -148,8 +149,6 @@ module ColorCache
 
       mapped_pixels << mapped_row
     end
-
-    #image.destroy!
 
     mapped_pixels
   end
