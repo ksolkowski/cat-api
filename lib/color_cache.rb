@@ -18,7 +18,13 @@ module ColorCache
 
     def populate_missing_colors
       all_image_ids = $redis.keys(COLOR_KEY + "*").map{|key| key.gsub(COLOR_KEY, "") }
-      exclude(id: all_image_ids).each(&:color_info)
+      images = exclude(id: all_image_ids)
+      total = images.count
+      puts "found #{total} that need to be populated"
+      images.each_with_index do |image, i|
+        image.color_info
+        puts "#{i+1}/#{total}" if (i+1) % 10 == 0
+      end
     end
 
     def closest_stored_color(color)
@@ -28,16 +34,18 @@ module ColorCache
     def find_like_color(color)
       major_color_images = image_ids_by_color(color)
       @like_color ||= {}
+      @used_images ||= Hash.new(0) # color: image_ids
       if major_color_images.empty?
         closet_color = @like_color[color]
         if closet_color.nil?
           closet_color = closest_stored_color(color)
           @like_color[color] = closet_color
         end
-        image_ids_by_color(closet_color).sample
-      else
-        id = major_color_images.sample
+        major_color_images = image_ids_by_color(closet_color)
       end
+      image_id = major_color_images.min_by{|id| @used_images[id] }
+      @used_images[image_id] += 1
+      image_id
     end
 
     def color_difference(color1, color2)
@@ -55,11 +63,13 @@ module ColorCache
     mapped_saved_image_paths = []
     mapped_pixels.each_with_index do |row, i|
       mapped_saved_image_row = []
-      puts "looking for #{row.count} things...#{i+1}"
+
       row.each do |(color, row_image_id)|
         image = Image[row_image_id]
         mapped_saved_image_row << image.colorize_image(color)
       end
+
+      puts "#{i+1}" if (i+1) % 10 == 0
 
       mapped_saved_image_paths << mapped_saved_image_row
     end
@@ -70,12 +80,11 @@ module ColorCache
     mapped_saved_image_paths.each_with_index do |row_images, i|
       filename = "tmp/composite_#{id}_#{i}.jpg"
       MiniMagick::Tool::Montage.new do |montage|
-
         row_images.each do |image_path|
           montage << image_path
         end
 
-        puts "#{i+1}" if i % 10 == 0
+        puts "#{i+1}" if (i+1) % 10 == 0
 
         montage.geometry "+0+0"
 
@@ -86,6 +95,7 @@ module ColorCache
 
       filenames << filename
     end
+
     puts "combined all them images now making one big one"
 
     MiniMagick::Tool::Montage.new do |montage|
@@ -94,9 +104,7 @@ module ColorCache
       end
 
       montage.geometry "+0+0"
-
       montage.tile "1x#{filenames.count}" # width x height
-
       montage << "tmp/end_composite_#{id}.jpg"
     end
 

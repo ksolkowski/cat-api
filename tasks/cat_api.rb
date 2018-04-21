@@ -53,6 +53,34 @@ namespace :cat_api do
     Image.new(original_url: url).save
   end
 
+  task save_from_gist: :app do
+    url = "https://gist.githubusercontent.com/ksolkowski/d7e8ee8b63859b011a2f/raw"
+    all_urls = open(url).read
+    all_cat_urls = JSON.parse(all_urls).sample(100)
+
+    mapped_urls = all_cat_urls.inject({}){|h,x| h[x]=x.gsub(/(http|https):\/\//, "");h }
+    # remove dups
+    already = Image.where(original_url: mapped_urls.values).select_map(:original_url)
+
+    puts "chekcing #{mapped_urls.keys.count} url"
+    mapped_urls.reject! do |k, v|
+      already.include?(v)
+    end
+
+    puts "saving #{mapped_urls.keys.count} new urls"
+
+    a = mapped_urls.keys.map{|x| x.gsub("http://", "https://") }
+
+    Image.save_and_store_urls(a, 1)
+
+    Image.populate_missing_colors
+  end
+
+  task populate_missing_colors: :app do
+    Image.populate_missing_colors
+  end
+
+
   desc "fetches and saves cats into the database and sets their hashed_keys in redis"
   task save_and_set_cats: :app do
     random_pages = (0..2010).to_a.sample(5) # just pick a number
@@ -73,7 +101,7 @@ namespace :cat_api do
     puts "chekcing #{mapped_urls.keys.count} url"
     mapped_urls.reject! do |k, v|
       already.include?(v)
-    end
+    end.
 
     puts "saving #{mapped_urls.keys.count} new urls"
 
