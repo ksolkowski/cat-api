@@ -8,6 +8,11 @@ module ColorCache
   end
 
   module ClassMethods
+    def clear_colors
+      $redis.keys(HIGHEST_COLOR + "*").map{|x| $redis.del(x) }.count
+      $redis.keys(COLOR_KEY + "*").map{|x| $redis.del(x) }.count
+    end
+
     def image_ids_by_color(color)
       $redis.smembers HIGHEST_COLOR + color
     end
