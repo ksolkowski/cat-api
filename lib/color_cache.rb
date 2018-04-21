@@ -79,6 +79,8 @@ module ColorCache
       mapped_saved_image_paths << mapped_saved_image_row
     end
 
+    puts "pre-generated images. now gunna save them."
+
     filenames = []
     new_image_height = mapped_saved_image_paths.count
     new_image_width = mapped_saved_image_paths.first.count
