@@ -90,7 +90,7 @@ class CatApi < Roda
       rude = false
 
       if text.include?("lots") and !NO_CAT_LIST.include?(r.params["user_name"])
-        count = text.split("lots").last
+        count = text.split("lots").last.strip
         rude = !(count =~ /\D/).nil?
 
         title = "Why you have to be so rude"
