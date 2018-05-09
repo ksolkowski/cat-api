@@ -65,9 +65,10 @@ end
 
   # responds with a raw blob
   def combine_some_cats(count=6)
+    count = count.abs
     count = 30 if count >= 30
     count = 2 if count == 1
-    count = count.abs
+
     size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
     images = Image.random(count).where{width =~ size.width}.where{height =~ size.height}.all
     joined_ids = images.map(&:id).join("_")
