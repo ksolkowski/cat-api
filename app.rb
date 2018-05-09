@@ -97,7 +97,7 @@ class CatApi < Roda
       end
 
       if !rude and text.include?("lots") and !NO_CAT_LIST.include?(r.params["user_name"])
-        count = text.split("lots").last
+        count = text.split("lots").last.strip
         count ||= 12
 
         begin
