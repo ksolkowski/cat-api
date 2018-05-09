@@ -87,7 +87,16 @@ class CatApi < Roda
     r.post "cats" do
       response['Content-Type'] = 'application/json'
       text = r.params["text"]
+      rude = false
+
       if text.include?("lots") and !NO_CAT_LIST.include?(r.params["user_name"])
+        count = text.split("lots").last
+        rude = !(count =~ /\D/).nil?
+
+        title = "Why you have to be so rude"
+      end
+
+      if !rude and text.include?("lots") and !NO_CAT_LIST.include?(r.params["user_name"])
         count = text.split("lots").last
         count ||= 12
 
@@ -115,9 +124,9 @@ class CatApi < Roda
           ]
         }
       else
-        if NO_CAT_LIST.include?(r.params["user_name"]) and text != "cats are great"
+        if rude or NO_CAT_LIST.include?(r.params["user_name"]) and text != "cats are great"
           image = Image.find_by_hashed_key(Image::MJ_HASHED_KEY)
-          title = "Come back when you have a cat"
+          title = "Come back when you have a cat" if !rude
         else
           image = fetch_random_cat || Image.random()
 
