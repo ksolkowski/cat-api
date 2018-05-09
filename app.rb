@@ -87,9 +87,18 @@ class CatApi < Roda
     r.post "cats" do
       response['Content-Type'] = 'application/json'
       text = r.params["text"]
-      if text == "lots"
-        count = (r.params["user_name"] == 'kevin' ? 12 : 8)
+      if text.include?("lots")
+        count = text.split("lots").last
+        count ||= 12
+
+        begin
+          count = adjust_image_count(count.to_i)
+        rescue => e
+          count = 12
+        end
+
         image = combine_some_cats(count)
+
         ts = Time.now.to_i
         message = {
           response_type: "in_channel",

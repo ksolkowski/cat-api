@@ -9,6 +9,41 @@ module CatRoamer
   COMBINED = "combined:"
   VERSION = "v1"
 
+  DEFAULT_TILING = {
+    1 => "1x1",
+    2 => "2x1",
+    3 => "3x1",
+    4 => "2x2",
+    5..6 => "3x2",
+    7..8 => "4x2",
+    9 => "3x3",
+    10..12 => "4x3",
+    13..15 => "5x3",
+    16..20 => "5x4",
+    21..24 => "6x4",
+    25 => "5x5",
+    26..30 => "6x5",
+    31..36 => "7x5",
+    31..35 => "7x5",
+    36 => "6x6",
+    37..42 => "7x6",
+    43..48 => "8x6"
+  }
+
+
+def adjust_image_count(count)
+  range, tile = DEFAULT_TILING.find{|x, y| x == count or (x.is_a?(Range) and x.include?(count)) }
+
+  return 12 if range.nil?
+
+  # if it's a range and not the top number
+  if range.is_a?(Range)
+    count = range.max
+  end
+
+  count
+end
+
   def fetch_random_cat
     hashed_key = $redis.srandmember(STORED_HASH_KEY)
     if hashed_key
