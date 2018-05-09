@@ -97,9 +97,7 @@ class CatApi < Roda
           count = 12
         end
 
-        if count > 30
-          count = 30
-        end
+        count = 20 if count > 20
 
         image = combine_some_cats(count)
 
