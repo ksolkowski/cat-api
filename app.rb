@@ -87,7 +87,7 @@ class CatApi < Roda
     r.post "cats" do
       response['Content-Type'] = 'application/json'
       text = r.params["text"]
-      if text.include?("lots")
+      if text.include?("lots") and !NO_CAT_LIST.include?(r.params["user_name"])
         count = text.split("lots").last
         count ||= 12
 
