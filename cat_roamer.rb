@@ -65,6 +65,7 @@ end
 
   # responds with a raw blob
   def combine_some_cats(count=6)
+    count = 30 if count >= 30
     size = Image.group_and_count(:width, :height).all.select{|x| x[:count] > 100 }.sample
     images = Image.random(count).where{width =~ size.width}.where{height =~ size.height}.all
     joined_ids = images.map(&:id).join("_")
@@ -73,15 +74,19 @@ end
 
     filename = "tmp/#{joined_ids}.jpg"
 
-    begin
-      image = MiniMagick::Image.open(filename)
-    rescue => e
-      # image doesn't exist already
-      image = build_montage(images, filename)
-    end
+    if count >= 10
+      blob = "blob"
+    else
+      begin
+        image = MiniMagick::Image.open(filename)
+      rescue => e
+        # image doesn't exist already
+        image = build_montage(images, filename)
+      end
 
-    blob = image.to_blob
-    image.destroy! # kill that tempfile
+      blob = image.to_blob
+      image.destroy! # kill that tempfile
+    end
 
     {blob: blob, filename: filename, url: url}
   end

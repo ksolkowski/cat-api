@@ -97,8 +97,6 @@ class CatApi < Roda
           count = 12
         end
 
-        count = 20 if count > 20
-
         image = combine_some_cats(count)
 
         ts = Time.now.to_i
@@ -121,7 +119,7 @@ class CatApi < Roda
           image = Image.find_by_hashed_key(Image::MJ_HASHED_KEY)
           title = "Come back when you have a cat"
         else
-          image = fetch_random_cat
+          image = fetch_random_cat || Image.random()
 
           title = "Check out this cat"
           buttons = {
