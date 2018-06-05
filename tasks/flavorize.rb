@@ -63,7 +63,7 @@ namespace :flavorize do
       sg = SendGrid::API.new(api_key: ENV["SENDGRID_API_KEY"])
 
       response = sg.client.mail._('send').post(request_body: mail.to_json)
-      puts "sent #{i}/#{total}"
+      puts "sent #{i}/#{total} response: #{response.inspect}"
       sleep 20
     end
 
