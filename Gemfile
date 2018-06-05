@@ -10,8 +10,11 @@ gem "erubis"
 gem "nokogiri"
 # gem 'easy_translate'
 gem "mini_magick"
+gem "color_diff"
 gem "sequel"
 gem "pg"
+
+gem 'sendgrid-ruby'
 
 gem "puma"
 gem "rake"
