@@ -8,7 +8,7 @@ require 'open-uri'
 namespace :flavorize do
   include SendGrid
 
-  desc "really?"
+  desc "TO_EMAIL=youremailhere"
   task do_it: :app do
     next if ENV["FROM_EMAIL"].nil? or ENV["TO_EMAIL"].nil? or ENV["SENDGRID_API_KEY"].nil?
     url = "https://www.oscarscustard.com/flavors.html"
