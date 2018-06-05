@@ -10,6 +10,7 @@ namespace :flavorize do
 
   desc "TO_EMAIL=youremailhere"
   task flavors: :app do
+    puts "any nil? #{ENV["FROM_EMAIL"].nil? or ENV["TO_EMAIL"].nil? or ENV["SENDGRID_API_KEY"].nil?}"
     next if ENV["FROM_EMAIL"].nil? or ENV["TO_EMAIL"].nil? or ENV["SENDGRID_API_KEY"].nil?
     url = "https://www.oscarscustard.com/flavors.html"
 
@@ -36,6 +37,8 @@ namespace :flavorize do
     # end
 
     days = days.reject{|day, flavor| day.to_i < today }
+
+    puts "sending #{days}"
 
     #'2622259396@vtext.com'
     split_messages = []
