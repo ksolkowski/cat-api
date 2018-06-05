@@ -60,8 +60,8 @@ namespace :flavorize do
       i = index + 1
       from = Email.new(email: ENV["FROM_EMAIL"])
       to = Email.new(email: ENV["TO_EMAIL"])
-      subject = ""
-      content = Content.new(type: 'text/plain', value: "FLAVORS (#{i}/#{total})" + message)
+      subject = "Automated"
+      content = Content.new(type: 'text/plain', value: "\r\b FLAVORS (#{i}/#{total})" + message)
       mail = Mail.new(from, subject, to, content)
       sg = SendGrid::API.new(api_key: ENV["SENDGRID_API_KEY"])
 
