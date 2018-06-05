@@ -35,6 +35,8 @@ namespace :flavorize do
     #   next
     # end
 
+    days = days.reject{|day, flavor| day.to_i < today }
+
     #'2622259396@vtext.com'
     split_messages = []
 
