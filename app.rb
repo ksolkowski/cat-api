@@ -27,7 +27,7 @@ require_relative './models/image.rb'
 
 class CatApi < Roda
   include CatRoamer
-  NO_CAT_LIST = ['austinkahly', 'murph', 'nichelle']
+  NO_CAT_LIST = ['austinkahly', 'murph', 'nichelle', 'james']
 
   plugin :json
 
