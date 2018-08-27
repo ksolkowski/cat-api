@@ -7,6 +7,10 @@ require "sequel"
 require "image_size"
 require "mini_magick"
 
+require "active_support/inflector"
+require "active_support/core_ext/array"
+require "active_support/core_ext/hash"
+
 ENV["SITE_URL"] ||= "https://catapi.localtunnel.me"
 ENV["RACK_ENV"] ||= "development"
 
@@ -29,9 +33,15 @@ class CatApi < Roda
   include CatRoamer
   NO_CAT_LIST = ['austinkahly', 'murph', 'nichelle', 'james']
 
+  plugin :environments
   plugin :json
+  plugin :multi_route
+  plugin :multi_run
+
+  require_relative './routes/pokemon.rb'
 
   route do |r|
+    r.multi_route
 
     r.root do
       "hello"

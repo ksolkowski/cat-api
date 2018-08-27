@@ -15,6 +15,7 @@ gem "sequel"
 gem "pg"
 
 gem 'sendgrid-ruby'
+gem "activesupport", require: false
 
 gem "puma"
 gem "rake"
