@@ -104,7 +104,9 @@
   - Snorlax - 2%
   - Dratini - 2%
 
-- Ingredients: "(5) Big Root or Icy Rock or Honey or Balm Mushroom ---  (5) Rainbow Matter"
+- Ingredients:
+  - (5) Big Root or Icy Rock or Honey or Balm Mushroom
+  - (5) Rainbow Matter
   Rarity: Special
   Pokemon Attracted:
   - Bulbasaur - 3.3%
@@ -369,7 +371,10 @@
   - Lickitung - 24.5%
   - Porygon - 24.5%
 
-- Ingredients: "(2) Bluk Berry (1) Honey (2) Balm Mushroom  --- (1) Bluk Berry (1) Fossil (2) Honey (1) Balm Mushroom  --- (2) Fossil (3) Honey"
+- Ingredients:
+  - (2) Bluk Berry (1) Honey (2) Balm Mushroom
+  - (1) Bluk Berry (1) Fossil (2) Honey (1) Balm Mushroom
+  - (2) Fossil (3) Honey
   Rarity: Very Good
   Pokemon Attracted:
   - Jigglypuff - 18.1%
@@ -403,7 +408,9 @@
   - Grimer - 24.5%
   - Koffing - 24.5%
 
-- Ingredients: "(2) Tiny Mushroom (2) Balm Mushroom (1) Big Root or Icy Rock or Honey or Balm Mushroom  --- (1) Tiny Mushroom (1) Apricorn or Bluk Berry (3) Balm Mushroom"
+- Ingredients:
+  - (2) Tiny Mushroom (2) Balm Mushroom (1) Big Root or Icy Rock or Honey or Balm Mushroom
+  - (1) Tiny Mushroom (1) Apricorn or Bluk Berry (3) Balm Mushroom
   Rarity: Very Good
   Pokemon Attracted:
   - Bulbasaur - 14.4%
@@ -428,7 +435,10 @@
   - Geodude - 33.3%
   - Rhyhorn - 33.3%
 
-- Ingredients: "(2) Fossil (2) Bluk Berry (1) Big Root or Balm Mushroom --- (2) Fossil (2) Tiny Mushroom or Bluk Berry (1) Big Root or Balm Mushroom or Honey --- (1) Fossil (1) Tiny Mushroom (1) Icy Rock (2) Tiny Mushroom or Bluk Berry"
+- Ingredients:
+  - (2) Fossil (2) Bluk Berry (1) Big Root or Balm Mushroom
+  - (2) Fossil (2) Tiny Mushroom or Bluk Berry (1) Big Root or Balm Mushroom or Honey
+  - (1) Fossil (1) Tiny Mushroom (1) Icy Rock (2) Tiny Mushroom or Bluk Berry
   Rarity: Good
   Pokemon Attracted:
   - Diglett - 48.8%
@@ -436,14 +446,14 @@
   - Cubone - 2.4%
 
 - Ingredients:
-    -(1) Fossil (1) Bluk Berry (1) Big Root (1) Icy Rock (1) Big Root or
-    -Honey or Balm Mushroom ---  (1) Fossil (1) Bluk Berry (1) Icy Rock (1) Honey (1)
-    -Honey or Balm Mushroom ---  (1) Fossil (1) Bluk Berry (1) Icy Rock (2) Balm Mushroom
-    ----  (2) Fossil (1) Big Root (1) Honey (1) Honey or Balm Mushroom ---  (2) Fossil
-    -(2) Big Root (1) Big Root or Honey or Balm Mushroom ---  (2) Fossil (2) Honey
-    -(1) Balm Mushroom ---  (1) Tiny Mushroom (2) Icy Rock (1) Tiny Mushroom or Bluk
-    -Berry (1) Big Root or Honey or Balm Mushroom ---  (1) Tiny Mushroom (1) Fossil
-    -(1) Icy Rock (2) Big Root or Honey or Balm Mushroom"""
+    - (1) Fossil (1) Bluk Berry (1) Big Root (1) Icy Rock (1) Big Root or Honey or Balm Mushroom
+    - (1) Fossil (1) Bluk Berry (1) Icy Rock (1) Honey (1) Honey or Balm Mushroom
+    - (1) Fossil (1) Bluk Berry (1) Icy Rock (2) Balm Mushroom
+    - (2) Fossil (1) Big Root (1) Honey (1) Honey or Balm Mushroom
+    - (2) Fossil (2) Big Root (1) Big Root or Honey or Balm Mushroom
+    - (2) Fossil (2) Honey (1) Balm Mushroom
+    - (1) Tiny Mushroom (2) Icy Rock (1) Tiny Mushroom or Bluk Berry (1) Big Root or Honey or Balm Mushroom
+    - (1) Tiny Mushroom (1) Fossil (1) Icy Rock (2) Big Root or Honey or Balm Mushroom
   Rarity: Very Good
   Pokemon Attracted:
   - Diglett - 33.3%
@@ -598,7 +608,7 @@
   - Ponyta - 50%
   - Magmar - 10%
 
-- Ingredients: "(3) Balm Mushroom (2) Big Root  ---"
+- Ingredients: "(3) Balm Mushroom (2) Big Root"
   Rarity: Special
   Pokemon Attracted:
   - Charmander - 80%
@@ -630,7 +640,9 @@
   - Machop
   - Mankey
 
-- Ingredients: "(1) Tiny Mushroom (2) Bluk Berry (1) Honey (1) Balm Mushroom  --- (2) Tiny Mushroom (1) Bluk Berry (2) Honey"
+- Ingredients:
+  - (1) Tiny Mushroom (2) Bluk Berry (1) Honey (1) Balm Mushroom
+  - (2) Tiny Mushroom (1) Bluk Berry (2) Honey
   Rarity: Good (expensive)
   Pokemon Attracted:
   - Machop - 96.2%

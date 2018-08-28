@@ -2,9 +2,15 @@
   %thead
     %tr
       -for head in @header
-        %th=head
+        %th{scope: "col"}=head
   %tbody
     -for recipie in @recipies
       %tr
-        -for head in @header
-          %td=recipie[head]
+        -recipie.values.each.with_index do |val, i|
+          -if i == 0
+            -if val.is_a?(Array)
+              %td=val.join("</br>")
+            -else
+              %td=val
+          -else
+            %td=val
