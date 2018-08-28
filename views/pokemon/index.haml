@@ -1,0 +1,29 @@
+#accordion
+  -@pokemon.each do |pokemon|
+    -id = pokemon["name"].parameterize
+    .card{id: id}
+      .card-header{id: "heading-#{id}"}
+        %h5.mb-0{aria: {controls: "collapse-#{id}", expanded: "true"}, data: {target: "#collapse-#{id}", toggle: "collapse"}}
+          .btn.btn-link
+            =pokemon["name"]
+            %span.badge.badge-secondary=pokemon["count"]
+          %span.float-right.octicon.octicon-arrow-dpwm
+      .collapse{id: "collapse-#{id}", "aria-labelledby" => "heading-#{id}", "data-parent" => "#accordion"}
+        %table.table
+          %thead
+            %tr
+              %th Ingredients
+              %th Rarity
+              %th Percent
+          %tbody
+            -for recipie in pokemon["details"]
+              %tr{class: (recipie["Percent"] == pokemon["max_percent"]["Percent"]) ? "table-primary" : ""}
+                -recipie.values.each.with_index do |val, i|
+                  -if i == 0
+                    -if val.is_a?(Array)
+                      %td=val.join("</br>")
+                    -else
+                      %td=val
+
+                  -else
+                    %td=val
