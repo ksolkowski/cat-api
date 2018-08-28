@@ -37,6 +37,7 @@ class CatApi < Roda
   plugin :json
   plugin :multi_route
   plugin :multi_run
+  plugin :render, engine: "haml"
 
   require_relative './routes/pokemon.rb'
 

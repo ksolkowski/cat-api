@@ -14,6 +14,10 @@ gem "color_diff"
 gem "sequel"
 gem "pg"
 
+# Project View requirements
+gem "slim"
+gem "haml"
+
 gem 'sendgrid-ruby'
 gem "activesupport", require: false
 

@@ -1,0 +1,10 @@
+%table.table
+  %thead
+    %tr
+      -for head in @header
+        %th=head
+  %tbody
+    -for recipie in @recipies
+      %tr
+        -for head in @header
+          %td=recipie[head]

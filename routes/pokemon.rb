@@ -7,14 +7,21 @@ class CatApi < Roda
     available = pokemans.map{|x| x["Pokemon Attracted"] }.flatten.map{|x| x.split(" - ").first }.uniq.sort_by{|x| sorty[x].to_i }
 
     r.get ":name", String do |name|
-      pokemans.select{|x| x["Pokemon Attracted"].any?{|z| z.parameterize.include?(name)} }
+      @recipies = pokemans.select{|x| x["Pokemon Attracted"].any?{|z| z.parameterize.include?(name)} }.map do |recipie|
+        r = recipie.dup
+        r["Percent"] = recipie["Pokemon Attracted"].find{|z| z.parameterize.include?(name) }.split("-").last
+        r.delete("Pokemon Attracted")
+        r
+      end
+
+      @header = @recipies.first.keys
+      view("pokemon/recipie")
     end
 
-    r.get "" do
-      available.map{|x| "<a href=\"/pokemon/#{x.parameterize}\">#{x}</a>" }.join("<br>")
+    r.get do
+      @pokemon = available
+      view("pokemon/index")
     end
-
-
 
   end
 end
