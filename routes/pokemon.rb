@@ -10,14 +10,14 @@ class CatApi < Roda
     def find_recipies(name, pokemans)
       pokemans.select{|x| x["Pokemon Attracted"].any?{|z| z.include?(name)} }.map do |recipie|
         r = recipie.dup
-        r["Percent"] = recipie["Pokemon Attracted"].find{|z| z.include?(name) }.split("-").last
+        r["Percent"] = recipie["Pokemon Attracted"].find{|z| z.include?(name) }.split("-").last.strip
         r.delete("Pokemon Attracted")
         r
       end.sort_by do |r|
         rarity = r["Rarity"]
         if rarity == "Basic"
           0
-        elsif rarity == "Good"
+        elsif rarity == "Good" or rarity.start_with?("Good")
           1
         elsif rarity == "Very Good"
           2
@@ -31,7 +31,9 @@ class CatApi < Roda
 
     r.get do
       @pokemon = available.map do |name, count|
-        {"name" => name, "count" => count, "details" => find_recipies(name, pokemans)}
+        details = find_recipies(name, pokemans)
+        max_percent = details.max_by{|x| x["Percent"].gsub("%", "").to_f }
+        {"name" => name, "count" => count, "details" => details, "max_percent" => max_percent}
       end
 
       view("pokemon/index")
