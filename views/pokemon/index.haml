@@ -1,12 +1,28 @@
 #accordion
-  -@pokemon.each.with_index do |(pokemon, count), i|
+  -@pokemon.each.with_index do |pokemon, i|
 
-    .card
+    .card{id: pokemon["name"].parameterize}
       .card-header{id: "heading-#{i}"}
-        %h5.mb-0
-          %button.btn.btn-link{aria: {controls: "collapse-#{i}", expanded: "true"}, data: {target: "#collapse-#{i}", toggle: "collapse"}}
-            =pokemon
-            %span.badge.badge-secondary=count
+        %h5.mb-0{aria: {controls: "collapse-#{i}", expanded: "true"}, data: {target: "#collapse-#{i}", toggle: "collapse"}}
+          .btn.btn-link
+            =pokemon["name"]
+            %span.badge.badge-secondary=pokemon["count"]
           %span.float-right.octicon.octicon-arrow-dpwm
       .collapse{id: "collapse-#{i}", "aria-labelledby" => "heading-#{i}", "data-parent" => "#accordion"}
-        ="heat"
+        %table.table
+          %thead
+            %tr
+              %th Ingredients
+              %th Rarity
+              %th Percent
+          %tbody
+            -for recipie in pokemon["details"]
+              %tr
+                -recipie.values.each.with_index do |val, i|
+                  -if i == 0
+                    -if val.is_a?(Array)
+                      %td=val.join("</br>")
+                    -else
+                      %td=val
+                  -else
+                    %td=val
