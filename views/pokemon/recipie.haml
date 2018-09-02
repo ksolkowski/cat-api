@@ -1,0 +1,17 @@
+%table.table
+  %thead
+    %tr
+      %th Ingredients
+      %th Rarity
+      %th{colspan: 3} Pokemon
+  %tbody
+    -for recipie in @recipies
+      %tr
+        %td
+          -if recipie["Ingredients"].is_a?(Array)
+            =recipie["Ingredients"].join("</br>")
+          -else
+            =recipie["Ingredients"]
+        %td=recipie["Rarity"]
+        -for pokemon in recipie["Pokemon"].each_slice((recipie["Pokemon"].count/3)).to_a
+          %td=pokemon.join("</br>")

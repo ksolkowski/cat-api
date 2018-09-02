@@ -37,6 +37,7 @@ class CatApi < Roda
   plugin :json
   plugin :multi_route
   plugin :multi_run
+  plugin :params_capturing
   plugin :render, engine: "haml"
 
   require_relative './routes/pokemon.rb'
@@ -200,12 +201,12 @@ class CatApi < Roda
     end
 
     # idk just give a random image
-    r.get do
-      if random_cat = fetch_random_cat
-        response['Content-Type'] = "image/jpeg"
-        random_cat.decoded_image
-      end
-    end
+    # r.get do
+    #   if random_cat = fetch_random_cat
+    #     response['Content-Type'] = "image/jpeg"
+    #     random_cat.decoded_image
+    #   end
+    # end
 
   end
 end

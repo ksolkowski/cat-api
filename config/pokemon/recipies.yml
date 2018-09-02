@@ -1,6 +1,9 @@
-- Ingredients: "(5) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (5) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Mulligan_Stew_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Some Pokemon
+  Pokemon:
   - Caterpie - 4.2%
   - Weedle - 4.2%
   - Pidgey - 4.2%
@@ -26,9 +29,12 @@
   - Goldeen - 4.2%
   - Staryu - 4.2%
 
-- Ingredients: "(4) Tiny Mushroom or Bluk Berry or Apricorn or Fossil (1) Big Root or Icy Rock or Honey or Balm Mushroom"
+- Ingredients:
+  - (4) Tiny Mushroom or Bluk Berry or Apricorn or Fossil (1) Big Root or Icy Rock or Honey or Balm Mushroom
+  Name: Mulligan_Stew_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Some Pokemon
+  Pokemon:
   - Ekans - 4.7%
   - Clefairy - 4.7%
   - Jigglypuff - 4.7%
@@ -50,9 +56,12 @@
   - Horsea - 4.7%
   - Porygon - 4.7%
 
-- Ingredients: "(2) Tiny Mushroom or Bluk Berry or Apricorn or Fossil (3) Big Root or Icy Rock or Honey or Balm Mushroom"
+- Ingredients:
+  - (2) Tiny Mushroom or Bluk Berry or Apricorn or Fossil (3) Big Root or Icy Rock or Honey or Balm Mushroom
+  Name: Mulligan_Stew_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Some Pokemon
+  Pokemon:
   - Bulbasaur - 2%
   - Charmander - 2%
   - Squirtle - 2%
@@ -107,8 +116,10 @@
 - Ingredients:
   - (5) Big Root or Icy Rock or Honey or Balm Mushroom
   - (5) Rainbow Matter
+  Name: Mulligan_Stew_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Some Pokemon
+  Pokemon:
   - Bulbasaur - 3.3%
   - Charmander - 3.3%
   - Squirtle - 3.3%
@@ -140,9 +151,12 @@
   - Snorlax - 3.3%
   - Dratini - 3.3%
 
-- Ingredients: "(4) Tiny Mushroom (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (4) Tiny Mushroom (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Red_Stew_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Reddish Pokemon
+  Pokemon:
   - Spearow - 14.3%
   - Vulpix - 14.3%
   - Mankey - 14.3%
@@ -151,9 +165,12 @@
   - Voltorb - 14.3%
   - Goldeen - 14.3%
 
-- Ingredients: "(3) Tiny Mushroom (1) Big Root (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (3) Tiny Mushroom (1) Big Root (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Red_Stew_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Reddish Pokemon
+  Pokemon:
   - Paras - 16.4%
   - Diglett - 16.4%
   - Slowpoke - 16.4%
@@ -161,9 +178,12 @@
   - Lickitung - 16.4%
   - Porygon - 16.4%
 
-- Ingredients: "(1) Tiny Mushroom (3) Big Root (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (1) Tiny Mushroom (3) Big Root (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Red_Stew_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Reddish Pokemon
+  Pokemon:
   - Charmander - 4.3%
   - Paras - 13%
   - Diglett - 13%
@@ -176,9 +196,12 @@
   - Porygon - 13%
   - Kabuto - 3.3%
 
-- Ingredients: "(4) Big Root (1) Big Root or Icy Rock or Honey or Balm Mushroom"
+- Ingredients:
+  - (4) Big Root (1) Big Root or Icy Rock or Honey or Balm Mushroom
+  Name: Red_Stew_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Reddish Pokemon
+  Pokemon:
   - Charmander - 19.8%
   - Farfetch'd - 19.8%
   - Hitmonchan - 15%
@@ -188,28 +211,36 @@
   - Eevee - 19.8%
   - Kabuto - 15%
 
-
-- Ingredients: "(4) Bluk Berry (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (4) Bluk Berry (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Blue_Soda_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Bluish Pokemon
+  Pokemon:
   - Caterpie - 20%
   - Rattata - 20%
   - Nidoran M - 20%
   - Poliwag - 20%
   - Tentacool - 20%
 
-- Ingredients: "(3) Bluk Berry (1) Icy Rock (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (3) Bluk Berry (1) Icy Rock (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Blue_Soda_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Bluish Pokemon
+  Pokemon:
   - Ekans - 19.7%
   - Machop - 19.7%
   - Grimer - 19.7%
   - Koffing - 19.7%
   - Horsea - 19.7%
 
-- Ingredients: "(1) Bluk Berry (3) Icy Rock (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (1) Bluk Berry (3) Icy Rock (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Blue_Soda_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Bluish Pokemon
+  Pokemon:
   - Squirtle - 7.7%
   - Ekans - 15.4%
   - Machop - 15.4%
@@ -219,9 +250,12 @@
   - Magikarp - 7.7%
   - Omanyte - 3.9%
 
-- Ingredients: "(4) Icy Rock (1) Big Root or Icy Rock or Honey or Balm Mushroom"
+- Ingredients:
+  - (4) Icy Rock (1) Big Root or Icy Rock or Honey or Balm Mushroom
+  Name: Blue_Soda_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Bluish Pokemon
+  Pokemon:
   - Squirtle - 33.6%
   - Tangela - 4%
   - Magikarp - 33.6%
@@ -230,9 +264,12 @@
   - Omanyte - 16.8%
   - Dratini - 4%
 
-- Ingredients: "(4) Apricorn (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (4) Apricorn (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Yellow_Curry_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Yellowish Pokemon
+  Pokemon:
   - Weedle - 12.5%
   - Pidgey - 12.5%
   - Sandshrew - 12.5%
@@ -242,9 +279,12 @@
   - Bellsprout - 12.5%
   - Staryu - 12.5%
 
-- Ingredients: "(3) Apricorn (1) Honey (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (3) Apricorn (1) Honey (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Yellow_Curry_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Yellowish Pokemon
+  Pokemon:
   - Bulbasaur - 1.5%
   - Pikachu - 1.5%
   - Ponyta - 91.9%
@@ -252,9 +292,12 @@
   - Hitmonlee - 1.2%
   - Kangaskhan - 1.2%
 
-- Ingredients: "(1) Apricorn (3) Honey (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (1) Apricorn (3) Honey (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Yellow_Curry_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Yellowish Pokemon
+  Pokemon:
   - Bulbasaur - 12%
   - Pikachu - 12%
   - Ponyta - 36.2%
@@ -265,9 +308,12 @@
   - Electabuzz - 3.3%
   - Snorlax - 3.3%
 
-- Ingredients: "(4) Honey (1) Big Root or Icy Rock or Honey or Balm Mushroom"
+- Ingredients:
+  - (4) Honey (1) Big Root or Icy Rock or Honey or Balm Mushroom
+  Name: Yellow_Curry_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Yellowish Pokemon
+  Pokemon:
   - Bulbasaur - 18.8%
   - Pikachu - 18.8%
   - Drowzee - 18.8%
@@ -277,17 +323,23 @@
   - Electabuzz - 5.1%
   - Snorlax - 5.1%
 
-- Ingredients: "(4) Fossil (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (4) Fossil (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Grey_Porridge_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Greyish Pokemon
+  Pokemon:
   - Nidoran F - 25%
   - Oddish - 25%
   - Geodude - 25%
   - Rhyhorn - 25%
 
-- Ingredients: "(3) Fossil (1) Balm Mushroom (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (3) Fossil (1) Balm Mushroom (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Grey_Porridge_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Greyish Pokemon
+  Pokemon:
   - Clefairy - 12.4%
   - Jigglypuff - 12.4%
   - Zubat - 12.4%
@@ -297,9 +349,12 @@
   - Onix - 12.4%
   - Exeggcute - 12.4%
 
-- Ingredients: "(1) Fossil (3) Balm Mushroom (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (1) Fossil (3) Balm Mushroom (1) Tiny Mushroom or Bluk Berry or Apricorn or Fossil
+  Name: Grey_Porridge_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Greyish Pokemon
+  Pokemon:
   - Clefairy - 10.3%
   - Jigglypuff - 10.3%
   - Zubat - 10.3%
@@ -311,9 +366,12 @@
   - Exeggcute - 10.3%
   - Cubone - 10.3%
 
-- Ingredients: "(4) Balm Mushroom (1) Big Root or Icy Rock or Honey or Balm Mushroom"
+- Ingredients:
+  - (4) Balm Mushroom (1) Big Root or Icy Rock or Honey or Balm Mushroom
+  Name: Grey_Porridge_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Greyish Pokemon
+  Pokemon:
   - Venonat - 28.6%
   - Gastly - 2.9%
   - Cubone - 57.1%
@@ -322,9 +380,12 @@
   - Tauros - 2.9%
   - Aerodactyl - 2.9%
 
-- Ingredients: "(3) Bluk Berry (1) Tiny Mushroom (1) Tiny Mushroom or Apricorn or Fossil"
+- Ingredients:
+  - (3) Bluk Berry (1) Tiny Mushroom (1) Tiny Mushroom or Apricorn or Fossil
+  Name: Mouth_Watering_Dip_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Water-type Pokemon
+  Pokemon:
   - Psyduck - 16.7%
   - Poliwag - 16.7%
   - Tentacool - 16.7%
@@ -332,9 +393,12 @@
   - Goldeen - 16.7%
   - Staryu - 16.7%
 
-- Ingredients: "(3) Bluk Berry (1) Big Root or Honey or Balm Mushroom (1) Tiny Mushroom or Apricorn or Fossil (2) Bluk Berry (2) Tiny Mushroom (1) Icy Rock"
+- Ingredients:
+  - (3) Bluk Berry (1) Big Root or Honey or Balm Mushroom (1) Tiny Mushroom or Apricorn or Fossil (2) Bluk Berry (2) Tiny Mushroom (1) Icy Rock
+  Name: Mouth_Watering_Dip_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Water-type Pokemon
+  Pokemon:
   - Slowpoke - 24.5%
   - Seel - 24.5%
   - Shellder - 24.5%
@@ -342,9 +406,12 @@
   - Omanyte - 1.2%
   - Kabuto - 1.2%
 
-- Ingredients: "(2) Bluk Berry (1) Icy Rock (2) Big Root or Honey or Balm Mushroom"
+- Ingredients:
+  - (2) Bluk Berry (1) Icy Rock (2) Big Root or Honey or Balm Mushroom
+  Name: Mouth_Watering_Dip_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Water-type Pokemon
+  Pokemon:
   - Squirtle - 5.8%
   - Slowpoke - 14.6%
   - Seel - 14.6%
@@ -355,17 +422,23 @@
   - Omanyte - 13.5%
   - Kabuto - 13.5%
 
-- Ingredients: "(3) Bluk Berry (2) Fossil"
+- Ingredients:
+  - (3) Bluk Berry (2) Fossil
+  Name: Plain_Crepe_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Normal-type Pokemon
+  Pokemon:
   - Pidgey - 25%
   - Rattata - 25%
   - Spearow - 25%
   - Meowth - 25%
 
-- Ingredients: "(2) Bluk Berry (2) Fossil (1) Honey"
+- Ingredients:
+  - (2) Bluk Berry (2) Fossil (1) Honey
+  Name: Plain_Crepe_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Normal-type Pokemon
+  Pokemon:
   - Jigglypuff - 24.5%
   - Doduo - 24.5%
   - Lickitung - 24.5%
@@ -375,8 +448,10 @@
   - (2) Bluk Berry (1) Honey (2) Balm Mushroom
   - (1) Bluk Berry (1) Fossil (2) Honey (1) Balm Mushroom
   - (2) Fossil (3) Honey
+  Name: Plain_Crepe_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Normal-type Pokemon
+  Pokemon:
   - Jigglypuff - 18.1%
   - Farfetch'd - 8.1%
   - Doduo - 18.1%
@@ -389,9 +464,12 @@
   - Porygon - 18.1%
   - Snorlax - 1.1%
 
-- Ingredients: "(3) Honey (2) Balm Mushroom"
+- Ingredients:
+  - (3) Honey (2) Balm Mushroom
+  Name: Plain_Crepe_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts:
+  Pokemon:
   - Farfetch'd - 29.2%
   - Chansey - 3.9%
   - Kangaskhan - 32.5%
@@ -400,9 +478,12 @@
   - Eevee - 22.7%
   - Snorlax - 3.9%
 
-- Ingredients: "(3) Tiny Mushroom (1) Balm Mushroom (1) Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (3) Tiny Mushroom (1) Balm Mushroom (1) Bluk Berry or Apricorn or Fossil
+  Name: Sludge_Soup_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Poison-type Pokemon
+  Pokemon:
   - Ekans - 24.5%
   - Zubat - 24.5%
   - Grimer - 24.5%
@@ -411,8 +492,10 @@
 - Ingredients:
   - (2) Tiny Mushroom (2) Balm Mushroom (1) Big Root or Icy Rock or Honey or Balm Mushroom
   - (1) Tiny Mushroom (1) Apricorn or Bluk Berry (3) Balm Mushroom
+  Name: Sludge_Soup_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Poison-type Pokemon
+  Pokemon:
   - Bulbasaur - 14.4%
   - Ekans - 18%
   - Zubat - 18%
@@ -421,16 +504,22 @@
   - Gastly - 4.5%
   - Koffing - 18%
 
-- Ingredients: "(1) Tiny Mushroom (3) Balm Mushroom (1) Rainbow Matter"
+- Ingredients:
+  - (1) Tiny Mushroom (3) Balm Mushroom (1) Rainbow Matter
+  Name: Sludge_Soup_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Poison-type Pokemon
+  Pokemon:
   - Bulbasaur - 51.6%
   - Venonat - 32.3%
   - Gastly - 16.1%
 
-- Ingredients: "(1) Tiny Mushroom (2) Fossil (2) Tiny Mushroom or Bluk Berry"
+- Ingredients:
+  - (1) Tiny Mushroom (2) Fossil (2) Tiny Mushroom or Bluk Berry
+  Name: Mud_Pie_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Ground-type Pokemon
+  Pokemon:
   - Sandshrew - 33.3%
   - Geodude - 33.3%
   - Rhyhorn - 33.3%
@@ -439,35 +528,45 @@
   - (2) Fossil (2) Bluk Berry (1) Big Root or Balm Mushroom
   - (2) Fossil (2) Tiny Mushroom or Bluk Berry (1) Big Root or Balm Mushroom or Honey
   - (1) Fossil (1) Tiny Mushroom (1) Icy Rock (2) Tiny Mushroom or Bluk Berry
+  Name: Mud_Pie_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Ground-type Pokemon
+  Pokemon:
   - Diglett - 48.8%
   - Onix - 48.8%
   - Cubone - 2.4%
 
 - Ingredients:
-    - (1) Fossil (1) Bluk Berry (1) Big Root (1) Icy Rock (1) Big Root or Honey or Balm Mushroom
-    - (1) Fossil (1) Bluk Berry (1) Icy Rock (1) Honey (1) Honey or Balm Mushroom
-    - (1) Fossil (1) Bluk Berry (1) Icy Rock (2) Balm Mushroom
-    - (2) Fossil (1) Big Root (1) Honey (1) Honey or Balm Mushroom
-    - (2) Fossil (2) Big Root (1) Big Root or Honey or Balm Mushroom
-    - (2) Fossil (2) Honey (1) Balm Mushroom
-    - (1) Tiny Mushroom (2) Icy Rock (1) Tiny Mushroom or Bluk Berry (1) Big Root or Honey or Balm Mushroom
-    - (1) Tiny Mushroom (1) Fossil (1) Icy Rock (2) Big Root or Honey or Balm Mushroom
+  - (1) Fossil (1) Bluk Berry (1) Big Root (1) Icy Rock (1) Big Root or Honey or Balm Mushroom
+  - (1) Fossil (1) Bluk Berry (1) Icy Rock (1) Honey (1) Honey or Balm Mushroom
+  - (1) Fossil (1) Bluk Berry (1) Icy Rock (2) Balm Mushroom
+  - (2) Fossil (1) Big Root (1) Honey (1) Honey or Balm Mushroom
+  - (2) Fossil (2) Big Root (1) Big Root or Honey or Balm Mushroom
+  - (2) Fossil (2) Honey (1) Balm Mushroom
+  - (1) Tiny Mushroom (2) Icy Rock (1) Tiny Mushroom or Bluk Berry (1) Big Root or Honey or Balm Mushroom
+  - (1) Tiny Mushroom (1) Fossil (1) Icy Rock (2) Big Root or Honey or Balm Mushroom
+  Name: Mud_Pie_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Ground-type Pokemon
+  Pokemon:
   - Diglett - 33.3%
   - Onix - 33.3%
   - Cubone - 33.3%
 
-- Ingredients: "(2) Icy Rock (3) Big Root or Honey or Balm Mushroom"
+- Ingredients:
+  - (2) Icy Rock (3) Big Root or Honey or Balm Mushroom
+  Name: Mud_Pie_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Ground-type Pokemon
+  Pokemon:
   - Cubone - 100%
 
-- Ingredients: "(3) Apricorn (1) Big Root (1) Tiny Mushroom or Bluk Berry"
+- Ingredients:
+  - (3) Apricorn (1) Big Root (1) Tiny Mushroom or Bluk Berry
+  Name: Veggie_Smoothie_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Grass-type Pokemon
+  Pokemon:
   - Bulbasaur - 2%
   - Paras - 48.8%
   - Exeggcute - 48.8%
@@ -475,68 +574,93 @@
 - Ingredients:
   - (2) Apricorn (2) Big Root (1) Big Root or Icy Rock or Honey or Balm Mushroom
   - (1) Apricorn (3) Big Root (1) Bluk Berry or Fossil
+  Name: Veggie_Smoothie_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Grass-type Pokemon
+  Pokemon:
   - Bulbasaur - 26.7%
   - Paras - 33.3%
   - Exeggcute - 33.3%
   - Tangela - 6.7%
 
-- Ingredients: "(2) Bluk Berry (1) Apricorn (2) Honey"
+- Ingredients:
+  - (2) Bluk Berry (1) Apricorn (2) Honey
+  Name: Honey_Nectar_a_la_Cube
   Rarity: Good (expensive)
-  Pokemon Attracted:
+  Attracts: Bug-type Pokemon
+  Pokemon:
   - Paras - 96.4%
   - Venonat - 2.4%
 
-- Ingredients: "(1) Bluk Berry (3) Honey (1) Tiny Mushroom or Bluk Berry or Fossil"
+- Ingredients:
+  - (1) Bluk Berry (3) Honey (1) Tiny Mushroom or Bluk Berry or Fossil
+  Name: Honey_Nectar_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Bug-type Pokemon
+  Pokemon:
   - Paras - 57.5%
   - Venonat - 28.7%
   - Scyther - 6.9%
   - Pinsir - 6.9%
 
-- Ingredients: "(1) Bluk Berry (3) Honey (1) Rainbow"
+- Ingredients:
+  - (1) Bluk Berry (3) Honey (1) Rainbow
+  Name: Honey_Nectar_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts:
+  Pokemon:
   - Venonat - 67.6%
   - Scyther - 16.2%
   - Pinsir - 16.2%
 
-- Ingredients: "(3) Bluk Berry (1) Apricorn (1) Apricorn or Fossil"
+- Ingredients:
+  - (3) Bluk Berry (1) Apricorn (1) Apricorn or Fossil
+  Name: Brain_Food_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Psychic-type Pokemon
+  Pokemon:
   - Abra - 100%
 
-- Ingredients: "(2) Bluk Berry (1) Apricorn (1) Honey (1) Apricorn or Fossil"
+- Ingredients:
+  - (2) Bluk Berry (1) Apricorn (1) Honey (1) Apricorn or Fossil
+  Name: Brain_Food_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Psychic-type Pokemon
+  Pokemon:
   - Slowpoke - 48.8%
   - Drowzee - 2%
   - Exeggcute - 48.8%
 
-- Ingredients: "(1) Bluk Berry (1) Apricorn (1) Icy Rock (2) Honey"
+- Ingredients:
+  - (1) Bluk Berry (1) Apricorn (1) Icy Rock (2) Honey
+  Name: Brain_Food_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Psychic-type Pokemon
+  Pokemon:
   - Slowpoke - 33.3%
   - Drowzee - 26.7%
   - Exeggcute - 33.3%
   - Mr. Mime - 3.3%
   - Jynx - 3.3%
 
-- Ingredients: (1) Apricorn (2) Fossil (1) Tiny Mushroom or Bluk Berry or Apricorn (1) Apricorn or Fossil
+- Ingredients:
+  - (1) Apricorn (2) Fossil (1) Tiny Mushroom or Bluk Berry or Apricorn (1) Apricorn or Fossil
+  Name: Stone_Soup_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Rock-type Pokemon
+  Pokemon:
   - Geodude - 50%
   - Rhyhorn - 50%
 
 - Ingredients:
-    - (1) Apricorn (2) Fossil (1) Apricorn or Fossil (1) Big Root or Icy Rock or Honey
-    - (1) Fossil (1) Icy Rock (1) Tiny Mushroom or Bluk Berry (2) Apricorn or Fossil
-    - (2) Apricorn (2) Fossil (1) Balm Mushroom
-    - (3) Apricorn(1) Fossil (1) Icy Rock
+  - (1) Apricorn (2) Fossil (1) Apricorn or Fossil (1) Big Root or Icy Rock or Honey
+  - (1) Fossil (1) Icy Rock (1) Tiny Mushroom or Bluk Berry (2) Apricorn or Fossil
+  - (2) Apricorn (2) Fossil (1) Balm Mushroom
+  - (3) Apricorn (1) Fossil (1) Icy Rock
+  Name: Stone_Soup_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Rock-type Pokemon
+  Pokemon:
   - Onix - 97.3%
   - Omanyte - 1.2%
   - Kabuto - 1.2%
@@ -544,46 +668,63 @@
 - Ingredients:
   - (2) Icy Rock (2) Apricorn or Fossil (1) Big Root or Icy Rock or Honey or Balm Mushroom
   - (1) Tiny Mushroom (3) Icy Rock (1) Apricorn or Fossil
+  Name: Stone_Soup_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Rock-type Pokemon
+  Pokemon:
   - Onix - 64.5%
   - Omanyte - 16.1%
   - Kabuto - 16.1%
   - Aerodactyl - 3.2%
 
-- Ingredients: "(1) Fossil (3) Icy Rock (1) Rainbow Matter"
+- Ingredients:
+  - (1) Fossil (3) Icy Rock (1) Rainbow Matter
+  Name: Stone_Soup_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Rock-type Pokemon
+  Pokemon:
   - Omanyte - 45.5%
   - Kabuto - 45.5%
   - Aerodactyl - 9.1%
 
-- Ingredients: "(3) Fossil (2) Big Root"
+- Ingredients:
+  - (3) Fossil (2) Big Root
+  Name: Light-as-Air_Casserole_a_la_Cube
   Rarity: Good (expensive)
-  Pokemon Attracted:
+  Attracts: Flying-type Pokemon
+  Pokemon:
   - Zubat - 49.2%
   - Farfetch'd - 1.1%
   - Doduo - 49.2%
 
-- Ingredients: "(2) Fossil (2) Big Root (1) Icy Rock"
+- Ingredients:
+  - (2) Fossil (2) Big Root (1) Icy Rock
+  Name: Light-as-Air_Casserole_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Flying-type Pokemon
+  Pokemon:
   - Zubat - 38.2%
   - Farfetch'd - 17.2%
   - Doduo - 38.2%
   - Scyther - 4.6%
   - Aerodactyl - 1.9%
 
-- Ingredients: "(2) Big Root (3) Icy Rock"
+- Ingredients:
+  - (2) Big Root (3) Icy Rock
+  Name: Light-as-Air_Casserole_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Flying-type Pokemon
+  Pokemon:
   - Farfetch'd - 72.6%
   - Scyther - 19.4%
   - Aerodactyl - 8.1%
 
-- Ingredients: "(3) Tiny Mushroom (1) Bluk Berry or Apricorn (1) Bluk Berry or Apricorn or Fossil"
+- Ingredients:
+  - (3) Tiny Mushroom (1) Bluk Berry or Apricorn (1) Bluk Berry or Apricorn or Fossil
+  Name: Hot_Pot_a_la_Cube
   Rarity: Basic
-  Pokemon Attracted:
+  Attracts: Fire-type Pokemon
+  Pokemon:
   - Vulpix - 50%
   - Growlithe - 50%
 
@@ -591,8 +732,10 @@
   - (2) Tiny Mushroom (1) Balm Mushroom (1) Bluk Berry or Apricorn (1) Bluk Berry or Apricorn or Fossil
   - (3) Tiny Mushroom (1) Bluk Berry or Apricorn (1) Honey or Icy Rock
   - (3) Tiny Mushroom (1) Fossil (1) Honey
+  Name: Hot_Pot_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Fire-type Pokemon
+  Pokemon:
   - Charmander - 3.8%
   - Ponyta - 95.2%
 
@@ -602,73 +745,112 @@
   - (2) Tiny Mushroom (1) Balm Mushroom (1) Rainbow Matter (1) Bluk Berry or Apricorn or Fossil
   - (3) Tiny Mushroom (1) Rainbow Matter (1) Honey or Icy Rock
   - (3) Tiny Mushroom (1) Mystical Shell (1) Bluk Berry or Apricorn or Fossil
+  Name: Hot_Pot_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Fire-type Pokemon
+  Pokemon:
   - Charmander - 40%
   - Ponyta - 50%
   - Magmar - 10%
 
-- Ingredients: "(3) Balm Mushroom (2) Big Root"
+- Ingredients:
+  - (3) Balm Mushroom (2) Big Root
+  Name: Hot_Pot_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Fire-type Pokemon
+  Pokemon:
   - Charmander - 80%
   - Magmar - 20%
 
-- Ingredients: "(1) Tiny Mushroom (1) Apricorn (2) Honey (1) Tiny Mushroom or Bluk Berry"
+- Ingredients:
+  - (1) Tiny Mushroom (1) Apricorn (2) Honey (1) Tiny Mushroom or Bluk Berry
+  Name: Watt_a_Risotto_a_la_Cube
   Rarity: Good (expensive)
-  Pokemon Attracted:
+  Attracts: Electric-type Pokemon
+  Pokemon:
   - Pikachu - 3.8%
   - Magnemite - 95.2%
 
 - Ingredients:
   - (1) Apricorn (2) Honey (1) Tiny Mushroom or Bluk Berry (1) Big Root or Balm Mushroom
   - (1) Tiny Mushroom (3) Honey (1) Tiny Mushroom or Fossil
+  Name: Watt_a_Risotto_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Electric-type Pokemon
+  Pokemon:
+  - Electabuzz - 33%
+  - Magnemite - 33%
+  - Pikachu - 33%
+
+- Ingredients:
+  - (1) Apricorn (2) Honey (2) Big Root or Balm Mushroom
+  - (1) Tiny Mushroom (3) Honey (1) Big Root or Balm Mushroom or Icy Rock
+  - (1) Fossil (3) Honey (1) Big Root
+  Name: Watt_a_Risotto_a_la_Cube
+  Rarity: Very Good (expensive)
+  Attracts: Electric-type Pokemon
+  Pokemon:
   - Pikachu - 40%
   - Magnemite - 50%
   - Electabuzz - 10%
-- Ingredients: "(3) Honey (1) Big Root or Icy Rock (1) Big Root or Balm Mushroom"
+
+- Ingredients:
+  - (3) Honey (1) Big Root or Icy Rock (1) Big Root or Balm Mushroom
+  Name: Watt_a_Risotto_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Electric-type Pokemon
+  Pokemon:
   - Pikachu - 80%
   - Electabuzz - 20%
 
-- Ingredients: "(2) Tiny Mushroom (2) Bluk Berry (1) Honey"
+- Ingredients:
+  - (2) Tiny Mushroom (2) Bluk Berry (1) Honey
+  Name: Get_Swole_Syrup_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Fighting-type Pokemon
+  Pokemon:
   - Machop
   - Mankey
 
 - Ingredients:
   - (1) Tiny Mushroom (2) Bluk Berry (1) Honey (1) Balm Mushroom
   - (2) Tiny Mushroom (1) Bluk Berry (2) Honey
+  Name: Get_Swole_Syrup_a_la_Cube
   Rarity: Good (expensive)
-  Pokemon Attracted:
+  Attracts: Fighting-type Pokemon
+  Pokemon:
   - Machop - 96.2%
   - Hitmonlee - 1.9%
   - Hitmonchan - 1.9%
 
-- Ingredients: "(1) Tiny Mushroom (1) Bluk Berry (2) Honey (1) Balm Mushroom"
+- Ingredients:
+  - (1) Tiny Mushroom (1) Bluk Berry (2) Honey (1) Balm Mushroom
+  Name: Get_Swole_Syrup_a_la_Cube
   Rarity: Very Good
-  Pokemon Attracted:
+  Attracts: Fighting-type Pokemon
+  Pokemon:
   - Machop - 55.6%
   - Hitmonlee - 22.2%
   - Hitmonchan - 22.2%
 
-- Ingredients: "(1) Mystic Shell (1) Tiny Mushroom  (1) Bluk Berry  (1) Apricorn  (1) Fossil"
+- Ingredients:
+  - (1) Mystic Shell (1) Tiny Mushroom (1) Bluk Berry (1) Apricorn (1) Fossil
+  Name: Ambrosia_of_Legends_a_la_Cube
   Rarity: Good
-  Pokemon Attracted:
+  Attracts: Extremely Rare Pokemon
+  Pokemon:
   - Articuno - 33.3%
   - Zapdos - 33.3%
   - Moltres - 33.3%
 
 - Ingredients:
   - (1) Mystic Shell (1) Big Root  (1) Icy Rock (1) Honey  (1) Balm Mushroom
-  - Note You can use up to three of the same big ingredient to get the same result.
-  - So this would also work (1) Mystic Shell  (3) Big Root (or any other big ingredient) (1) Icy Rock (or any other big ingredient that hasn't already been used)
+  - Note\: You can use up to three of the same big ingredient to get the same result.
+  - (1) Mystic Shell  (3) Big Root (or any other big ingredient) (1) Icy Rock (or any other big ingredient that hasn't already been used)
+  Name: Ambrosia_of_Legends_a_la_Cube
   Rarity: Special
-  Pokemon Attracted:
+  Attracts: Extremely Rare Pokemon
+  Pokemon:
   - Articuno - 15.9%
   - Zapdos - 15.9%
   - Moltres - 15.9%

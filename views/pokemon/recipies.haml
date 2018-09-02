@@ -1,0 +1,11 @@
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Attracts
+  %tbody
+    -for recipie in @recipies
+      %tr
+        %td
+          %a{href: recipie["url"]}=recipie["name"]
+        %td=recipie["attracts"]

@@ -34,7 +34,7 @@ GEM
       mini_portile2 (~> 2.3.0)
     pg (1.0.0)
     puma (3.11.2)
-    rack (2.0.4)
+    rack (2.0.5)
     rack-protection (2.0.2)
       rack
     rake (11.2.2)
@@ -44,7 +44,7 @@ GEM
     redis (3.3.0)
     rerun-cj (0.10.1)
       listen (~> 2.7, >= 2.7.9)
-    roda (2.1.0)
+    roda (3.11.0)
       rack
     roda-bin (0.1.8)
       clap

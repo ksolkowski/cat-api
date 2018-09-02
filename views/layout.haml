@@ -6,6 +6,18 @@
     %link{href: "https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.min.css", rel: "stylesheet"}
 
   %body
+    -if @header
+      %ul.nav.nav-tabs
+        %li.nav-item
+          %a.nav-link{href: "/pokemon"} Pokemon
+        %li.nav-item.dropdown
+          %a.nav-link.dropdown-toggle{aria: {expanded: "false", haspopup: "true"}, "data-toggle" => "dropdown", href: "javascript:void(0);", role: "button"}
+            Recipies
+          .dropdown-menu
+            -for head in @header
+              %a.dropdown-item{href: head[:url]}
+                =head[:name]
+
     .container-fluid
       =yield
 
