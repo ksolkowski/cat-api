@@ -23,7 +23,7 @@
                 %td=recipie.ingredients.join("<br>")
                 %td
                   %a{href: recipie_path(recipie.name.parameterize)}
-                    =recipie.name
+                    =recipie.name.humanize
                 %td=recipie.rarity
                 %td=recipie.attracts
                 %td=recipie.percent
