@@ -15,7 +15,7 @@
             Recipies
           .dropdown-menu
             -for head in @header
-              %a.dropdown-item{href: head[:url]}
+              %a.dropdown-item{href: head[:url], class: head[:active] ? "active" : ''}
                 =head[:name]
 
     .container-fluid

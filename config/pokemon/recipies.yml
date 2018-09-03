@@ -607,7 +607,7 @@
   - (1) Bluk Berry (3) Honey (1) Rainbow
   Name: Honey_Nectar_a_la_Cube
   Rarity: Special
-  Attracts:
+  Attracts: Bug-type Pokemon
   Pokemon:
   - Venonat - 67.6%
   - Scyther - 16.2%
@@ -845,7 +845,7 @@
 
 - Ingredients:
   - (1) Mystic Shell (1) Big Root  (1) Icy Rock (1) Honey  (1) Balm Mushroom
-  - Note\: You can use up to three of the same big ingredient to get the same result.
+  - Note You can use up to three of the same big ingredient to get the same result.
   - (1) Mystic Shell  (3) Big Root (or any other big ingredient) (1) Icy Rock (or any other big ingredient that hasn't already been used)
   Name: Ambrosia_of_Legends_a_la_Cube
   Rarity: Special

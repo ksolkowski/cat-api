@@ -19,13 +19,11 @@
               %th Percent
           %tbody
             -for recipie in pokemon["details"]
-              %tr{class: (recipie["Percent"] == pokemon["max_percent"]["Percent"]) ? "table-primary" : ""}
-                -recipie.values.each.with_index do |val, i|
-                  -if i == 0
-                    -if val.is_a?(Array)
-                      %td=val.join("</br>")
-                    -else
-                      %td=val
-
-                  -else
-                    %td=val
+              %tr{class: (recipie.percent == pokemon["max_percent"]) ? "table-primary" : ""}
+                %td=recipie.ingredients.join("<br>")
+                %td
+                  %a{href: recipie_path(recipie.name.parameterize)}
+                    =recipie.name
+                %td=recipie.rarity
+                %td=recipie.attracts
+                %td=recipie.percent

@@ -1,152 +1,457 @@
----
-Bulbasaur: '001'
-Ivysaur: '002'
-Venusaur: '003'
-Charmander: '004'
-Charmeleon: '005'
-Charizard: '006'
-Squirtle: '007'
-Wartortle: 008
-Blastoise: 009
-Caterpie: '010'
-Metapod: '011'
-Butterfree: '012'
-Weedle: '013'
-Kakuna: '014'
-Beedrill: '015'
-Pidgey: '016'
-Pidgeotto: '017'
-Pidgeot: 018
-Rattata: 019
-Raticate: '020'
-Spearow: '021'
-Fearow: '022'
-Ekans: '023'
-Arbok: '024'
-Pikachu: '025'
-Raichu: '026'
-Sandshrew: '027'
-Sandslash: 028
-Nidoran F: 029
-Nidorina: '030'
-Nidoqueen: '031'
-Nidoran M: '032'
-Nidorino: '033'
-Nidoking: '034'
-Clefairy: '035'
-Clefable: '036'
-Vulpix: '037'
-Ninetales: 038
-Jigglypuff: 039
-Wigglytuff: '040'
-Zubat: '041'
-Golbat: '042'
-Oddish: '043'
-Gloom: '044'
-Vileplume: '045'
-Paras: '046'
-Parasect: '047'
-Venonat: 048
-Venomoth: 049
-Diglett: '050'
-Dugtrio: '051'
-Meowth: '052'
-Persian: '053'
-Psyduck: '054'
-Golduck: '055'
-Mankey: '056'
-Primeape: '057'
-Growlithe: 058
-Arcanine: 059
-Poliwag: '060'
-Poliwhirl: '061'
-Poliwrath: '062'
-Abra: '063'
-Kadabra: '064'
-Alakazam: '065'
-Machop: '066'
-Machoke: '067'
-Machamp: 068
-Bellsprout: 069
-Weepinbell: '070'
-Victreebel: '071'
-Tentacool: '072'
-Tentacruel: '073'
-Geodude: '074'
-Graveler: '075'
-Golem: '076'
-Ponyta: '077'
-Rapidash: 078
-Slowpoke: 079
-Slowbro: 080
-Magnemite: 081
-Magneton: 082
-Farfetch'd: 083
-Doduo: 084
-Dodrio: 085
-Seel: 086
-Dewgong: 087
-Grimer: 088
-Muk: 089
-Shellder: 090
-Cloyster: 091
-Gastly: 092
-Haunter: 093
-Gengar: 094
-Onix: 095
-Drowzee: 096
-Hypno: 097
-Krabby: 098
-Kingler: 099
-Voltorb: '100'
-Electrode: '101'
-Exeggcute: '102'
-Exeggutor: '103'
-Cubone: '104'
-Marowak: '105'
-Hitmonlee: '106'
-Hitmonchan: '107'
-Lickitung: '108'
-Koffing: '109'
-Weezing: '110'
-Rhyhorn: '111'
-Rhydon: '112'
-Chansey: '113'
-Tangela: '114'
-Kangaskhan: '115'
-Horsea: '116'
-Seadra: '117'
-Goldeen: '118'
-Seaking: '119'
-Staryu: '120'
-Starmie: '121'
-Mr. Mime: '122'
-Scyther: '123'
-Jynx: '124'
-Electabuzz: '125'
-Magmar: '126'
-Pinsir: '127'
-Tauros: '128'
-Magikarp: '129'
-Gyarados: '130'
-Lapras: '131'
-Ditto: '132'
-Eevee: '133'
-Vaporeon: '134'
-Jolteon: '135'
-Flareon: '136'
-Porygon: '137'
-Omanyte: '138'
-Omastar: '139'
-Kabuto: '140'
-Kabutops: '141'
-Aerodactyl: '142'
-Snorlax: '143'
-Articuno: '144'
-Zapdos: '145'
-Moltres: '146'
-Dratini: '147'
-Dragonair: '148'
-Dragonite: '149'
-Mewtwo: '150'
-Mew: '151'
+- name: Bulbasaur
+  number: '001'
+  level: '16'
+- name: Ivysaur
+  number: '002'
+  level: '32'
+- name: Venusaur
+  number: '003'
+  level:
+- name: Charmander
+  number: '004'
+  level: '16'
+- name: Charmeleon
+  number: '005'
+  level: '36'
+- name: Charizard
+  number: '006'
+  level:
+- name: Squirtle
+  number: '007'
+  level: '16'
+- name: Wartortle
+  number: 008
+  level: '36'
+- name: Blastoise
+  number: 009
+  level:
+- name: Caterpie
+  number: '010'
+  level: '7'
+- name: Metapod
+  number: '011'
+  level: '10'
+- name: Butterfree
+  number: '012'
+  level:
+- name: Weedle
+  number: '013'
+  level: '7'
+- name: Kakuna
+  number: '014'
+  level: '10'
+- name: Beedrill
+  number: '015'
+  level:
+- name: Pidgey
+  number: '016'
+  level: '18'
+- name: Pidgeotto
+  number: '017'
+  level: '36'
+- name: Pidgeot
+  number: 018
+  level:
+- name: Rattata
+  number: 019
+  level: '20'
+- name: Raticate
+  number: '020'
+  level:
+- name: Spearow
+  number: '021'
+  level: '20'
+- name: Fearow
+  number: '022'
+  level:
+- name: Ekans
+  number: '023'
+  level: '22'
+- name: Arbok
+  number: '024'
+  level:
+- name: Pikachu
+  number: '025'
+  level: '22'
+- name: Raichu
+  number: '026'
+  level:
+- name: Sandshrew
+  number: '027'
+  level: '22'
+- name: Sandslash
+  number: 028
+  level:
+- name: Nidoran F
+  number: 029
+  level: '16'
+- name: Nidorina
+  number: '030'
+  level: '36'
+- name: Nidoqueen
+  number: '031'
+  level:
+- name: Nidoran M
+  number: '032'
+  level: '16'
+- name: Nidorino
+  number: '033'
+  level: '36'
+- name: Nidoking
+  number: '034'
+  level:
+- name: Clefairy
+  number: '035'
+  level: '36'
+- name: Clefable
+  number: '036'
+  level:
+- name: Vulpix
+  number: '037'
+  level: '36'
+- name: Ninetales
+  number: 038
+  level:
+- name: Jigglypuff
+  number: 039
+  level: '36'
+- name: Wigglytuff
+  number: '040'
+  level:
+- name: Zubat
+  number: '041'
+  level: '22'
+- name: Golbat
+  number: '042'
+  level:
+- name: Oddish
+  number: '043'
+  level: '21'
+- name: Gloom
+  number: '044'
+  level: '36'
+- name: Vileplume
+  number: '045'
+  level:
+- name: Paras
+  number: '046'
+  level: '24'
+- name: Parasect
+  number: '047'
+  level:
+- name: Venonat
+  number: 048
+  level: '31'
+- name: Venomoth
+  number: 049
+  level:
+- name: Diglett
+  number: '050'
+  level: '26'
+- name: Dugtrio
+  number: '051'
+  level:
+- name: Meowth
+  number: '052'
+  level: '28'
+- name: Persian
+  number: '053'
+  level:
+- name: Psyduck
+  number: '054'
+  level: '33'
+- name: Golduck
+  number: '055'
+  level:
+- name: Mankey
+  number: '056'
+  level: '28'
+- name: Primeape
+  number: '057'
+  level:
+- name: Growlithe
+  number: 058
+  level: '36'
+- name: Arcanine
+  number: 059
+  level:
+- name: Poliwag
+  number: '060'
+  level: '25'
+- name: Poliwhirl
+  number: '061'
+  level: '36'
+- name: Poliwrath
+  number: '062'
+  level:
+- name: Abra
+  number: '063'
+  level: '16'
+- name: Kadabra
+  number: '064'
+  level: '36'
+- name: Alakazam
+  number: '065'
+  level:
+- name: Machop
+  number: '066'
+  level: '28'
+- name: Machoke
+  number: '067'
+  level: '36'
+- name: Machamp
+  number: 068
+  level:
+- name: Bellsprout
+  number: 069
+  level: '21'
+- name: Weepinbell
+  number: '070'
+  level: '36'
+- name: Victreebel
+  number: '071'
+  level:
+- name: Tentacool
+  number: '072'
+  level: '30'
+- name: Tentacruel
+  number: '073'
+  level:
+- name: Geodude
+  number: '074'
+  level: '25'
+- name: Graveler
+  number: '075'
+  level: '36'
+- name: Golem
+  number: '076'
+  level:
+- name: Ponyta
+  number: '077'
+  level: '40'
+- name: Rapidash
+  number: 078
+  level:
+- name: Slowpoke
+  number: 079
+  level: '37'
+- name: Slowbro
+  number: 080
+  level:
+- name: Magnemite
+  number: 081
+  level: '30'
+- name: Magneton
+  number: 082
+  level:
+- name: Farfetch'd
+  number: 083
+  level:
+- name: Doduo
+  number: 084
+  level: '31'
+- name: Dodrio
+  number: 085
+  level:
+- name: Seel
+  number: 086
+  level: '34'
+- name: Dewgong
+  number: 087
+  level:
+- name: Grimer
+  number: 088
+  level: '38'
+- name: Muk
+  number: 089
+  level:
+- name: Shellder
+  number: 090
+  level: '36'
+- name: Cloyster
+  number: 091
+  level:
+- name: Gastly
+  number: 092
+  level: '25'
+- name: Haunter
+  number: 093
+  level: '36'
+- name: Gengar
+  number: 094
+  level:
+- name: Onix
+  number: 095
+  level:
+- name: Drowzee
+  number: 096
+  level: '26'
+- name: Hypno
+  number: 097
+  level:
+- name: Krabby
+  number: 098
+  level: '28'
+- name: Kingler
+  number: 099
+  level:
+- name: Voltorb
+  number: '100'
+  level: '30'
+- name: Electrode
+  number: '101'
+  level:
+- name: Exeggcute
+  number: '102'
+  level: '36'
+- name: Exeggutor
+  number: '103'
+  level:
+- name: Cubone
+  number: '104'
+  level: '28'
+- name: Marowak
+  number: '105'
+  level:
+- name: Hitmonlee
+  number: '106'
+  level:
+- name: Hitmonchan
+  number: '107'
+  level:
+- name: Lickitung
+  number: '108'
+  level:
+- name: Koffing
+  number: '109'
+  level: '35'
+- name: Weezing
+  number: '110'
+  level:
+- name: Rhyhorn
+  number: '111'
+  level: '42'
+- name: Rhydon
+  number: '112'
+  level:
+- name: Chansey
+  number: '113'
+  level:
+- name: Tangela
+  number: '114'
+  level:
+- name: Kangaskhan
+  number: '115'
+  level:
+- name: Horsea
+  number: '116'
+  level: '32'
+- name: Seadra
+  number: '117'
+  level:
+- name: Goldeen
+  number: '118'
+  level: '33'
+- name: Seaking
+  number: '119'
+  level:
+- name: Staryu
+  number: '120'
+  level: '36'
+- name: Starmie
+  number: '121'
+  level:
+- name: Mr. Mime
+  number: '122'
+  level:
+- name: Scyther
+  number: '123'
+  level:
+- name: Jynx
+  number: '124'
+  level:
+- name: Electabuzz
+  number: '125'
+  level:
+- name: Magmar
+  number: '126'
+  level:
+- name: Pinsir
+  number: '127'
+  level:
+- name: Tauros
+  number: '128'
+  level:
+- name: Magikarp
+  number: '129'
+  level: '20'
+- name: Gyarados
+  number: '130'
+  level:
+- name: Lapras
+  number: '131'
+  level:
+- name: Ditto
+  number: '132'
+  level:
+- name: Eevee
+  number: '133'
+  level: '36'
+  notes:
+  - Vaporeon ATK < HP
+  - Jolteon ATK == HP
+  - Flareon ATK > HP
+- name: Vaporeon
+  number: '134'
+  level:
+- name: Jolteon
+  number: '135'
+  level:
+- name: Flareon
+  number: '136'
+  level:
+- name: Porygon
+  number: '137'
+  level:
+- name: Omanyte
+  number: '138'
+  level: '40'
+- name: Omastar
+  number: '139'
+  level:
+- name: Kabuto
+  number: '140'
+  level: '40'
+- name: Kabutops
+  number: '141'
+  level:
+- name: Aerodactyl
+  number: '142'
+  level:
+- name: Snorlax
+  number: '143'
+  level:
+- name: Articuno
+  number: '144'
+  level:
+- name: Zapdos
+  number: '145'
+  level:
+- name: Moltres
+  number: '146'
+  level:
+- name: Dratini
+  number: '147'
+  level: '30'
+- name: Dragonair
+  number: '148'
+  level: '55'
+- name: Dragonite
+  number: '149'
+  level:
+- name: Mewtwo
+  number: '150'
+  level:
+- name: Mew
+  number: '151'
+  level:

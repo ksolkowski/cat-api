@@ -8,10 +8,12 @@
     -for recipie in @recipies
       %tr
         %td
-          -if recipie["Ingredients"].is_a?(Array)
-            =recipie["Ingredients"].join("</br>")
+          -if recipie.ingredients.is_a?(Array)
+            =recipie.ingredients.join("</br>")
           -else
-            =recipie["Ingredients"]
-        %td=recipie["Rarity"]
-        -for pokemon in recipie["Pokemon"].each_slice((recipie["Pokemon"].count/3)).to_a
-          %td=pokemon.join("</br>")
+            =recipie.ingredients
+        %td=recipie.rarity
+        - r1, r2, r3 = recipie.pokemon.each_slice([(recipie.pokemon.count / 3), 1].max).to_a
+        %td=(r1 || []).join("</br>")
+        %td=(r2 || []).join("</br>")
+        %td=(r3 || []).flatten.join("</br>")
