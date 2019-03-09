@@ -84,7 +84,7 @@ end
 
     if !File.exists?(output_filename)
       file_names = images.map.with_index do |image, index|
-        filename = "tmp/gifs_#{size}_#{index}.jpg"
+        filename = "tmp/gifs_#{size}_#{image.id}.jpg"
          # if the image doesn't exist in tempfile try and build it from the ids
         # image doesn't exist already
         if File.exists?(filename)
