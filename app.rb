@@ -31,7 +31,6 @@ require_relative './models/image.rb'
 
 class CatApi < Roda
   include CatRoamer
-  NO_CAT_LIST = ['austinkahly', 'murph', 'james']
 
   plugin :environments
   plugin :json
@@ -100,24 +99,33 @@ class CatApi < Roda
       text = r.params["text"]
       rude = false
 
-      if text.include?("lots") and !NO_CAT_LIST.include?(r.params["user_name"])
+      if text.include?("lots")
         count = text.split("lots").last.strip
         rude = !(count =~ /\D/).nil?
 
         title = "Why you have to be so rude"
       end
 
-      if !rude and text.include?("lots") and !NO_CAT_LIST.include?(r.params["user_name"])
-        count = text.split("lots").last.strip
-        count ||= 12
+      if !rude and text.include?("lots") || text.include?("gif")
+        if text.include?("gif")
+          count = text.split("gif").last.strip
+          count ||= 12
+        else
+          count = text.split("lots").last.strip
+          count ||= 12
+        end
 
         begin
           count = adjust_image_count(count.to_i)
         rescue => e
           count = 12
         end
-
-        image = combine_some_cats(count)
+        puts "text: #{text} | count: #{count}"
+        if text.include?("gif")
+          image = gif_some_cats(count)
+        else
+          image = combine_some_cats(count)
+        end
 
         ts = Time.now.to_i
         message = {
@@ -135,7 +143,7 @@ class CatApi < Roda
           ]
         }
       else
-        if rude or NO_CAT_LIST.include?(r.params["user_name"]) and text != "cats are great"
+        if rude
           image = Image.find_by_hashed_key(Image::MJ_HASHED_KEY)
           title = "Come back when you have a cat" if !rude
         else
@@ -183,6 +191,13 @@ class CatApi < Roda
       message[:attachments].push(buttons) unless buttons.nil?
 
       message.to_json
+    end
+
+    r.on "gifs" do
+      cleaned_key = request.remaining_path[4..-1].gsub(".gif", "")
+      gif = gif_some_cats(10, cleaned_key)
+      response['Content-Type'] = "image/gif"
+      MiniMagick::Image.open(gif[:filename]).to_blob
     end
 
     r.on "images" do

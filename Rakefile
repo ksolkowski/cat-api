@@ -12,6 +12,35 @@ task :console do
   sh 'irb -I lib -r ./app.rb'
 end
 
+task :make_gif do
+  require "./app"
+  count = 30
+  size = "300x300"
+  quarters = 1
+  Image.random(count).map.with_index do |image, index|
+    filename = "tmp/gifs_#{size}_#{index}.jpg"
+     # if the image doesn't exist in tempfile try and build it from the ids
+    # image doesn't exist already
+    i = MiniMagick::Image.read(image.decoded_image)
+    content = MiniMagick::Tool::Convert.new do |convert|
+      convert << i.path
+      convert.resize "#{size}^"
+      convert.gravity "center"
+      convert.crop "#{size}+0+0"
+      convert << filename
+    end
+
+    filename
+  end
+
+  puts "found #{count} images"
+
+  path = "tmp/gifs_#{size}_*"
+
+  output = %x(convert -delay 25 -loop 0 #{path} tmp/cats.gif)
+  puts "check them gifs"
+end
+
 desc "create a migration file"
 file :create_migration do
   ARGV.each { |a| task a.to_sym do ; end }
