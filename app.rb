@@ -120,7 +120,7 @@ class CatApi < Roda
         rescue => e
           count = 12
         end
-        puts "text: #{text} | count: #{count}"
+
         if text.include?("gif")
           image = gif_some_cats(count)
         else
