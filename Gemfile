@@ -18,7 +18,6 @@ gem "pg"
 gem "slim"
 gem "haml"
 
-gem 'sendgrid-ruby'
 gem "activesupport", require: false
 
 gem "puma"
