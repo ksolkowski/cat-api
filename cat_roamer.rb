@@ -65,20 +65,15 @@ end
 
   def gif_some_cats(count=10, cleaned_key=nil)
     size = "600x600"
+    images = Image.random(count).all
 
-    if !cleaned_key.nil?
-      joined_ids = Base64.decode64(cleaned_key)
+    joined_ids = images.map(&:id).join("_")
 
-      ids = joined_ids.split("_").map(&:to_i)
-
-      images = Image.where(id: ids).all
+    if cleaned_key.nil?
+      encoded_filename = Digest::SHA1.hexdigest(joined_ids)
     else
-      images = Image.random(count).all
-
-      joined_ids = images.map(&:id).join("_")
+      encoded_filename = cleaned_key
     end
-
-    encoded_filename = Base64.encode64(joined_ids).gsub("\n", "=NO")
 
     output_filename = "tmp/#{encoded_filename}.gif"
 
