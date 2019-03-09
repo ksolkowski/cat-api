@@ -195,7 +195,7 @@ class CatApi < Roda
     end
 
     r.on "gifs" do
-      cleaned_key = request.remaining_path[4..-1].gsub(".gif", "")
+      cleaned_key = request.remaining_path[4..-1].gsub(".gif", "") rescue nil
       gif = gif_some_cats(10, cleaned_key)
       response['Content-Type'] = "image/gif"
       MiniMagick::Image.open(gif[:filename]).to_blob
