@@ -63,6 +63,54 @@ end
     Base64.decode64(url)
   end
 
+  def gif_some_cats(count=10, cleaned_key=nil)
+    size = "600x600"
+
+    if !cleaned_key.nil?
+      joined_ids = Base64.decode64(cleaned_key)
+
+      ids = joined_ids.split("_").map(&:to_i)
+
+      images = Image.where(id: ids).all
+    else
+      images = Image.random(count).all
+
+      joined_ids = images.map(&:id).join("_")
+    end
+
+    encoded_filename = Base64.encode64(joined_ids).gsub("\n", "=NO")
+
+    output_filename = "tmp/#{encoded_filename}.gif"
+
+    if !File.exists?(output_filename)
+      file_names = images.map.with_index do |image, index|
+        filename = "tmp/gifs_#{size}_#{index}.jpg"
+         # if the image doesn't exist in tempfile try and build it from the ids
+        # image doesn't exist already
+        if File.exists?(filename)
+          filepath = filename
+        else
+          filepath = MiniMagick::Image.read(image.decoded_image).path
+        end
+
+        content = MiniMagick::Tool::Convert.new do |convert|
+          convert << filepath
+          convert.resize "#{size}^"
+          convert.gravity "center"
+          convert.crop "#{size}+0+0"
+          convert << filename
+        end
+
+        filename
+      end
+
+      output = %x(convert -delay 30 -loop 0 #{file_names.join(" ")} #{output_filename})
+    end
+
+    url = File.join ENV["SITE_URL"], 'gifs', VERSION, (encoded_filename + ".gif")
+    {filename: output_filename, url: url}
+  end
+
   # responds with a raw blob
   def combine_some_cats(count=6)
     count = count.abs
