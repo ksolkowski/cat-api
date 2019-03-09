@@ -14,7 +14,11 @@ gem "color_diff"
 gem "sequel"
 gem "pg"
 
-gem 'sendgrid-ruby'
+# Project View requirements
+gem "slim"
+gem "haml"
+
+gem "activesupport", require: false
 
 gem "puma"
 gem "rake"
