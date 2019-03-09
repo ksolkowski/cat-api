@@ -122,6 +122,7 @@ class CatApi < Roda
         end
 
         if text.include?("gif")
+          puts r.params.inspect
           image = gif_some_cats(count)
         else
           image = combine_some_cats(count)
